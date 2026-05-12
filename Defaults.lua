@@ -1,0 +1,45 @@
+local _, GraalHelper = ...
+
+GraalHelper.defaults = {
+    steal = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = -170,
+        y = 200,
+        scale = 1.0,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "RaidWarning",
+    },
+
+    reflect = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
+    silence = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
+    trackedSpells = {},
+    spellFilter = {},
+}

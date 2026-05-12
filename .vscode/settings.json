@@ -1,0 +1,27 @@
+{
+    "Lua.diagnostics.globals": [
+        "SlashCmdList",
+        "UnitExists",
+        "UnitIsFriend",
+        "UnitIsDead",
+        "GetTime",
+        "CreateFrame",
+        "UIParent",
+        "BackdropTemplateMixin",
+        "UIDropDownMenu_SetText",
+        "UIDropDownMenu_SetSelectedValue",
+        "UIDropDownMenu_AddButton",
+        "UIDropDownMenu_Initialize",
+        "UIDropDownMenu_SetWidth",
+        "UIDropDownMenu_CreateInfo",
+        "UnitBuff",
+        "GameTooltip",
+        "PlaySoundFile",
+        "PlaySound",
+        "DEFAULT_CHAT_FRAME",
+        "SOUNDKIT",
+        "UnitGUID",
+        "GetLocale",
+        "UnitDebuff"
+    ]
+}

@@ -1,0 +1,33 @@
+## Interface: 20504
+## Title: GraalHelper
+## Notes: Helper with warnings
+## Author: Pathf
+## Version: 1.0.0
+## SavedVariables: GraalHelperDB
+
+Core.lua
+
+Constants.lua
+Defaults.lua
+
+Locale\enUS.lua
+Locale\frFR.lua
+Locale\deDE.lua
+
+Utils\Helpers.lua
+Utils\Sound.lua
+Utils\Spell.lua
+Utils\UI.lua
+
+Features\Tracking.lua
+Features\BuffScanner.lua
+Features\DebuffScanner.lua
+
+UI\Widgets.lua
+UI\Display.lua
+UI\TrackedSpells.lua
+UI\Options.lua
+
+Commands/Gh.lua
+
+GraalHelper.lua
