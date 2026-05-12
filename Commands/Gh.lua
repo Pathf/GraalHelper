@@ -5,6 +5,7 @@ local L = GraalHelper.L
 local function showAllWarnings()
     GraalHelper:StartStealTestMode()
     GraalHelper:StartReflectTestMode()
+    GraalHelper:StartSilenceTestMode()
 end
 
 local function lockAllWarnings()

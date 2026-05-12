@@ -1,4 +1,4 @@
-local addonName, GraalHelper = ...
+local _, GraalHelper = ...
 local L = GraalHelper.L
 local C = GraalHelper.Constants
 local R = GraalHelper.Runtime
@@ -62,6 +62,7 @@ function GraalHelper:PLAYER_LOGIN()
     self:CreateOptionsWindow()
     self:RefreshOptionsUI()
     self:SetupSlashCommands()
+    self:CreateMinimapButton()
 
     self.frame:SetScript("OnUpdate", function(_, elapsed)
         R.ticker = R.ticker + elapsed

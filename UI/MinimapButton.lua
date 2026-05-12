@@ -1,0 +1,35 @@
+local _, GraalHelper = ...
+local L = GraalHelper.L
+
+function GraalHelper:CreateMinimapButton()
+    local minimapButton = CreateFrame("Button", "GraalHelperMinimapButton", Minimap)
+    minimapButton:SetSize(25, 25)
+    minimapButton:SetPoint("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
+    minimapButton:SetMovable(true)
+    minimapButton:SetClampedToScreen(true)
+    minimapButton:EnableMouse(true)
+    minimapButton:RegisterForDrag("LeftButton")
+
+    minimapButton.icon = minimapButton:CreateTexture(nil, "ARTWORK")
+    minimapButton.icon:SetTexture("Interface\\Icons\\inv_bannerpvp_01")
+    minimapButton.icon:SetAllPoints(minimapButton)
+    minimapButton.icon.mask = minimapButton:CreateMaskTexture()
+    minimapButton.icon.mask:SetTexture("Interface\\CharacterFrame\\TempPortraitAlphaMask")
+    minimapButton.icon.mask:SetAllPoints(minimapButton)
+    minimapButton.icon:AddMaskTexture(minimapButton.icon.mask)
+    minimapButton.border = minimapButton:CreateTexture(nil, "OVERLAY")
+    minimapButton.border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
+    minimapButton.border:SetSize(54, 54)
+    minimapButton.border:SetPoint("CENTER", minimapButton, "CENTER", 11, -12)
+
+    minimapButton:RegisterForClicks("AnyUp")
+    minimapButton:SetScript("OnDragStart", function(self) self:StartMoving() end)
+    minimapButton:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+    minimapButton:SetScript("OnClick", function() GraalHelper:ToggleOptions() end)
+    minimapButton:SetScript("onEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+        GameTooltip:AddLine(L.menuTitle .. " v" .. C_AddOns.GetAddOnMetadata('GraalHelper', 'version'))
+        GameTooltip:Show()
+    end)
+    minimapButton:SetScript("onLeave", function() GameTooltip:Hide() end)
+end

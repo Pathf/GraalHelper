@@ -22,6 +22,8 @@
         "SOUNDKIT",
         "UnitGUID",
         "GetLocale",
-        "UnitDebuff"
+        "UnitDebuff",
+        "Minimap",
+        "C_AddOns"
     ]
 }

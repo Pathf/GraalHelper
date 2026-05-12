@@ -27,6 +27,7 @@ UI\Widgets.lua
 UI\Display.lua
 UI\TrackedSpells.lua
 UI\Options.lua
+UI\MinimapButton.lua
 
 Commands/Gh.lua
 
