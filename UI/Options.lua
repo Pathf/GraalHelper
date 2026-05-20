@@ -99,7 +99,7 @@ function GraalHelper:CreateOptionsWindow()
     GraalHelper:addTrackedNav(self)
 
     self:RefreshTrackedSpellsUI()
-    self:ShowOptionsPanel("tracked")
+    self.options.nav.trackedButton:Click()
 end
 
 function GraalHelper:ShowOptionsPanel(panelName)
