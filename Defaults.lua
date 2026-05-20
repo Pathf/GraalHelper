@@ -40,6 +40,58 @@ GraalHelper.defaults = {
         sound = "Warning",
     },
 
+    stun = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
+    root = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
+    disarm = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
+    fear = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
     trackedSpells = {},
     spellFilter = {},
 }

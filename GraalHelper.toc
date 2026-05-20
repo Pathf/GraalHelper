@@ -23,6 +23,13 @@ Features\Tracking.lua
 Features\BuffScanner.lua
 Features\DebuffScanner.lua
 
+UI\Settings\Disarm.lua
+UI\Settings\Fear.lua
+UI\Settings\Reflect.lua
+UI\Settings\Root.lua
+UI\Settings\Silence.lua
+UI\Settings\Steal.lua
+UI\Settings\Stun.lua
 UI\Widgets.lua
 UI\Display.lua
 UI\TrackedSpells.lua

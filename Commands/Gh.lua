@@ -6,6 +6,10 @@ local function showAllWarnings()
     GraalHelper:StartStealTestMode()
     GraalHelper:StartReflectTestMode()
     GraalHelper:StartSilenceTestMode()
+    GraalHelper:StartStunTestMode()
+    GraalHelper:StartRootTestMode()
+    GraalHelper:StartDisarmTestMode()
+    GraalHelper:StartFearTestMode()
 end
 
 local function lockAllWarnings()

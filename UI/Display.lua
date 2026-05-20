@@ -3,6 +3,7 @@ local _, GraalHelper = ...
 local C = GraalHelper.Constants
 local L = GraalHelper.L
 local R = GraalHelper.Runtime
+local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:CreateDisplayFrame(frameName, sectionConfig, theme)
     local frame = CreateFrame("Frame", frameName, UIParent, BackdropTemplateMixin and "BackdropTemplate")
@@ -147,6 +148,10 @@ function GraalHelper:ApplyAllDisplaySettings()
     self:ApplyFrameSettings(self.uiSteal, self.config.steal)
     self:ApplyFrameSettings(self.uiReflect, self.config.reflect)
     self:ApplyFrameSettings(self.uiSilence, self.config.silence)
+    self:ApplyFrameSettings(self.uiStun, self.config.stun)
+    self:ApplyFrameSettings(self.uiRoot, self.config.root)
+    self:ApplyFrameSettings(self.uiDisarm, self.config.disarm)
+    self:ApplyFrameSettings(self.uiFear, self.config.fear)
 end
 
 function GraalHelper:ShowDisplay(frame, icon, titleText, lineText, subText)
@@ -171,15 +176,7 @@ function GraalHelper:StartStealTestMode()
     R.stealTestMode = true
     R.stealDisplayUntil = GetTime() + (self.config.steal.displayDuration or 4)
     R.lastStealAlertKey = "TESTMODE"
-
-    self:ShowDisplay(
-        self.uiSteal,
-        "Interface\\Icons\\Spell_Holy_MagicalSentry",
-        C.BLUE .. L.stealTitle .. C.RESET,
-        L.spellstealLine,
-        ""
-    )
-
+    self:ShowDisplay(self.uiSteal, ICONS.STEAL, C.BLUE .. L.stealTitle .. C.RESET, L.spellstealLine, "")
     self:PlayConfiguredSound(self.config.steal)
 end
 
@@ -190,7 +187,7 @@ function GraalHelper:StartReflectTestMode()
 
     self:ShowDisplay(
         self.uiReflect,
-        "Interface\\Icons\\Ability_Warrior_Challange",
+        ICONS.REFLECT,
         C.RED .. L.reflectTitle .. C.RESET,
         L.reflectLine,
         ""
@@ -203,16 +200,40 @@ function GraalHelper:StartSilenceTestMode()
     R.silenceTestMode = true
     R.silenceDisplayUntil = GetTime() + (self.config.silence.displayDuration or 4)
     R.lastSilenceAlertKey = "TESTMODE"
-
-    self:ShowDisplay(
-        self.uiSilence,
-        "Interface\\Icons\\Spell_Holy_Silence",
-        C.RED .. L.silenceTitle .. C.RESET,
-        L.silenceLine,
-        ""
-    )
-
+    self:ShowDisplay(self.uiSilence, ICONS.SILENCE, C.RED .. L.silenceTitle .. C.RESET, L.silenceLine, "")
     self:PlayConfiguredSound(self.config.silence)
+end
+
+function GraalHelper:StartStunTestMode()
+    R.stunTestMode = true
+    R.stunDisplayUntil = GetTime() + (self.config.stun.displayDuration or 4)
+    R.lastStunAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiStun, ICONS.STUN, C.RED .. L.stunTitle .. C.RESET, L.stunLine, "")
+    self:PlayConfiguredSound(self.config.stun)
+end
+
+function GraalHelper:StartRootTestMode()
+    R.rootTestMode = true
+    R.rootDisplayUntil = GetTime() + (self.config.root.displayDuration or 4)
+    R.lastRootAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiRoot, ICONS.ROOT, C.RED .. L.rootTitle .. C.RESET, L.rootLine, "")
+    self:PlayConfiguredSound(self.config.root)
+end
+
+function GraalHelper:StartDisarmTestMode()
+    R.disarmTestMode = true
+    R.disarmDisplayUntil = GetTime() + (self.config.disarm.displayDuration or 4)
+    R.lastDisarmAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiDisarm, ICONS.DISARM, C.RED .. L.disarmTitle .. C.RESET, L.disarmLine, "")
+    self:PlayConfiguredSound(self.config.disarm)
+end
+
+function GraalHelper:StartFearTestMode()
+    R.fearTestMode = true
+    R.fearDisplayUntil = GetTime() + (self.config.fear.displayDuration or 4)
+    R.lastFearAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiFear, ICONS.FEAR, C.RED .. L.fearTitle .. C.RESET, L.fearLine, "")
+    self:PlayConfiguredSound(self.config.fear)
 end
 
 function GraalHelper:HandleStealDisplay(scanData, guid, now)
@@ -237,7 +258,7 @@ function GraalHelper:HandleStealDisplay(scanData, guid, now)
 
         self:ShowDisplay(
             self.uiSteal,
-            scanData.stealIcon or "Interface\\Icons\\Spell_Nature_WispSplode",
+            scanData.stealIcon or ICONS.STEAL,
             C.BLUE .. L.stealTitle .. C.RESET,
             L.spellstealLine,
             sub
@@ -258,7 +279,7 @@ function GraalHelper:HandleStealDisplay(scanData, guid, now)
 
                 self:ShowDisplay(
                     self.uiSteal,
-                    scanData.stealIcon or "Interface\\Icons\\Spell_Nature_WispSplode",
+                    scanData.stealIcon or ICONS.STEAL,
                     C.BLUE .. L.stealTitle .. C.RESET,
                     L.spellstealLine,
                     sub
@@ -298,7 +319,7 @@ function GraalHelper:HandleReflectDisplay(scanData, guid, now)
 
         self:ShowDisplay(
             self.uiReflect,
-            scanData.reflectIcon or "Interface\\Icons\\Ability_Warrior_Challange",
+            scanData.reflectIcon or ICONS.REFLECT,
             C.RED .. L.reflectTitle .. C.RESET,
             L.reflectLine,
             sub
@@ -319,7 +340,7 @@ function GraalHelper:HandleReflectDisplay(scanData, guid, now)
 
                 self:ShowDisplay(
                     self.uiReflect,
-                    scanData.reflectIcon or "Interface\\Icons\\Ability_Warrior_Challange",
+                    scanData.reflectIcon or ICONS.REFLECT,
                     C.RED .. L.reflectTitle .. C.RESET,
                     L.reflectLine,
                     sub
@@ -359,7 +380,7 @@ function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
 
         self:ShowDisplay(
             self.uiSilence,
-            scanData.silenceIcon or "Interface\\Icons\\Spell_Holy_Silence",
+            scanData.silenceIcon or ICONS.SILENCE,
             C.RED .. L.silenceTitle .. C.RESET,
             L.silenceLine,
             sub
@@ -380,7 +401,7 @@ function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
 
                 self:ShowDisplay(
                     self.uiSilence,
-                    scanData.silenceIcon or "Interface\\Icons\\Spell_Holy_Silence",
+                    scanData.silenceIcon or ICONS.SILENCE,
                     C.RED .. L.silenceTitle .. C.RESET,
                     L.silenceLine,
                     sub
@@ -395,6 +416,245 @@ function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
     R.lastSilenceAlertKey = nil
     if now >= R.silenceDisplayUntil then
         self:HideDisplay(self.uiSilence)
+    end
+end
+
+function GraalHelper:HandleStunDisplay(scanData, guid, now)
+    if R.stunTestMode then
+        if now >= R.stunDisplayUntil then
+            R.stunTestMode = false
+            self:HideDisplay(self.uiStun)
+        end
+        return
+    end
+
+    local hasStun = #scanData.stunDebuffs > 0
+    local alertKey = nil
+
+    if hasStun then
+        alertKey = guid .. "::STUN::" .. scanData.stunSignature
+    end
+
+    if alertKey and alertKey ~= R.lastStunAlertKey then
+        local sub = self.config.stun.showBuffNames and self:FormatBuffList(scanData.stunDebuffs, L.stunFound) or
+            L.stunFound
+
+        self:ShowDisplay(
+            self.uiStun,
+            scanData.stunIcon or ICONS.STUN,
+            C.RED .. L.stunTitle .. C.RESET,
+            L.stunLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.stun)
+        R.stunDisplayUntil = now + (self.config.stun.displayDuration or 4)
+        R.lastStunAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastStunAlertKey then
+        if now < R.stunDisplayUntil then
+            if not self.uiStun:IsShown() then
+                local sub = self.config.stun.showBuffNames
+                    and self:FormatBuffList(scanData.stunDebuffs, L.stunFound) or L.stunFound
+
+                self:ShowDisplay(
+                    self.uiStun,
+                    scanData.stunIcon or ICONS.STUN,
+                    C.RED .. L.stunTitle .. C.RESET,
+                    L.stunLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiStun)
+        end
+        return
+    end
+
+    R.lastStunAlertKey = nil
+    if now >= R.stunDisplayUntil then
+        self:HideDisplay(self.uiStun)
+    end
+end
+
+function GraalHelper:HandleRootDisplay(scanData, guid, now)
+    if R.rootTestMode then
+        if now >= R.rootDisplayUntil then
+            R.rootTestMode = false
+            self:HideDisplay(self.uiRoot)
+        end
+        return
+    end
+
+    local hasRoot = #scanData.rootDebuffs > 0
+    local alertKey = nil
+
+    if hasRoot then
+        alertKey = guid .. "::ROOT::" .. scanData.rootSignature
+    end
+
+    if alertKey and alertKey ~= R.lastRootAlertKey then
+        local sub = self.config.root.showBuffNames
+            and self:FormatBuffList(scanData.rootDebuffs, L.rootFound) or L.rootFound
+
+        self:ShowDisplay(
+            self.uiRoot,
+            scanData.rootIcon or ICONS.ROOT,
+            C.RED .. L.rootTitle .. C.RESET,
+            L.rootLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.root)
+        R.rootDisplayUntil = now + (self.config.root.displayDuration or 4)
+        R.lastRootAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastRootAlertKey then
+        if now < R.rootDisplayUntil then
+            if not self.uiroot:IsShown() then
+                local sub = self.config.root.showBuffNames and
+                    self:FormatBuffList(scanData.rootDebuffs, L.rootFound) or L.rootFound
+
+                self:ShowDisplay(
+                    self.uiRoot,
+                    scanData.rootIcon or ICONS.ROOT,
+                    C.RED .. L.rootTitle .. C.RESET,
+                    L.rootLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiRoot)
+        end
+        return
+    end
+
+    R.lastRootAlertKey = nil
+    if now >= R.rootDisplayUntil then self:HideDisplay(self.uiRoot) end
+end
+
+function GraalHelper:HandleDisarmDisplay(scanData, guid, now)
+    if R.disarmTestMode then
+        if now >= R.disarmDisplayUntil then
+            R.disarmTestMode = false
+            self:HideDisplay(self.uiDisarm)
+        end
+        return
+    end
+
+    local hasDisarm = #scanData.disarmDebuffs > 0
+    local alertKey = nil
+
+    if hasDisarm then
+        alertKey = guid .. "::DISARM::" .. scanData.disarmSignature
+    end
+
+    if alertKey and alertKey ~= R.lastDisarmAlertKey then
+        local sub = self.config.disarm.showBuffNames
+            and self:FormatBuffList(scanData.disarmDebuffs, L.disarmFound) or L.disarmFound
+
+        self:ShowDisplay(
+            self.uiDisarm,
+            scanData.disarmIcon or ICONS.DISARM,
+            C.RED .. L.disarmTitle .. C.RESET,
+            L.disarmLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.disarm)
+        R.disarmDisplayUntil = now + (self.config.disarm.displayDuration or 4)
+        R.lastDisarmAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastDisarmAlertKey then
+        if now < R.disarmDisplayUntil then
+            if not self.uiDisarm:IsShown() then
+                local sub = self.config.disarm.showBuffNames and
+                    self:FormatBuffList(scanData.disarmDebuffs, L.disarmFound) or L.disarmFound
+
+                self:ShowDisplay(
+                    self.uiDisarm,
+                    scanData.disarmIcon or ICONS.DISARM,
+                    C.RED .. L.disarmTitle .. C.RESET,
+                    L.disarmLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiDisarm)
+        end
+        return
+    end
+
+    R.lastDisarmAlertKey = nil
+    if now >= R.disarmDisplayUntil then
+        self:HideDisplay(self.uiDisarm)
+    end
+end
+
+function GraalHelper:HandleFearDisplay(scanData, guid, now)
+    if R.fearTestMode then
+        if now >= R.fearDisplayUntil then
+            R.fearTestMode = false
+            self:HideDisplay(self.uiFear)
+        end
+        return
+    end
+
+    local hasFear = #scanData.fearDebuffs > 0
+    local alertKey = nil
+
+    if hasFear then
+        alertKey = guid .. "::FEAR::" .. scanData.fearSignature
+    end
+
+    if alertKey and alertKey ~= R.lastFearAlertKey then
+        local sub = self.config.fear.showBuffNames
+            and self:FormatBuffList(scanData.fearDebuffs, L.fearFound) or L.fearFound
+
+        self:ShowDisplay(
+            self.uiFear,
+            scanData.fearIcon or ICONS.FEAR,
+            C.RED .. L.fearTitle .. C.RESET,
+            L.fearLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.fear)
+        R.fearDisplayUntil = now + (self.config.fear.displayDuration or 4)
+        R.lastFearAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastFearAlertKey then
+        if now < R.fearDisplayUntil then
+            if not self.uiFear:IsShown() then
+                local sub = self.config.fear.showBuffNames and
+                    self:FormatBuffList(scanData.fearDebuffs, L.fearFound) or
+                    L.fearFound
+
+                self:ShowDisplay(
+                    self.uiFear,
+                    scanData.fearIcon or ICONS.FEAR,
+                    C.RED .. L.fearTitle .. C.RESET,
+                    L.fearLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiFear)
+        end
+        return
+    end
+
+    R.lastFearAlertKey = nil
+    if now >= R.fearDisplayUntil then
+        self:HideDisplay(self.uiFear)
     end
 end
 
@@ -422,9 +682,27 @@ function GraalHelper:UpdateDisplays()
 
         if not R.silenceTestMode then
             R.lastSilenceAlertKey = nil
-            if now >= R.silenceDisplayUntil then
-                self:HideDisplay(self.uiSilence)
-            end
+            if now >= R.silenceDisplayUntil then self:HideDisplay(self.uiSilence) end
+        end
+
+        if not R.stunTestMode then
+            R.lastStunAlertKey = nil
+            if now >= R.stunDisplayUntil then self:HideDisplay(self.uiStun) end
+        end
+
+        if not R.rootTestMode then
+            R.lastRootAlertKey = nil
+            if now >= R.rootDisplayUntil then self:HideDisplay(self.uiRoot) end
+        end
+
+        if not R.disarmTestMode then
+            R.lastDisarmAlertKey = nil
+            if now >= R.disarmDisplayUntil then self:HideDisplay(self.uiDisarm) end
+        end
+
+        if not R.fearTestMode then
+            R.lastFearAlertKey = nil
+            if now >= R.fearDisplayUntil then self:HideDisplay(self.uiFear) end
         end
 
         if R.stealTestMode and now >= R.stealDisplayUntil then
@@ -442,6 +720,26 @@ function GraalHelper:UpdateDisplays()
             self:HideDisplay(self.uiSilence)
         end
 
+        if R.stunTestMode and now >= R.stunDisplayUntil then
+            R.stunTestMode = false
+            self:HideDisplay(self.uiStun)
+        end
+
+        if R.rootTestMode and now >= R.rootDisplayUntil then
+            R.rootTestMode = false
+            self:HideDisplay(self.uiRoot)
+        end
+
+        if R.disarmTestMode and now >= R.disarmDisplayUntil then
+            R.disarmTestMode = false
+            self:HideDisplay(self.uiDisarm)
+        end
+
+        if R.fearTestMode and now >= R.fearDisplayUntil then
+            R.fearTestMode = false
+            self:HideDisplay(self.uiFear)
+        end
+
         return
     end
 
@@ -453,6 +751,10 @@ function GraalHelper:UpdateDisplays()
     local playerGuid = UnitGUID("player") or "noguid"
     local scanPlayerDebuffData = self:ScanTargetDebuffs("player")
     self:HandleSilenceDisplay(scanPlayerDebuffData, playerGuid, now)
+    self:HandleStunDisplay(scanPlayerDebuffData, playerGuid, now)
+    self:HandleRootDisplay(scanPlayerDebuffData, playerGuid, now)
+    self:HandleDisarmDisplay(scanPlayerDebuffData, playerGuid, now)
+    self:HandleFearDisplay(scanPlayerDebuffData, playerGuid, now)
 end
 
 function GraalHelper:StopAllTestsAndHide()
@@ -468,7 +770,27 @@ function GraalHelper:StopAllTestsAndHide()
     R.silenceDisplayUntil = 0
     R.lastSilenceAlertKey = nil
 
+    R.stunTestMode = false
+    R.stunDisplayUntil = 0
+    R.lastStunAlertKey = nil
+
+    R.rootTestMode = false
+    R.rootDisplayUntil = 0
+    R.lastRootAlertKey = nil
+
+    R.disarmTestMode = false
+    R.disarmDisplayUntil = 0
+    R.lastDisarmAlertKey = nil
+
+    R.fearTestMode = false
+    R.fearDisplayUntil = 0
+    R.lastFearAlertKey = nil
+
     self:HideDisplay(self.uiSteal)
     self:HideDisplay(self.uiReflect)
     self:HideDisplay(self.uiSilence)
+    self:HideDisplay(self.uiStun)
+    self:HideDisplay(self.uiRoot)
+    self:HideDisplay(self.uiDisarm)
+    self:HideDisplay(self.uiFear)
 end

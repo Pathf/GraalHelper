@@ -1,7 +1,5 @@
 local _, GraalHelper = ...
 
-local spellSilenceNames = GraalHelper.L.MATCH.SPELL_SILENCE_NAMES
-
 function GraalHelper:ScanTargetDebuffs(unit)
     local silenceDebuffs = {}
     local silenceIcon = nil
