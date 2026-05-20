@@ -24,6 +24,7 @@
         "GetLocale",
         "UnitDebuff",
         "Minimap",
-        "C_AddOns"
+        "C_AddOns",
+        "C_LossOfControl"
     ]
 }

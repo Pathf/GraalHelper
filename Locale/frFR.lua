@@ -3,7 +3,7 @@ local _, GraalHelper = ...
 if GetLocale() ~= "frFR" then return end
 
 GraalHelper.L = {
-    addonLoaded = "Saisir \"/gh\" ouvrira le menu",
+    addonLoaded = "Saisir /gh ouvrira le menu",
     bothLocked = "Alertes verrouillées.",
     bothUnlocked = "Alertes déverrouillées.",
     chooseSound = "Choix du son",
@@ -15,18 +15,22 @@ GraalHelper.L = {
         },
     },
     lockWindow = "Verrouille l'alerte",
-    menuSubtitle = "Alertes Vol de sort + Sort de reflection",
     menuTitle = "GraalHelper",
+    nav = {
+        danger = "Danger",
+        action = "Action",
+        settings = "Options"
+    },
     noSpellsTracked = "Aucun sort n'a encore été suivi.",
     reflectFound = "Sort de Reflection actif",
     reflectLine = "Ne lancer pas de sort - Reflection actif !",
-    reflectSection = "Alerte : Sort de reflection",
+    reflectSection = "Sort de reflection",
     reflectTitle = "Sort de reflection !",
     scale = "Taille de l'alerte",
     showBuffNames = "Montre les noms des buffs",
     silenceFound = "Sort de Silence actif",
     silenceLine = "Impossible de lancer des sorts - Silence actif !",
-    silenceSection = "Alerte : Sort de silence",
+    silenceSection = "Sort de silence",
     silenceTitle = "Sort de silence !",
     slashHide = "/gh hide - Cache les alertes",
     slashLock = "/gh lock - Verrouille les alertes",
@@ -37,11 +41,8 @@ GraalHelper.L = {
     spellsSection = "Sorts suivis",
     spellstealFound = "Buffs volables trouvés",
     spellstealLine = "Buffs prêt pour etre volé !",
-    spellstealTitle = "Vol de sort !",
-    stealSection = "Alerte : Vol de sort",
-    testBlue = "Test Vol de sort",
-    testRed = "Test Sort de reflection",
-    testSilence = "Test Sort de silence",
+    stealTitle = "Vol de sort",
+    test = "Test",
     trackReflect = "Reflection",
     trackSteal = "Voler",
 
@@ -53,6 +54,11 @@ GraalHelper.L = {
         },
         SPELL_SILENCE_NAMES = {
             ["Silence"] = true,
+            ["Verrou magique"] = true,
+            ["Torrent arcanique"] = true,
+            ["Contresort - Silencieux"] = true,
+            ["Coup de pied - Silencieux"] = true,
+            ["Rugissement assourdissant"] = true
         },
     },
 }

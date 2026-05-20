@@ -2,6 +2,157 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 
+function GraalHelper:CreateNavCategory(parent, text, yOffset)
+    local category = CreateFrame("Frame", nil, parent)
+
+    category:SetSize(180, 24)
+    category:SetPoint("TOPLEFT", 12, yOffset)
+
+    category.text = category:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    category.text:SetPoint("LEFT", 0, 0)
+    category.text:SetText(text)
+    category.text:SetTextColor(1, 0.82, 0)
+
+    category.line = category:CreateTexture(nil, "ARTWORK")
+    category.line:SetPoint("TOPLEFT", category, "BOTTOMLEFT", 0, -2)
+    category.line:SetSize(160, 1)
+    category.line:SetTexture("Interface\\Buttons\\WHITE8x8")
+    category.line:SetVertexColor(1, 1, 1, 0.08)
+
+    return category
+end
+
+function GraalHelper:CreateNavSubItem(parent, text, yOffset, callback)
+    local item = CreateFrame("Button", nil, parent)
+
+    item:SetSize(170, 26)
+    item:SetPoint("TOPLEFT", 24, yOffset)
+
+    item.bg = item:CreateTexture(nil, "BACKGROUND")
+    item.bg:SetAllPoints(true)
+    item.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
+    item.bg:SetVertexColor(1, 1, 1, 0)
+
+    item.indicator = item:CreateTexture(nil, "ARTWORK")
+    item.indicator:SetPoint("LEFT", 0, 0)
+    item.indicator:SetSize(2, 18)
+    item.indicator:SetTexture("Interface\\Buttons\\WHITE8x8")
+    item.indicator:SetVertexColor(0, 0, 0, 0)
+
+    item.text = item:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    item.text:SetPoint("LEFT", 10, 0)
+    item.text:SetText(text)
+    item.text:SetTextColor(0.75, 0.75, 0.75)
+
+    item:SetScript("OnEnter", function(self)
+        self.bg:SetVertexColor(1, 1, 1, 0.03)
+
+        if not self.selected then
+            self.text:SetTextColor(1, 1, 1)
+        end
+    end)
+
+    item:SetScript("OnLeave", function(self)
+        if not self.selected then
+            self.bg:SetVertexColor(1, 1, 1, 0)
+            self.text:SetTextColor(0.75, 0.75, 0.75)
+        end
+    end)
+
+    item:SetScript("OnClick", function(self)
+        callback()
+
+        for _, child in ipairs({ parent:GetChildren() }) do
+            if child.indicator then
+                child.selected = false
+                child.indicator:SetVertexColor(0, 0, 0, 0)
+                child.bg:SetVertexColor(1, 1, 1, 0)
+                child.text:SetTextColor(0.75, 0.75, 0.75)
+            end
+        end
+
+        self.selected = true
+
+        self.indicator:SetVertexColor(1, 0.82, 0, 1)
+        self.bg:SetVertexColor(1, 1, 1, 0.05)
+        self.text:SetTextColor(1, 1, 1)
+    end)
+
+    return item
+end
+
+function GraalHelper:CreateNavItem(parent, text, yOffset, callback)
+    local item = CreateFrame("Button", nil, parent)
+
+    item:SetSize(180, 32)
+    item:SetPoint("TOPLEFT", 12, yOffset)
+
+    item.bg = item:CreateTexture(nil, "BACKGROUND")
+    item.bg:SetAllPoints(true)
+    item.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
+    item.bg:SetVertexColor(1, 1, 1, 0)
+
+    item.highlight = item:CreateTexture(nil, "ARTWORK")
+    item.highlight:SetPoint("LEFT", 0, 0)
+    item.highlight:SetSize(3, 24)
+    item.highlight:SetTexture("Interface\\Buttons\\WHITE8x8")
+    item.highlight:SetVertexColor(1, 0.82, 0, 0)
+
+    item.text = item:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    item.text:SetPoint("LEFT", 12, 0)
+    item.text:SetText(text)
+    item.text:SetTextColor(0.85, 0.85, 0.85)
+
+    item:SetScript("OnEnter", function(self)
+        self.bg:SetVertexColor(1, 1, 1, 0.04)
+        self.text:SetTextColor(1, 1, 1)
+    end)
+
+    item:SetScript("OnLeave", function(self)
+        if not self.selected then
+            self.bg:SetVertexColor(1, 1, 1, 0)
+            self.text:SetTextColor(0.85, 0.85, 0.85)
+        end
+    end)
+
+    item:SetScript("OnClick", function(self)
+        callback()
+
+        for _, child in ipairs({ parent:GetChildren() }) do
+            if child.highlight then
+                child.selected = false
+                child.highlight:SetVertexColor(1, 0.82, 0, 0)
+                child.bg:SetVertexColor(1, 1, 1, 0)
+                child.text:SetTextColor(0.85, 0.85, 0.85)
+            end
+        end
+
+        self.selected = true
+        self.highlight:SetVertexColor(1, 0.82, 0, 1)
+        self.bg:SetVertexColor(1, 1, 1, 0.06)
+        self.text:SetTextColor(1, 1, 1)
+    end)
+
+    return item
+end
+
+function GraalHelper:CreatePanel(parent)
+    local panel = CreateFrame("Frame", nil, parent)
+    panel:SetAllPoints(true)
+
+    panel.title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    panel.title:SetPoint("TOPLEFT", 18, -18)
+
+    panel.separator = panel:CreateTexture(nil, "ARTWORK")
+    panel.separator:SetPoint("TOPLEFT", 14, -46)
+    panel.separator:SetPoint("TOPRIGHT", -14, -46)
+    panel.separator:SetHeight(1)
+    panel.separator:SetTexture("Interface\\Buttons\\WHITE8x8")
+    panel.separator:SetVertexColor(1, 0.84, 0.1, 0.18)
+
+    return panel
+end
+
 function GraalHelper:CreateSlider(parent, name, title, minVal, maxVal, step, width, x, y)
     local slider = CreateFrame("Slider", name, parent, "OptionsSliderTemplate")
     slider:SetWidth(width or 220)
@@ -24,21 +175,6 @@ function GraalHelper:CreateMenuButton(parent, text, width, x, y)
     button:SetPoint("BOTTOMLEFT", x, y)
     button:SetText(text)
     return button
-end
-
-function GraalHelper:CreateMenuSection(parent, x, y, width, height, theme, titleText)
-    local section = CreateFrame("Frame", nil, parent, BackdropTemplateMixin and "BackdropTemplate")
-    section:SetSize(width, height)
-    section:SetPoint("TOPLEFT", x, y)
-    self:CreateBasicBackdrop(section, 0.02, 0.02, 0.03, 0.82)
-    section.bg = section:CreateTexture(nil, "BACKGROUND")
-    section.bg:SetAllPoints(true)
-    section.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
-    section.bg:SetVertexColor(theme.bgR, theme.bgG, theme.bgB, 0.10)
-    section.title = section:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-    section.title:SetPoint("TOPLEFT", 18, -16)
-    section.title:SetText(titleText)
-    return section
 end
 
 function GraalHelper:SkinSlider(slider, r, g, b)

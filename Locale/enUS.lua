@@ -1,7 +1,7 @@
 local _, GraalHelper = ...
 
 GraalHelper.L = {
-    addonLoaded = "loaded. \"/gh\" opens the menu",
+    addonLoaded = "loaded. /gh opens the menu",
     bothLocked = "Both windows locked.",
     bothUnlocked = "Both windows unlocked.",
     chooseSound = "Choose sound",
@@ -13,8 +13,12 @@ GraalHelper.L = {
         },
     },
     lockWindow = "Lock window",
-    menuSubtitle = "Spellsteal + Spell Reflection warnings",
     menuTitle = "GraalHelper",
+    nav = {
+        danger = "Danger",
+        action = "Actions",
+        settings = "Settings"
+    },
     noSpellsTracked = "No spells tracked yet.",
     reflectFound = "Spell Reflection active",
     reflectLine = "Do not cast - Reflect active!",
@@ -35,11 +39,8 @@ GraalHelper.L = {
     spellsSection = "Tracked Spells",
     spellstealFound = "Stealable buffs found",
     spellstealLine = "Buffs ready to steal!",
-    spellstealTitle = "SPELLSTEAL!",
-    stealSection = "Spellsteal Window",
-    testBlue = "Test Blue",
-    testRed = "Test Red",
-    testSilence = "Test Silence",
+    stealTitle = "SPELLSTEAL",
+    test = "Test",
     trackReflect = "Reflect",
     trackSteal = "Steal",
 
@@ -51,6 +52,11 @@ GraalHelper.L = {
         },
         SPELL_SILENCE_NAMES = {
             ["Silence"] = true,
+            ["Spell Lock"] = true,
+            ["Arcane Torrent"] = true,
+            ["Counterspell - Silenced"] = true,
+            ["Kick - Silenced"] = true,
+            ["Deafening Roar"] = true
         },
     },
 }

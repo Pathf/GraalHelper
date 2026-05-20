@@ -14,7 +14,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperMainFrame",
         self.config.steal,
         {
-            titleText = C.BLUE .. L.spellstealTitle .. C.RESET,
+            titleText = C.BLUE .. L.stealTitle .. C.RESET,
             lineText = L.spellstealLine,
             defaultIcon = "Interface\\Icons\\Spell_Nature_WispSplode",
             glowR = 0.20,

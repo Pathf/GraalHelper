@@ -18,12 +18,7 @@ function GraalHelper:CreateBasicBackdrop(frame, bgR, bgG, bgB, bgA)
             bottom = 4
         }
     })
-    frame:SetBackdropColor(
-        bgR or 0.02,
-        bgG or 0.02,
-        bgB or 0.02,
-        bgA or 0.9
-    )
+    frame:SetBackdropColor(bgR or 0.02, bgG or 0.02, bgB or 0.02, bgA or 0.9)
 end
 
 function GraalHelper:SaveFramePosition(frame, sectionConfig)

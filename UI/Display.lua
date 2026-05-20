@@ -175,7 +175,7 @@ function GraalHelper:StartStealTestMode()
     self:ShowDisplay(
         self.uiSteal,
         "Interface\\Icons\\Spell_Holy_MagicalSentry",
-        C.BLUE .. L.spellstealTitle .. C.RESET,
+        C.BLUE .. L.stealTitle .. C.RESET,
         L.spellstealLine,
         ""
     )
@@ -238,7 +238,7 @@ function GraalHelper:HandleStealDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiSteal,
             scanData.stealIcon or "Interface\\Icons\\Spell_Nature_WispSplode",
-            C.BLUE .. L.spellstealTitle .. C.RESET,
+            C.BLUE .. L.stealTitle .. C.RESET,
             L.spellstealLine,
             sub
         )
@@ -259,7 +259,7 @@ function GraalHelper:HandleStealDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiSteal,
                     scanData.stealIcon or "Interface\\Icons\\Spell_Nature_WispSplode",
-                    C.BLUE .. L.spellstealTitle .. C.RESET,
+                    C.BLUE .. L.stealTitle .. C.RESET,
                     L.spellstealLine,
                     sub
                 )
@@ -346,7 +346,7 @@ function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
         return
     end
 
-    local hasSilence = #scanData.silenceBuffs > 0
+    local hasSilence = #scanData.silenceDebuffs > 0
     local alertKey = nil
 
     if hasSilence then
@@ -354,7 +354,7 @@ function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
     end
 
     if alertKey and alertKey ~= R.lastSilenceAlertKey then
-        local sub = self.config.silence.showBuffNames and self:FormatBuffList(scanData.silenceBuffs, L.silenceFound) or
+        local sub = self.config.silence.showBuffNames and self:FormatBuffList(scanData.silenceDebuffs, L.silenceFound) or
             L.silenceFound
 
         self:ShowDisplay(
@@ -375,7 +375,7 @@ function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
         if now < R.silenceDisplayUntil then
             if not self.uiSilence:IsShown() then
                 local sub = self.config.silence.showBuffNames and
-                    self:FormatBuffList(scanData.silenceBuffs, L.silenceFound) or
+                    self:FormatBuffList(scanData.silenceDebuffs, L.silenceFound) or
                     L.silenceFound
 
                 self:ShowDisplay(

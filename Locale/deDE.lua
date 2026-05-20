@@ -3,7 +3,7 @@ local _, GraalHelper = ...
 if GetLocale() ~= "deDE" then return end
 
 GraalHelper.L = {
-    addonLoaded = "Wenn Sie \"/gh\" eingeben, wird das Menü geöffnet.",
+    addonLoaded = "Wenn Sie /gh eingeben, wird das Menü geöffnet.",
     bothLocked = "Warnungen gesperrt.",
     bothUnlocked = "Warnungen entsperrt.",
     chooseSound = "Klangwahl",
@@ -15,8 +15,12 @@ GraalHelper.L = {
         },
     },
     lockWindow = "Warnung gesperrt",
-    menuSubtitle = "Warnungen: Zauberdiebstahl + Reflexionszauber",
     menuTitle = "GraalHelper",
+    nav = {
+        danger = "Gefahr",
+        action = "Aktionen",
+        settings = "Einstellungen"
+    },
     noSpellsTracked = "Bisher wurde noch kein Zauber verfolgt.",
     reflectFound = "Aktiver Reflexionszauber",
     reflectLine = "Wirke keine Zauber - Reflexion aktiv!",
@@ -37,11 +41,8 @@ GraalHelper.L = {
     spellsSection = "Zauber verfolgt",
     spellstealFound = "Stiehlbare Buffs gefunden",
     spellstealLine = "Buffs sind bereit, gestohlen zu werden!",
-    spellstealTitle = "Zauberdiebstahl!",
-    stealSection = "Warnungen: Zauberdiebstahl",
-    testBlue = "Zauberdiebstahltest",
-    testRed = "Reflexionszaubertest",
-    testSilence = "Stilleffekttest",
+    stealTitle = "Zauberdiebstahl",
+    test = "Test",
     trackReflect = "Reflexion",
     trackSteal = "Stehlen",
 
@@ -53,6 +54,11 @@ GraalHelper.L = {
         },
         SPELL_SILENCE_NAMES = {
             ["Stille"] = true,
+            ["Zaubersperre"] = true,
+            ["Arkaner Strom"] = true,
+            ["Gegenzauber - zum Schweigen gebracht"] = true,
+            ["Tritt - zum Schweigen gebracht"] = true,
+            ["Ohrenbetäubendes Gebrüll"] = true
         },
     },
 }
