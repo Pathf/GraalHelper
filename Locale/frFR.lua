@@ -3,7 +3,9 @@ local _, GraalHelper = ...
 if GetLocale() ~= "frFR" then return end
 
 GraalHelper.L = {
+    actions = "Actions",
     addonLoaded = "Saisir /gh ouvrira le menu",
+    alerts = "Alertes",
     bothLocked = "Alertes verrouillées.",
     bothUnlocked = "Alertes déverrouillées.",
     chooseSound = "Choix du son",
@@ -48,6 +50,7 @@ GraalHelper.L = {
     fearLine = "Impossible de lancer des sorts - Peur actif !",
     fearSection = "Sort de peur",
     fearTitle = "Sort de peur !",
+    settings = "Réglages",
     slashHide = "/gh hide - Cache les alertes",
     slashLock = "/gh lock - Verrouille les alertes",
     slashMenu = "/gh - Ouvre le menu",

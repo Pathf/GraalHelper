@@ -39,33 +39,32 @@ end
 local function isRowsExist(self)
     return not self.options
         or not self.options.panels
-        or not self.options.panels.steal
-        or not self.options.panels.steal.l
-        or not self.options.panels.steal.l.rows
+        or not self.options.panels.tracked
+        or not self.options.panels.tracked.rows
 end
 
 function GraalHelper:RefreshTrackedSpellsUI()
     if isRowsExist(self) then return end
 
     local trackedSpells = (self.config and self.config.trackedSpells) or {}
-    local content = self.options.panels.steal.l.content
+    local content = self.options.panels.tracked.content
     local totalHeight = 0
 
     if #trackedSpells == 0 then
-        if not self.options.panels.steal.l.emptyText then
-            self.options.panels.steal.l.emptyText = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-            self.options.panels.steal.l.emptyText:SetPoint("TOPLEFT", 450, -10)
-            self.options.panels.steal.l.emptyText:SetJustifyH("LEFT")
-            self.options.panels.steal.l.emptyText:SetWidth(265)
+        if not self.options.panels.tracked.emptyText then
+            self.options.panels.tracked.emptyText = content:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            self.options.panels.tracked.emptyText:SetPoint("TOPLEFT", 450, -10)
+            self.options.panels.tracked.emptyText:SetJustifyH("LEFT")
+            self.options.panels.tracked.emptyText:SetWidth(265)
         end
-        self.options.panels.steal.l.emptyText:SetText(L.noSpellsTracked)
-        self.options.panels.steal.l.emptyText:Show()
-    elseif self.options.panels.steal.l.emptyText then
-        self.options.panels.steal.l.emptyText:Hide()
+        self.options.panels.tracked.emptyText:SetText(L.noSpellsTracked)
+        self.options.panels.tracked.emptyText:Show()
+    elseif self.options.panels.tracked.emptyText then
+        self.options.panels.tracked.emptyText:Hide()
     end
 
     for i, spell in ipairs(trackedSpells) do
-        local row = self.options.panels.steal.l.rows[i]
+        local row = self.options.panels.tracked.rows[i]
         if not row then
             row = CreateFrame("Frame", nil, content)
             row:SetSize(270, 28)
@@ -95,7 +94,7 @@ function GraalHelper:RefreshTrackedSpellsUI()
             row.divider:SetTexture("Interface\\Buttons\\WHITE8x8")
             row.divider:SetVertexColor(0.20, 0.20, 0.24, 0.85)
 
-            self.options.panels.steal.l.rows[i] = row
+            self.options.panels.tracked.rows[i] = row
         end
 
         row:SetPoint("TOPLEFT", 10, -((i - 1) * 30) - 4)
@@ -132,8 +131,8 @@ function GraalHelper:RefreshTrackedSpellsUI()
         totalHeight = i * 30
     end
 
-    for i = #trackedSpells + 1, #self.options.panels.steal.l.rows do
-        self.options.panels.steal.l.rows[i]:Hide()
+    for i = #trackedSpells + 1, #self.options.panels.tracked.rows do
+        self.options.panels.tracked.rows[i]:Hide()
     end
 
     content:SetHeight(math.max(1, totalHeight + 12))

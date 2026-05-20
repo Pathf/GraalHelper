@@ -2,6 +2,8 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 local L = GraalHelper.L
+local R = GraalHelper.Runtime
+local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addStunPanel(self)
     self.options.panels.stun = self:CreatePanel(self.options.content)
@@ -109,4 +111,72 @@ function GraalHelper:RefreshOptionsUIStun()
     local stunSoundEntry = self:GetSelectedSoundEntry(self.config.stun.sound)
     UIDropDownMenu_SetSelectedValue(self.options.stunSoundDropdown, stunSoundEntry.value)
     UIDropDownMenu_SetText(self.options.stunSoundDropdown, stunSoundEntry.text)
+end
+
+function GraalHelper:StartStunTestMode()
+    R.stunTestMode = true
+    R.stunDisplayUntil = GetTime() + (self.config.stun.displayDuration or 4)
+    R.lastStunAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiStun, ICONS.STUN, C.RED .. L.stunTitle .. C.RESET, L.stunLine, "")
+    self:PlayConfiguredSound(self.config.stun)
+end
+
+function GraalHelper:HandleStunDisplay(scanData, guid, now)
+    if R.stunTestMode then
+        if now >= R.stunDisplayUntil then
+            R.stunTestMode = false
+            self:HideDisplay(self.uiStun)
+        end
+        return
+    end
+
+    local hasStun = #scanData.stunDebuffs > 0
+    local alertKey = nil
+
+    if hasStun then
+        alertKey = guid .. "::STUN::" .. scanData.stunSignature
+    end
+
+    if alertKey and alertKey ~= R.lastStunAlertKey then
+        local sub = self.config.stun.showBuffNames and self:FormatBuffList(scanData.stunDebuffs, L.stunFound) or
+            L.stunFound
+
+        self:ShowDisplay(
+            self.uiStun,
+            scanData.stunIcon or ICONS.STUN,
+            C.RED .. L.stunTitle .. C.RESET,
+            L.stunLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.stun)
+        R.stunDisplayUntil = now + (self.config.stun.displayDuration or 4)
+        R.lastStunAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastStunAlertKey then
+        if now < R.stunDisplayUntil then
+            if not self.uiStun:IsShown() then
+                local sub = self.config.stun.showBuffNames
+                    and self:FormatBuffList(scanData.stunDebuffs, L.stunFound) or L.stunFound
+
+                self:ShowDisplay(
+                    self.uiStun,
+                    scanData.stunIcon or ICONS.STUN,
+                    C.RED .. L.stunTitle .. C.RESET,
+                    L.stunLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiStun)
+        end
+        return
+    end
+
+    R.lastStunAlertKey = nil
+    if now >= R.stunDisplayUntil then
+        self:HideDisplay(self.uiStun)
+    end
 end

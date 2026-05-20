@@ -37,10 +37,9 @@ local function buildNav(self)
     self.options.nav:SetSize(220, 460)
     self:CreateBasicBackdrop(self.options.nav, 0.02, 0.02, 0.02, 0.75)
 
-    -- TODO I18n
-    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, "Alerts", -20)
-    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, "Actions", -240)
-    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, "Settings", -305)
+    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.alerts, -20)
+    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.actions, -240)
+    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.settings, -305)
 end
 
 local function buildContent(self)
@@ -55,7 +54,7 @@ function GraalHelper:CreateOptionsWindow()
     if self.options then return end
 
     self.options = CreateFrame("Frame", "GraalHelperOptionsFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-    self.options:SetSize(1120, 540)
+    self.options:SetSize(620, 540)
     self.options:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
     self.options:SetFrameStrata("DIALOG")
     self.options:SetMovable(true)
@@ -96,7 +95,11 @@ function GraalHelper:CreateOptionsWindow()
     GraalHelper:addFearPanel(self)
     GraalHelper:addFearNav(self)
 
+    GraalHelper:addTrackedPanel(self)
+    GraalHelper:addTrackedNav(self)
+
     self:RefreshTrackedSpellsUI()
+    self:ShowOptionsPanel("tracked")
 end
 
 function GraalHelper:ShowOptionsPanel(panelName)

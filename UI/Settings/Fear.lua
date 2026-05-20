@@ -2,6 +2,8 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 local L = GraalHelper.L
+local R = GraalHelper.Runtime
+local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addFearPanel(self)
     self.options.panels.fear = self:CreatePanel(self.options.content)
@@ -109,4 +111,73 @@ function GraalHelper:RefreshOptionsUIFear()
     local fearSoundEntry = self:GetSelectedSoundEntry(self.config.fear.sound)
     UIDropDownMenu_SetSelectedValue(self.options.fearSoundDropdown, fearSoundEntry.value)
     UIDropDownMenu_SetText(self.options.fearSoundDropdown, fearSoundEntry.text)
+end
+
+function GraalHelper:StartFearTestMode()
+    R.fearTestMode = true
+    R.fearDisplayUntil = GetTime() + (self.config.fear.displayDuration or 4)
+    R.lastFearAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiFear, ICONS.FEAR, C.RED .. L.fearTitle .. C.RESET, L.fearLine, "")
+    self:PlayConfiguredSound(self.config.fear)
+end
+
+function GraalHelper:HandleFearDisplay(scanData, guid, now)
+    if R.fearTestMode then
+        if now >= R.fearDisplayUntil then
+            R.fearTestMode = false
+            self:HideDisplay(self.uiFear)
+        end
+        return
+    end
+
+    local hasFear = #scanData.fearDebuffs > 0
+    local alertKey = nil
+
+    if hasFear then
+        alertKey = guid .. "::FEAR::" .. scanData.fearSignature
+    end
+
+    if alertKey and alertKey ~= R.lastFearAlertKey then
+        local sub = self.config.fear.showBuffNames
+            and self:FormatBuffList(scanData.fearDebuffs, L.fearFound) or L.fearFound
+
+        self:ShowDisplay(
+            self.uiFear,
+            scanData.fearIcon or ICONS.FEAR,
+            C.RED .. L.fearTitle .. C.RESET,
+            L.fearLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.fear)
+        R.fearDisplayUntil = now + (self.config.fear.displayDuration or 4)
+        R.lastFearAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastFearAlertKey then
+        if now < R.fearDisplayUntil then
+            if not self.uiFear:IsShown() then
+                local sub = self.config.fear.showBuffNames and
+                    self:FormatBuffList(scanData.fearDebuffs, L.fearFound) or
+                    L.fearFound
+
+                self:ShowDisplay(
+                    self.uiFear,
+                    scanData.fearIcon or ICONS.FEAR,
+                    C.RED .. L.fearTitle .. C.RESET,
+                    L.fearLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiFear)
+        end
+        return
+    end
+
+    R.lastFearAlertKey = nil
+    if now >= R.fearDisplayUntil then
+        self:HideDisplay(self.uiFear)
+    end
 end

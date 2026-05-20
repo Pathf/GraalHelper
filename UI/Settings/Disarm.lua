@@ -2,6 +2,8 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 local L = GraalHelper.L
+local R = GraalHelper.Runtime
+local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addDisarmPanel(self)
     self.options.panels.disarm = self:CreatePanel(self.options.content)
@@ -109,4 +111,72 @@ function GraalHelper:RefreshOptionsUIDisarm()
     local disarmSoundEntry = self:GetSelectedSoundEntry(self.config.disarm.sound)
     UIDropDownMenu_SetSelectedValue(self.options.disarmSoundDropdown, disarmSoundEntry.value)
     UIDropDownMenu_SetText(self.options.disarmSoundDropdown, disarmSoundEntry.text)
+end
+
+function GraalHelper:StartDisarmTestMode()
+    R.disarmTestMode = true
+    R.disarmDisplayUntil = GetTime() + (self.config.disarm.displayDuration or 4)
+    R.lastDisarmAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiDisarm, ICONS.DISARM, C.RED .. L.disarmTitle .. C.RESET, L.disarmLine, "")
+    self:PlayConfiguredSound(self.config.disarm)
+end
+
+function GraalHelper:HandleDisarmDisplay(scanData, guid, now)
+    if R.disarmTestMode then
+        if now >= R.disarmDisplayUntil then
+            R.disarmTestMode = false
+            self:HideDisplay(self.uiDisarm)
+        end
+        return
+    end
+
+    local hasDisarm = #scanData.disarmDebuffs > 0
+    local alertKey = nil
+
+    if hasDisarm then
+        alertKey = guid .. "::DISARM::" .. scanData.disarmSignature
+    end
+
+    if alertKey and alertKey ~= R.lastDisarmAlertKey then
+        local sub = self.config.disarm.showBuffNames
+            and self:FormatBuffList(scanData.disarmDebuffs, L.disarmFound) or L.disarmFound
+
+        self:ShowDisplay(
+            self.uiDisarm,
+            scanData.disarmIcon or ICONS.DISARM,
+            C.RED .. L.disarmTitle .. C.RESET,
+            L.disarmLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.disarm)
+        R.disarmDisplayUntil = now + (self.config.disarm.displayDuration or 4)
+        R.lastDisarmAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastDisarmAlertKey then
+        if now < R.disarmDisplayUntil then
+            if not self.uiDisarm:IsShown() then
+                local sub = self.config.disarm.showBuffNames and
+                    self:FormatBuffList(scanData.disarmDebuffs, L.disarmFound) or L.disarmFound
+
+                self:ShowDisplay(
+                    self.uiDisarm,
+                    scanData.disarmIcon or ICONS.DISARM,
+                    C.RED .. L.disarmTitle .. C.RESET,
+                    L.disarmLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiDisarm)
+        end
+        return
+    end
+
+    R.lastDisarmAlertKey = nil
+    if now >= R.disarmDisplayUntil then
+        self:HideDisplay(self.uiDisarm)
+    end
 end

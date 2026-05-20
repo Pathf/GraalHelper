@@ -2,6 +2,8 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 local L = GraalHelper.L
+local R = GraalHelper.Runtime
+local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addRootPanel(self)
     self.options.panels.root = self:CreatePanel(self.options.content)
@@ -109,4 +111,70 @@ function GraalHelper:RefreshOptionsUIRoot()
     local rootSoundEntry = self:GetSelectedSoundEntry(self.config.root.sound)
     UIDropDownMenu_SetSelectedValue(self.options.rootSoundDropdown, rootSoundEntry.value)
     UIDropDownMenu_SetText(self.options.rootSoundDropdown, rootSoundEntry.text)
+end
+
+function GraalHelper:StartRootTestMode()
+    R.rootTestMode = true
+    R.rootDisplayUntil = GetTime() + (self.config.root.displayDuration or 4)
+    R.lastRootAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiRoot, ICONS.ROOT, C.RED .. L.rootTitle .. C.RESET, L.rootLine, "")
+    self:PlayConfiguredSound(self.config.root)
+end
+
+function GraalHelper:HandleRootDisplay(scanData, guid, now)
+    if R.rootTestMode then
+        if now >= R.rootDisplayUntil then
+            R.rootTestMode = false
+            self:HideDisplay(self.uiRoot)
+        end
+        return
+    end
+
+    local hasRoot = #scanData.rootDebuffs > 0
+    local alertKey = nil
+
+    if hasRoot then
+        alertKey = guid .. "::ROOT::" .. scanData.rootSignature
+    end
+
+    if alertKey and alertKey ~= R.lastRootAlertKey then
+        local sub = self.config.root.showBuffNames
+            and self:FormatBuffList(scanData.rootDebuffs, L.rootFound) or L.rootFound
+
+        self:ShowDisplay(
+            self.uiRoot,
+            scanData.rootIcon or ICONS.ROOT,
+            C.RED .. L.rootTitle .. C.RESET,
+            L.rootLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.root)
+        R.rootDisplayUntil = now + (self.config.root.displayDuration or 4)
+        R.lastRootAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastRootAlertKey then
+        if now < R.rootDisplayUntil then
+            if not self.uiroot:IsShown() then
+                local sub = self.config.root.showBuffNames and
+                    self:FormatBuffList(scanData.rootDebuffs, L.rootFound) or L.rootFound
+
+                self:ShowDisplay(
+                    self.uiRoot,
+                    scanData.rootIcon or ICONS.ROOT,
+                    C.RED .. L.rootTitle .. C.RESET,
+                    L.rootLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiRoot)
+        end
+        return
+    end
+
+    R.lastRootAlertKey = nil
+    if now >= R.rootDisplayUntil then self:HideDisplay(self.uiRoot) end
 end

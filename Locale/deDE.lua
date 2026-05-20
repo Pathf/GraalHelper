@@ -3,7 +3,9 @@ local _, GraalHelper = ...
 if GetLocale() ~= "deDE" then return end
 
 GraalHelper.L = {
+    actions = "Aktionen",
     addonLoaded = "Wenn Sie /gh eingeben, wird das Menü geöffnet.",
+    alerts = "Warnungen",
     bothLocked = "Warnungen gesperrt.",
     bothUnlocked = "Warnungen entsperrt.",
     chooseSound = "Klangwahl",
@@ -48,6 +50,7 @@ GraalHelper.L = {
     fearLine = "Zauber können nicht gewirkt werden - Furcht aktiv!",
     fearSection = "Furchteffekt",
     fearTitle = "Furchteffekt!",
+    settings = "Einstellungen",
     slashHide = "/gh hide - Blendet Warnungen aus",
     slashLock = "/gh lock - Gesperrte Warnungen",
     slashMenu = "/gh - Öffnet das Menü",

@@ -110,3 +110,80 @@ function GraalHelper:RefreshOptionsUIReflect()
     UIDropDownMenu_SetSelectedValue(self.options.reflectSoundDropdown, reflectSoundEntry.value)
     UIDropDownMenu_SetText(self.options.reflectSoundDropdown, reflectSoundEntry.text)
 end
+
+function GraalHelper:StartReflectTestMode()
+    R.reflectTestMode = true
+    R.reflectDisplayUntil = GetTime() + (self.config.reflect.displayDuration or 4)
+    R.lastReflectAlertKey = "TESTMODE"
+
+    self:ShowDisplay(
+        self.uiReflect,
+        ICONS.REFLECT,
+        C.RED .. L.reflectTitle .. C.RESET,
+        L.reflectLine,
+        ""
+    )
+
+    self:PlayConfiguredSound(self.config.reflect)
+end
+
+function GraalHelper:HandleReflectDisplay(scanData, guid, now)
+    if R.reflectTestMode then
+        if now >= R.reflectDisplayUntil then
+            R.reflectTestMode = false
+            self:HideDisplay(self.uiReflect)
+        end
+        return
+    end
+
+    local hasReflect = #scanData.reflectBuffs > 0
+    local alertKey = nil
+
+    if hasReflect then
+        alertKey = guid .. "::REFLECT::" .. scanData.reflectSignature
+    end
+
+    if alertKey and alertKey ~= R.lastReflectAlertKey then
+        local sub = self.config.reflect.showBuffNames and self:FormatBuffList(scanData.reflectBuffs, L.reflectFound) or
+            L.reflectFound
+
+        self:ShowDisplay(
+            self.uiReflect,
+            scanData.reflectIcon or ICONS.REFLECT,
+            C.RED .. L.reflectTitle .. C.RESET,
+            L.reflectLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.reflect)
+        R.reflectDisplayUntil = now + (self.config.reflect.displayDuration or 4)
+        R.lastReflectAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastReflectAlertKey then
+        if now < R.reflectDisplayUntil then
+            if not self.uiReflect:IsShown() then
+                local sub = self.config.reflect.showBuffNames and
+                    self:FormatBuffList(scanData.reflectBuffs, L.reflectFound) or
+                    L.reflectFound
+
+                self:ShowDisplay(
+                    self.uiReflect,
+                    scanData.reflectIcon or ICONS.REFLECT,
+                    C.RED .. L.reflectTitle .. C.RESET,
+                    L.reflectLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiReflect)
+        end
+        return
+    end
+
+    R.lastReflectAlertKey = nil
+    if now >= R.reflectDisplayUntil then
+        self:HideDisplay(self.uiReflect)
+    end
+end

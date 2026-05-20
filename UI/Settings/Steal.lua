@@ -2,18 +2,17 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 local L = GraalHelper.L
+local R = GraalHelper.Runtime
+local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addStealPanel(self)
-    self.options.panels.steal = CreateFrame("Frame", nil, self.options.content)
-    self.options.panels.steal:SetAllPoints(true)
-
-    self.options.panels.steal.r = self:CreatePanel(self.options.panels.steal)
-    self.options.panels.steal.r.title = self.options.panels.steal.r:CreateFontString(nil, "OVERLAY",
+    self.options.panels.steal = self:CreatePanel(self.options.content)
+    self.options.panels.steal.title = self.options.panels.steal:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
-    self.options.panels.steal.r.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.steal.r.title:SetText(C.BLUE .. L.stealTitle .. C.RESET)
+    self.options.panels.steal.title:SetPoint("TOPLEFT", 18, -18)
+    self.options.panels.steal.title:SetText(C.BLUE .. L.stealTitle .. C.RESET)
 
-    self.options.stealLockCheck = CreateFrame("CheckButton", "GraalHelperStealLockCheck", self.options.panels.steal.r,
+    self.options.stealLockCheck = CreateFrame("CheckButton", "GraalHelperStealLockCheck", self.options.panels.steal,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stealLockCheck:SetPoint("TOPLEFT", 16, -62)
     _G[self.options.stealLockCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
@@ -22,7 +21,7 @@ function GraalHelper:addStealPanel(self)
     end)
     _G[self.options.stealLockCheck:GetName() .. "Text"]:SetText(L.lockWindow)
 
-    self.options.stealNameCheck = CreateFrame("CheckButton", "GraalHelperStealNamesCheck", self.options.panels.steal.r,
+    self.options.stealNameCheck = CreateFrame("CheckButton", "GraalHelperStealNamesCheck", self.options.panels.steal,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stealNameCheck:SetPoint("TOPLEFT", self.options.stealLockCheck, "BOTTOMLEFT", 0, -8)
     _G[self.options.stealNameCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
@@ -31,7 +30,7 @@ function GraalHelper:addStealPanel(self)
     end)
     _G[self.options.stealNameCheck:GetName() .. "Text"]:SetText(L.showBuffNames)
 
-    self.options.stealSoundCheck = CreateFrame("CheckButton", "GraalHelperStealSoundCheck", self.options.panels.steal.r,
+    self.options.stealSoundCheck = CreateFrame("CheckButton", "GraalHelperStealSoundCheck", self.options.panels.steal,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stealSoundCheck:SetPoint("TOPLEFT", self.options.stealNameCheck, "BOTTOMLEFT", 0, -8)
     _G[self.options.stealSoundCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
@@ -40,7 +39,7 @@ function GraalHelper:addStealPanel(self)
     end)
     _G[self.options.stealSoundCheck:GetName() .. "Text"]:SetText(L.enableSound)
 
-    self.options.stealScaleSlider = self:CreateSlider(self.options.panels.steal.r, "GraalHelperStealScaleSlider", "", 0.5,
+    self.options.stealScaleSlider = self:CreateSlider(self.options.panels.steal, "GraalHelperStealScaleSlider", "", 0.5,
         2.0,
         0.05, 280, 34,
         -180)
@@ -53,7 +52,7 @@ function GraalHelper:addStealPanel(self)
     self:SkinSlider(self.options.stealScaleSlider, 0.25, 0.65, 1.0)
     _G[self.options.stealScaleSlider:GetName() .. "Text"]:SetText(L.scale)
 
-    self.options.stealDurationSlider = self:CreateSlider(self.options.panels.steal.r, "GraalHelperStealDurationSlider",
+    self.options.stealDurationSlider = self:CreateSlider(self.options.panels.steal, "GraalHelperStealDurationSlider",
         "", 1, 20,
         1, 280, 34,
         -280)
@@ -70,7 +69,7 @@ function GraalHelper:addStealPanel(self)
     self.options.stealSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
 
     self.options.stealSoundDropdown = self:CreateSoundDropdown(
-        self.options.panels.steal.r,
+        self.options.panels.steal,
         "GraalHelperStealSoundDropdown",
         0, -335,
         function() return GraalHelper.config.steal.sound end,
@@ -82,36 +81,11 @@ function GraalHelper:addStealPanel(self)
         end
     )
 
-    self.options.stealTestButton = self:CreateMenuButton(self.options.panels.steal.r, "", 150, 100, 40)
+    self.options.stealTestButton = self:CreateMenuButton(self.options.panels.steal, "", 150, 100, 40)
     self.options.stealTestButton:SetScript("OnClick", function()
         GraalHelper:StartStealTestMode()
     end)
     self.options.stealTestButton:SetText(L.test)
-
-
-    -- SPELLS
-    self.options.panels.steal.l = self:CreatePanel(self.options.panels.steal)
-    self.options.panels.steal.l.title = self.options.panels.steal.l:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.steal.l.title:SetPoint("TOPLEFT", 450, -18)
-    self.options.panels.steal.l.title:SetText(C.GOLD .. L.spellsSection .. C.RESET)
-
-    self.options.panels.steal.l.hint = self.options.panels.steal.l:CreateFontString(nil, "OVERLAY",
-        "GameFontHighlightSmall")
-    self.options.panels.steal.l.hint:SetPoint("TOPLEFT", 450, -58)
-    self.options.panels.steal.l.hint:SetWidth(280)
-    self.options.panels.steal.l.hint:SetJustifyH("LEFT")
-    self.options.panels.steal.l.hint:SetText(L.spellsHint)
-
-    self.options.panels.steal.l.scrollFrame = CreateFrame("ScrollFrame", "GraalHelperTrackedSpellsScrollFrame",
-        self.options.panels.steal.l, "UIPanelScrollFrameTemplate")
-    self.options.panels.steal.l.scrollFrame:SetPoint("TOPLEFT", 450, -92)
-    self.options.panels.steal.l.scrollFrame:SetPoint("BOTTOMRIGHT", -30, 16)
-
-    self.options.panels.steal.l.content = CreateFrame("Frame", nil, self.options.panels.steal.l.scrollFrame)
-    self.options.panels.steal.l.content:SetSize(270, 1)
-    self.options.panels.steal.l.scrollFrame:SetScrollChild(self.options.panels.steal.l.content)
-    self.options.panels.steal.l.rows = {}
 end
 
 function GraalHelper:addStealNav(self)
@@ -131,4 +105,73 @@ function GraalHelper:RefreshOptionsUISteal()
     local stealSoundEntry = self:GetSelectedSoundEntry(self.config.steal.sound)
     UIDropDownMenu_SetSelectedValue(self.options.stealSoundDropdown, stealSoundEntry.value)
     UIDropDownMenu_SetText(self.options.stealSoundDropdown, stealSoundEntry.text)
+end
+
+function GraalHelper:StartStealTestMode()
+    R.stealTestMode = true
+    R.stealDisplayUntil = GetTime() + (self.config.steal.displayDuration or 4)
+    R.lastStealAlertKey = "TESTMODE"
+    self:ShowDisplay(self.uiSteal, ICONS.STEAL, C.BLUE .. L.stealTitle .. C.RESET, L.spellstealLine, "")
+    self:PlayConfiguredSound(self.config.steal)
+end
+
+function GraalHelper:HandleStealDisplay(scanData, guid, now)
+    if R.stealTestMode then
+        if now >= R.stealDisplayUntil then
+            R.stealTestMode = false
+            self:HideDisplay(self.uiSteal)
+        end
+        return
+    end
+
+    local hasSteal = #scanData.stealBuffs > 0
+    local alertKey = nil
+
+    if hasSteal then
+        alertKey = guid .. "::STEAL::" .. scanData.stealSignature
+    end
+
+    if alertKey and alertKey ~= R.lastStealAlertKey then
+        local sub = self.config.steal.showBuffNames and self:FormatBuffList(scanData.stealBuffs, L.spellstealFound) or
+            L.spellstealFound
+
+        self:ShowDisplay(
+            self.uiSteal,
+            scanData.stealIcon or ICONS.STEAL,
+            C.BLUE .. L.stealTitle .. C.RESET,
+            L.spellstealLine,
+            sub
+        )
+
+        self:PlayConfiguredSound(self.config.steal)
+        R.stealDisplayUntil = now + (self.config.steal.displayDuration or 4)
+        R.lastStealAlertKey = alertKey
+        return
+    end
+
+    if alertKey and alertKey == R.lastStealAlertKey then
+        if now < R.stealDisplayUntil then
+            if not self.uiSteal:IsShown() then
+                local sub = self.config.steal.showBuffNames and
+                    self:FormatBuffList(scanData.stealBuffs, L.spellstealFound) or
+                    L.spellstealFound
+
+                self:ShowDisplay(
+                    self.uiSteal,
+                    scanData.stealIcon or ICONS.STEAL,
+                    C.BLUE .. L.stealTitle .. C.RESET,
+                    L.spellstealLine,
+                    sub
+                )
+            end
+        else
+            self:HideDisplay(self.uiSteal)
+        end
+        return
+    end
+
+    R.lastStealAlertKey = nil
+    if now >= R.stealDisplayUntil then
+        self:HideDisplay(self.uiSteal)
+    end
 end

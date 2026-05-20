@@ -1,7 +1,9 @@
 local _, GraalHelper = ...
 
 GraalHelper.L = {
+    actions = "Actions",
     addonLoaded = "loaded. /gh opens the menu",
+    alerts = "Alerts",
     bothLocked = "Both windows locked.",
     bothUnlocked = "Both windows unlocked.",
     chooseSound = "Choose sound",
@@ -46,6 +48,7 @@ GraalHelper.L = {
     fearLine = "Unable to cast spells - Fear active!",
     fearSection = "Fear effect",
     fearTitle = "Fear effect!",
+    settings = "Settings",
     slashHide = "/gh hide - Hide alerts",
     slashLock = "/gh lock - Lock both",
     slashMenu = "/gh - Open menu",
