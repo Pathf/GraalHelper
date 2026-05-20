@@ -132,7 +132,7 @@ function GraalHelper:RefreshOptionsUIFear()
 end
 
 local function ChatSay()
-    SendChatMessage("FEAR", "PARTY")
+    SendChatMessage("❌ FEAR", "PARTY")
 end
 
 function GraalHelper:StartFearTestMode()

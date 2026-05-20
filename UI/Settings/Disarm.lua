@@ -132,7 +132,7 @@ function GraalHelper:RefreshOptionsUIDisarm()
 end
 
 local function ChatSay()
-    SendChatMessage("DISARM", "PARTY")
+    SendChatMessage("❌ DISARM", "PARTY")
 end
 
 function GraalHelper:StartDisarmTestMode()

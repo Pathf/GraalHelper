@@ -40,7 +40,26 @@ function GraalHelper:SortTrackedSpells()
     end)
 end
 
-function GraalHelper:RegisterTrackedSpell(name, spellId, icon, category)
+local function GetCategoryName(category)
+    if category == "steal" then
+        return { label = L.trackSteal, order = 1 }
+    elseif category == "reflect" then
+        return { label = L.trackReflect, order = 2 }
+    elseif category == "silence" then
+        return { label = L.trackSilence, order = 3 }
+    elseif category == "stun" then
+        return { label = L.trackStun, order = 4 }
+    elseif category == "root" then
+        return { label = L.trackRoot, order = 5 }
+    elseif category == "disarm" then
+        return { label = L.trackDisarm, order = 6 }
+    elseif category == "fear" then
+        return { label = L.trackFear, order = 7 }
+    end
+    return { label = L.trackUnknow, order = 99 }
+end
+
+function GraalHelper:RegisterTrackedSpell(name, spellId, icon, categoryType)
     if not self.config then
         self:PrintError(L.errors.options.null)
         return
@@ -48,7 +67,7 @@ function GraalHelper:RegisterTrackedSpell(name, spellId, icon, category)
 
     self.config.trackedSpells = self.config.trackedSpells or {}
     self.config.spellFilter = self.config.spellFilter or {}
-    local spellKey = self:MakeSpellKey(name, spellId, category)
+    local spellKey = self:MakeSpellKey(name, spellId, categoryType)
 
     for _, entry in ipairs(self.config.trackedSpells) do
         if entry.key == spellKey then
@@ -62,14 +81,16 @@ function GraalHelper:RegisterTrackedSpell(name, spellId, icon, category)
         end
     end
 
+    local category = GetCategoryName(categoryType)
+
     table.insert(self.config.trackedSpells, {
         key = spellKey,
         name = name or spellKey,
         spellId = spellId,
         icon = icon,
-        category = category,
-        categoryLabel = category == "reflect" and L.trackReflect or L.trackSteal,
-        categoryOrder = category == "reflect" and 2 or 1,
+        category = categoryType,
+        categoryLabel = category.label,
+        categoryOrder = category.order,
     })
 
     if self.config.spellFilter[spellKey] == nil then

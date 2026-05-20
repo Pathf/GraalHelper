@@ -63,6 +63,12 @@ GraalHelper.L = {
     test = "Test",
     trackReflect = "Reflect",
     trackSteal = "Steal",
+    trackSilence = "Silence",
+    trackStun = "Stun",
+    trackRoot = "Root",
+    trackDisarm = "Disarm",
+    trackFear = "Fear",
+    trackUnknow = "Unknow",
 
     MATCH = {
         SPELL_REFLECTION_NAMES = {

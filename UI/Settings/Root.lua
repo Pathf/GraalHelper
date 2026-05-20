@@ -132,7 +132,7 @@ function GraalHelper:RefreshOptionsUIRoot()
 end
 
 local function ChatSay()
-    SendChatMessage("ROOT", "PARTY")
+    SendChatMessage("❌ ROOT", "PARTY")
 end
 
 function GraalHelper:StartRootTestMode()

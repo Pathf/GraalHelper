@@ -133,7 +133,7 @@ function GraalHelper:RefreshOptionsUISilence()
 end
 
 local function ChatSay()
-    SendChatMessage("SILENCE", "PARTY")
+    SendChatMessage("❌ SILENCE", "PARTY")
 end
 
 function GraalHelper:StartSilenceTestMode()

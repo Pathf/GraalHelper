@@ -65,6 +65,12 @@ GraalHelper.L = {
     test = "Test",
     trackReflect = "Reflexion",
     trackSteal = "Stehlen",
+    trackSilence = "Stille",
+    trackStun = "Betäubung",
+    trackRoot = "Bewegungsunfähigkeit",
+    trackDisarm = "Entwaffnung",
+    trackFear = "Furcht",
+    trackUnknow = "Unbekannt",
 
     MATCH = {
         SPELL_REFLECTION_NAMES = {

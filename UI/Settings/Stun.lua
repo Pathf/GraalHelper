@@ -133,7 +133,7 @@ function GraalHelper:RefreshOptionsUIStun()
 end
 
 local function ChatSay()
-    SendChatMessage("STUN", "PARTY")
+    SendChatMessage("❌ STUN", "PARTY")
 end
 
 function GraalHelper:StartStunTestMode()
