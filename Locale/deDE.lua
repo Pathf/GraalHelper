@@ -50,6 +50,7 @@ GraalHelper.L = {
     fearLine = "Zauber können nicht gewirkt werden - Furcht aktiv!",
     fearSection = "Furchteffekt",
     fearTitle = "Furchteffekt!",
+    sayCheck = "Im Chat anzeigen",
     settings = "Einstellungen",
     slashHide = "/gh hide - Blendet Warnungen aus",
     slashLock = "/gh lock - Gesperrte Warnungen",

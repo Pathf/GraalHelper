@@ -2,6 +2,8 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 local L = GraalHelper.L
+local R = GraalHelper.Runtime
+local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addReflectPanel(self)
     self.options.panels.reflect = self:CreatePanel(self.options.content)
@@ -115,15 +117,7 @@ function GraalHelper:StartReflectTestMode()
     R.reflectTestMode = true
     R.reflectDisplayUntil = GetTime() + (self.config.reflect.displayDuration or 4)
     R.lastReflectAlertKey = "TESTMODE"
-
-    self:ShowDisplay(
-        self.uiReflect,
-        ICONS.REFLECT,
-        C.RED .. L.reflectTitle .. C.RESET,
-        L.reflectLine,
-        ""
-    )
-
+    self:ShowDisplay(self.uiReflect, ICONS.REFLECT, C.RED .. L.reflectTitle .. C.RESET, L.reflectLine, "")
     self:PlayConfiguredSound(self.config.reflect)
 end
 

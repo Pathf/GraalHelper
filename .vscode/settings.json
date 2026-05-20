@@ -25,6 +25,7 @@
         "UnitDebuff",
         "Minimap",
         "C_AddOns",
-        "C_LossOfControl"
+        "C_LossOfControl",
+        "SendChatMessage"
     ]
 }

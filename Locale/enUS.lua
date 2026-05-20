@@ -48,6 +48,7 @@ GraalHelper.L = {
     fearLine = "Unable to cast spells - Fear active!",
     fearSection = "Fear effect",
     fearTitle = "Fear effect!",
+    sayCheck = "Show in chat",
     settings = "Settings",
     slashHide = "/gh hide - Hide alerts",
     slashLock = "/gh lock - Lock both",

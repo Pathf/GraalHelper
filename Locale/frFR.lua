@@ -50,6 +50,7 @@ GraalHelper.L = {
     fearLine = "Impossible de lancer des sorts - Peur actif !",
     fearSection = "Sort de peur",
     fearTitle = "Sort de peur !",
+    sayCheck = "Afficher dans le chat",
     settings = "Réglages",
     slashHide = "/gh hide - Cache les alertes",
     slashLock = "/gh lock - Verrouille les alertes",

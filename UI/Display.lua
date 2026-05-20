@@ -1,7 +1,6 @@
 local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
-local L = GraalHelper.L
 local R = GraalHelper.Runtime
 
 function GraalHelper:CreateDisplayFrame(frameName, sectionConfig, theme)
@@ -181,16 +180,12 @@ function GraalHelper:UpdateDisplays()
     if not targetExists or not targetEnemy or not targetAlive then
         if not R.stealTestMode then
             R.lastStealAlertKey = nil
-            if now >= R.stealDisplayUntil then
-                self:HideDisplay(self.uiSteal)
-            end
+            if now >= R.stealDisplayUntil then self:HideDisplay(self.uiSteal) end
         end
 
         if not R.reflectTestMode then
             R.lastReflectAlertKey = nil
-            if now >= R.reflectDisplayUntil then
-                self:HideDisplay(self.uiReflect)
-            end
+            if now >= R.reflectDisplayUntil then self:HideDisplay(self.uiReflect) end
         end
 
         if not R.silenceTestMode then

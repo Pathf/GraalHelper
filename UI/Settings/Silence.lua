@@ -10,39 +10,62 @@ function GraalHelper:addSilencePanel(self)
     self.options.panels.silence.title = self.options.panels.silence:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.silence.title:SetPoint("TOPLEFT", 18, -18)
+    self.options.panels.silence.title:SetText(C.RED .. L.silenceSection .. C.RESET)
 
     self.options.silenceLockCheck = CreateFrame("CheckButton", "GraalHelperSilenceLockCheck", self.options.panels
         .silence,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.silenceLockCheck:SetPoint("TOPLEFT", 16, -62)
-    _G[self.options.silenceLockCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
     self.options.silenceLockCheck:SetScript("OnClick", function(self)
         GraalHelper.config.silence.locked = self:GetChecked() and true or false
     end)
+    self.options.silenceLockCheck.label = self.options.silenceLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.silenceLockCheck.label:SetPoint("LEFT", self.options.silenceLockCheck, "RIGHT", 4, 1)
+    self.options.silenceLockCheck.label:SetText(L.lockWindow)
+    self.options.silenceLockCheck.label:SetTextColor(1, 0.90, 0.20)
 
     self.options.silenceNameCheck = CreateFrame("CheckButton", "GraalHelperSilenceNamesCheck",
         self.options.panels.silence,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.silenceNameCheck:SetPoint("TOPLEFT", self.options.silenceLockCheck, "BOTTOMLEFT", 0, -8)
-    _G[self.options.silenceNameCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
     self.options.silenceNameCheck:SetScript("OnClick", function(self)
         GraalHelper.config.silence.showBuffNames = self:GetChecked() and true or false
     end)
+    self.options.silenceNameCheck.label = self.options.silenceNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.silenceNameCheck.label:SetPoint("LEFT", self.options.silenceNameCheck, "RIGHT", 4, 1)
+    self.options.silenceNameCheck.label:SetText(L.showBuffNames)
+    self.options.silenceNameCheck.label:SetTextColor(1, 0.90, 0.20)
+
+    self.options.silenceSayCheck = CreateFrame("CheckButton", "GraalHelperDisarmSayCheck",
+        self.options.panels.silence,
+        "InterfaceOptionsCheckButtonTemplate")
+    self.options.silenceSayCheck:SetPoint("TOPLEFT", self.options.silenceNameCheck, "BOTTOMLEFT", 0, -8)
+    self.options.silenceSayCheck:SetScript("OnClick", function(self)
+        GraalHelper.config.silence.say = self:GetChecked() and true or false
+    end)
+    self.options.silenceSayCheck.label = self.options.silenceSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.silenceSayCheck.label:SetPoint("LEFT", self.options.silenceSayCheck, "RIGHT", 4, 1)
+    self.options.silenceSayCheck.label:SetText(L.sayCheck)
+    self.options.silenceSayCheck.label:SetTextColor(1, 0.90, 0.20)
 
     self.options.silenceSoundCheck = CreateFrame("CheckButton", "GraalHelperSilenceSoundCheck",
         self.options.panels.silence,
         "InterfaceOptionsCheckButtonTemplate")
-    self.options.silenceSoundCheck:SetPoint("TOPLEFT", self.options.silenceNameCheck, "BOTTOMLEFT", 0, -8)
-    _G[self.options.silenceSoundCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
+    self.options.silenceSoundCheck:SetPoint("TOPLEFT", self.options.silenceSayCheck, "BOTTOMLEFT", 0, -8)
     self.options.silenceSoundCheck:SetScript("OnClick", function(self)
         GraalHelper.config.silence.soundEnabled = self:GetChecked() and true or false
     end)
+    self.options.silenceSoundCheck.label =
+        self.options.silenceSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.silenceSoundCheck.label:SetPoint("LEFT", self.options.silenceSoundCheck, "RIGHT", 4, 1)
+    self.options.silenceSoundCheck.label:SetText(L.enableSound)
+    self.options.silenceSoundCheck.label:SetTextColor(1, 0.90, 0.20)
 
     self.options.silenceScaleSlider = self:CreateSlider(self.options.panels.silence, "GraalHelperSilenceScaleSlider", "",
         0.5,
         2.0,
         0.05, 280, 34,
-        -180)
+        -210)
     self.options.silenceScaleSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.silence.scale = value
@@ -50,6 +73,7 @@ function GraalHelper:addSilencePanel(self)
         GraalHelper:ApplyFrameSettings(GraalHelper.uiSilence, GraalHelper.config.silence)
     end)
     self:SkinSlider(self.options.silenceScaleSlider, 1.0, 0.30, 0.20)
+    _G[self.options.silenceScaleSlider:GetName() .. "Text"]:SetText(L.scale)
 
     self.options.silenceDurationSlider = self:CreateSlider(self.options.panels.silence,
         "GraalHelperSilenceDurationSlider",
@@ -62,14 +86,16 @@ function GraalHelper:addSilencePanel(self)
         self.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.silenceDurationSlider, 1.0, 0.30, 0.20)
+    _G[self.options.silenceDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
 
     self.options.silenceSoundLabel = self.options.panels.silence:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.silenceSoundLabel:SetPoint("TOPLEFT", 18, -320)
+    self.options.silenceSoundLabel:SetPoint("TOPLEFT", 18, -330)
+    self.options.silenceSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
 
     self.options.silenceSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.silence,
         "GraalHelperSilenceSoundDropdown",
-        0, -335,
+        0, -345,
         function() return GraalHelper.config.silence.sound end,
         function(value) GraalHelper.config.silence.sound = value end,
         function()
@@ -83,14 +109,6 @@ function GraalHelper:addSilencePanel(self)
     self.options.silenceTestButton:SetScript("OnClick", function()
         GraalHelper:StartSilenceTestMode()
     end)
-
-    self.options.panels.silence.title:SetText(C.RED .. L.silenceSection .. C.RESET)
-    _G[self.options.silenceLockCheck:GetName() .. "Text"]:SetText(L.lockWindow)
-    _G[self.options.silenceNameCheck:GetName() .. "Text"]:SetText(L.showBuffNames)
-    _G[self.options.silenceSoundCheck:GetName() .. "Text"]:SetText(L.enableSound)
-    _G[self.options.silenceScaleSlider:GetName() .. "Text"]:SetText(L.scale)
-    _G[self.options.silenceDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
-    self.options.silenceSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
     self.options.silenceTestButton:SetText(L.test)
 end
 
@@ -103,6 +121,7 @@ end
 function GraalHelper:RefreshOptionsUISilence()
     self.options.silenceLockCheck:SetChecked(self.config.silence.locked)
     self.options.silenceNameCheck:SetChecked(self.config.silence.showBuffNames)
+    self.options.silenceSayCheck:SetChecked(self.config.silence.say)
     self.options.silenceSoundCheck:SetChecked(self.config.silence.soundEnabled)
     self.options.silenceScaleSlider:SetValue(self.config.silence.scale)
     self.options.silenceScaleSlider.valueText:SetText(string.format("%.2f", self.config.silence.scale))
@@ -113,12 +132,17 @@ function GraalHelper:RefreshOptionsUISilence()
     UIDropDownMenu_SetText(self.options.silenceSoundDropdown, silenceSoundEntry.text)
 end
 
+local function ChatSay()
+    SendChatMessage("SILENCE", "PARTY")
+end
+
 function GraalHelper:StartSilenceTestMode()
     R.silenceTestMode = true
     R.silenceDisplayUntil = GetTime() + (self.config.silence.displayDuration or 4)
     R.lastSilenceAlertKey = "TESTMODE"
     self:ShowDisplay(self.uiSilence, ICONS.SILENCE, C.RED .. L.silenceTitle .. C.RESET, L.silenceLine, "")
     self:PlayConfiguredSound(self.config.silence)
+    if self.config.silence.say then ChatSay() end
 end
 
 function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
@@ -148,6 +172,7 @@ function GraalHelper:HandleSilenceDisplay(scanData, guid, now)
             L.silenceLine,
             sub
         )
+        if self.config.silence.say then ChatSay() end
 
         self:PlayConfiguredSound(self.config.silence)
         R.silenceDisplayUntil = now + (self.config.silence.displayDuration or 4)

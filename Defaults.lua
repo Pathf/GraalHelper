@@ -38,6 +38,7 @@ GraalHelper.defaults = {
         displayDuration = 4,
         soundEnabled = true,
         sound = "Warning",
+        say = true,
     },
 
     stun = {
@@ -51,6 +52,7 @@ GraalHelper.defaults = {
         displayDuration = 4,
         soundEnabled = true,
         sound = "Warning",
+        say = true,
     },
 
     root = {
@@ -64,6 +66,7 @@ GraalHelper.defaults = {
         displayDuration = 4,
         soundEnabled = true,
         sound = "Warning",
+        say = true,
     },
 
     disarm = {
@@ -77,6 +80,7 @@ GraalHelper.defaults = {
         displayDuration = 4,
         soundEnabled = true,
         sound = "Warning",
+        say = true,
     },
 
     fear = {
@@ -90,6 +94,7 @@ GraalHelper.defaults = {
         displayDuration = 4,
         soundEnabled = true,
         sound = "Warning",
+        say = true,
     },
 
     trackedSpells = {},

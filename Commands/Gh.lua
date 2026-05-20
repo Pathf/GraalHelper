@@ -15,6 +15,11 @@ end
 local function lockAllWarnings()
     GraalHelper.config.steal.locked = true
     GraalHelper.config.reflect.locked = true
+    GraalHelper.config.silence.locked = true
+    GraalHelper.config.stun.locked = true
+    GraalHelper.config.root.locked = true
+    GraalHelper.config.disarm.locked = true
+    GraalHelper.config.fear.locked = true
     GraalHelper:RefreshOptionsUI()
     GraalHelper:Print(L.bothLocked)
 end
@@ -22,6 +27,11 @@ end
 local function unlockAllWarnings()
     GraalHelper.config.steal.locked = false
     GraalHelper.config.reflect.locked = false
+    GraalHelper.config.silence.locked = false
+    GraalHelper.config.stun.locked = false
+    GraalHelper.config.root.locked = false
+    GraalHelper.config.disarm.locked = false
+    GraalHelper.config.fear.locked = false
     GraalHelper:RefreshOptionsUI()
     GraalHelper:Print(L.bothUnlocked)
 end
@@ -29,8 +39,6 @@ end
 local function printAllCommands()
     GraalHelper:Print(L.slashMenu)
     GraalHelper:Print(L.slashTest)
-    GraalHelper:Print(L.slashTestBlue)
-    GraalHelper:Print(L.slashTestRed)
     GraalHelper:Print(L.slashHide)
     GraalHelper:Print(L.slashLock)
     GraalHelper:Print(L.slashUnlock)
