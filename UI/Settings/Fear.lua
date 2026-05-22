@@ -5,6 +5,12 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
+local function ChatSay()
+    if GraalHelper.config.fear.chatEnabled then
+        SendChatMessage("❌ FEAR", GraalHelper.config.fear.chat)
+    end
+end
+
 function GraalHelper:addFearPanel(self)
     self.options.panels.fear = self:CreatePanel(self.options.content)
     self.options.panels.fear.title = self.options.panels.fear:CreateFontString(nil, "OVERLAY",
@@ -12,10 +18,22 @@ function GraalHelper:addFearPanel(self)
     self.options.panels.fear.title:SetPoint("TOPLEFT", 18, -18)
     self.options.panels.fear.title:SetText(C.RED .. L.fearSection .. C.RESET)
 
+    self.options.fearActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
+        .fear,
+        "InterfaceOptionsCheckButtonTemplate")
+    self.options.fearActive:SetPoint("TOPLEFT", 16, -62)
+    self.options.fearActive:SetScript("OnClick", function(self)
+        GraalHelper.config.fear.active = self:GetChecked() and true or false
+    end)
+    self.options.fearActive.label = self.options.fearActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.fearActive.label:SetPoint("LEFT", self.options.fearActive, "RIGHT", 4, 1)
+    self.options.fearActive.label:SetText(L.activeFunctionality)
+    self.options.fearActive.label:SetTextColor(1, 0.90, 0.20)
+
     self.options.fearLockCheck = CreateFrame("CheckButton", "GraalHelperFearLockCheck", self.options.panels
         .fear,
         "InterfaceOptionsCheckButtonTemplate")
-    self.options.fearLockCheck:SetPoint("TOPLEFT", 16, -62)
+    self.options.fearLockCheck:SetPoint("TOPLEFT", self.options.fearActive, "BOTTOMLEFT", 0, -8)
     self.options.fearLockCheck:SetScript("OnClick", function(self)
         GraalHelper.config.fear.locked = self:GetChecked() and true or false
     end)
@@ -41,7 +59,7 @@ function GraalHelper:addFearPanel(self)
         "InterfaceOptionsCheckButtonTemplate")
     self.options.fearSayCheck:SetPoint("TOPLEFT", self.options.fearNameCheck, "BOTTOMLEFT", 0, -8)
     self.options.fearSayCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.fear.say = self:GetChecked() and true or false
+        GraalHelper.config.fear.chatEnabled = self:GetChecked() and true or false
     end)
     self.options.fearSayCheck.label = self.options.fearSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.fearSayCheck.label:SetPoint("LEFT", self.options.fearSayCheck, "RIGHT", 4, 1)
@@ -64,7 +82,7 @@ function GraalHelper:addFearPanel(self)
         0.5,
         2.0,
         0.05, 280, 34,
-        -210)
+        -240)
     self.options.fearScaleSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.fear.scale = value
@@ -78,7 +96,7 @@ function GraalHelper:addFearPanel(self)
         "GraalHelperFearDurationSlider",
         "", 1, 20,
         1, 280, 34,
-        -280)
+        -310)
     self.options.fearDurationSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.fear.displayDuration = value
@@ -88,20 +106,27 @@ function GraalHelper:addFearPanel(self)
     _G[self.options.fearDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
 
     self.options.fearSoundLabel = self.options.panels.fear:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.fearSoundLabel:SetPoint("TOPLEFT", 18, -330)
+    self.options.fearSoundLabel:SetPoint("TOPLEFT", 18, -360)
     self.options.fearSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
-
     self.options.fearSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.fear,
         "GraalHelperFearSoundDropdown",
-        0, -345,
+        0, -375,
         function() return GraalHelper.config.fear.sound end,
         function(value) GraalHelper.config.fear.sound = value end,
-        function()
-            if GraalHelper.config.fear.soundEnabled then
-                GraalHelper:PlayConfiguredSound(GraalHelper.config.fear)
-            end
-        end
+        function() GraalHelper:PlayConfiguredSound(GraalHelper.config.fear) end
+    )
+
+    self.options.fearChatLabel = self.options.panels.fear:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.fearChatLabel:SetPoint("TOPLEFT", 18, -410)
+    self.options.fearChatLabel:SetText(C.GOLD .. L.chooseChat .. C.RESET)
+    self.options.fearChatDropdown = self:CreateChatDropdown(
+        self.options.panels.fear,
+        "GraalHelperDisarmSoundDropdown",
+        0, -425,
+        function() return GraalHelper.config.fear.chat end,
+        function(value) GraalHelper.config.fear.chat = value end,
+        function() ChatSay() end
     )
 
     self.options.fearTestButton = self:CreateMenuButton(self.options.panels.fear, "", 150, 100, 40)
@@ -118,9 +143,10 @@ function GraalHelper:addFearNav(self)
 end
 
 function GraalHelper:RefreshOptionsUIFear()
+    self.options.fearLockCheck:SetChecked(self.config.fear.active)
     self.options.fearLockCheck:SetChecked(self.config.fear.locked)
     self.options.fearNameCheck:SetChecked(self.config.fear.showBuffNames)
-    self.options.fearSayCheck:SetChecked(self.config.fear.say)
+    self.options.fearSayCheck:SetChecked(self.config.fear.chatEnabled)
     self.options.fearSoundCheck:SetChecked(self.config.fear.soundEnabled)
     self.options.fearScaleSlider:SetValue(self.config.fear.scale)
     self.options.fearScaleSlider.valueText:SetText(string.format("%.2f", self.config.fear.scale))
@@ -129,19 +155,19 @@ function GraalHelper:RefreshOptionsUIFear()
     local fearSoundEntry = self:GetSelectedSoundEntry(self.config.fear.sound)
     UIDropDownMenu_SetSelectedValue(self.options.fearSoundDropdown, fearSoundEntry.value)
     UIDropDownMenu_SetText(self.options.fearSoundDropdown, fearSoundEntry.text)
-end
-
-local function ChatSay()
-    SendChatMessage("❌ FEAR", "PARTY")
+    local fearChatEntry = self:GetSelectedChatEntry(self.config.fear.chat)
+    UIDropDownMenu_SetSelectedValue(self.options.fearChatDropdown, fearChatEntry.value)
+    UIDropDownMenu_SetText(self.options.fearChatDropdown, fearChatEntry.text)
 end
 
 function GraalHelper:StartFearTestMode()
+    if not self.config.fear.active then return end
     R.fearTestMode = true
     R.fearDisplayUntil = GetTime() + (self.config.fear.displayDuration or 4)
     R.lastFearAlertKey = "TESTMODE"
     self:ShowDisplay(self.uiFear, ICONS.FEAR, C.RED .. L.fearTitle .. C.RESET, L.fearLine, "")
     self:PlayConfiguredSound(self.config.fear)
-    if self.config.fear.say then ChatSay() end
+    if self.config.fear.chatEnabled then ChatSay() end
 end
 
 function GraalHelper:HandleFearDisplay(scanData, guid, now)
@@ -152,6 +178,8 @@ function GraalHelper:HandleFearDisplay(scanData, guid, now)
         end
         return
     end
+
+    if not self.config.fear.active then return end
 
     local hasFear = #scanData.fearDebuffs > 0
     local alertKey = nil
@@ -171,7 +199,7 @@ function GraalHelper:HandleFearDisplay(scanData, guid, now)
             L.fearLine,
             sub
         )
-        if self.config.fear.say then ChatSay() end
+        if self.config.fear.chatEnabled then ChatSay() end
 
         self:PlayConfiguredSound(self.config.fear)
         R.fearDisplayUntil = now + (self.config.fear.displayDuration or 4)

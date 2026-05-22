@@ -34,7 +34,7 @@ end
 local function buildNav(self)
     self.options.nav = CreateFrame("Frame", nil, self.options, BackdropTemplateMixin and "BackdropTemplate")
     self.options.nav:SetPoint("TOPLEFT", 14, -62)
-    self.options.nav:SetSize(220, 460)
+    self.options.nav:SetSize(220, 544)
     self:CreateBasicBackdrop(self.options.nav, 0.02, 0.02, 0.02, 0.75)
 
     self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.alerts, -20)
@@ -54,7 +54,7 @@ function GraalHelper:CreateOptionsWindow()
     if self.options then return end
 
     self.options = CreateFrame("Frame", "GraalHelperOptionsFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-    self.options:SetSize(620, 540)
+    self.options:SetSize(620, 620)
     self.options:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
     self.options:SetFrameStrata("DIALOG")
     self.options:SetMovable(true)

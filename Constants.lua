@@ -25,6 +25,33 @@ C.ICONS = {
     }
 }
 
+C.CHAT_OPTIONS = {
+    {
+        text = "Say",
+        value = "SAY"
+    },
+    {
+        text = "Yell",
+        value = "YELL"
+    },
+    {
+        text = "Party",
+        value = "PARTY"
+    },
+    {
+        text = "Whisper",
+        value = "WHISPER"
+    },
+    {
+        text = "Raid",
+        value = "RAID"
+    },
+    {
+        text = "Guild",
+        value = "GUILD"
+    },
+}
+
 C.SOUND_OPTIONS = {
     {
         text = "Raid Warning",

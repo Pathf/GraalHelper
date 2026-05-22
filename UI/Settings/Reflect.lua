@@ -12,45 +12,68 @@ function GraalHelper:addReflectPanel(self)
     self.options.panels.reflect.title:SetPoint("TOPLEFT", 18, -18)
     self.options.panels.reflect.title:SetText(C.RED .. L.reflectSection .. C.RESET)
 
+    self.options.reflectActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
+        .reflect,
+        "InterfaceOptionsCheckButtonTemplate")
+    self.options.reflectActive:SetPoint("TOPLEFT", 16, -62)
+    self.options.reflectActive:SetScript("OnClick", function(self)
+        GraalHelper.config.reflect.active = self:GetChecked() and true or false
+    end)
+    self.options.reflectActive.label = self.options.reflectActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.reflectActive.label:SetPoint("LEFT", self.options.reflectActive, "RIGHT", 4, 1)
+    self.options.reflectActive.label:SetText(L.activeFunctionality)
+    self.options.reflectActive.label:SetTextColor(1, 0.90, 0.20)
+
     self.options.reflectLockCheck = CreateFrame(
         "CheckButton",
         "GraalHelperReflectLockCheck",
         self.options.panels.reflect,
         "InterfaceOptionsCheckButtonTemplate"
     )
-    self.options.reflectLockCheck:SetPoint("TOPLEFT", 16, -62)
-    _G[self.options.reflectLockCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
-    _G[self.options.reflectLockCheck:GetName() .. "Text"]:SetText(L.lockWindow)
+    self.options.reflectLockCheck:SetPoint("TOPLEFT", self.options.reflectActive, "BOTTOMLEFT", 0, -8)
     self.options.reflectLockCheck:SetScript("OnClick", function(self)
         GraalHelper.config.reflect.locked = self:GetChecked() and true or false
     end)
+    self.options.reflectLockCheck.label = self.options.reflectLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.reflectLockCheck.label:SetPoint("LEFT", self.options.reflectLockCheck, "RIGHT", 4, 1)
+    self.options.reflectLockCheck.label:SetText(L.lockWindow)
+    self.options.reflectLockCheck.label:SetTextColor(1, 0.90, 0.20)
 
 
-    self.options.reflectNameCheck = CreateFrame("CheckButton", "GraalHelperReflectNamesCheck",
+    self.options.reflectNameCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperReflectNamesCheck",
         self.options.panels.reflect,
-        "InterfaceOptionsCheckButtonTemplate")
+        "InterfaceOptionsCheckButtonTemplate"
+    )
     self.options.reflectNameCheck:SetPoint("TOPLEFT", self.options.reflectLockCheck, "BOTTOMLEFT", 0, -8)
-    _G[self.options.reflectNameCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
-    _G[self.options.reflectNameCheck:GetName() .. "Text"]:SetText(L.showBuffNames)
     self.options.reflectNameCheck:SetScript("OnClick", function(self)
         GraalHelper.config.reflect.showBuffNames = self:GetChecked() and true or false
     end)
+    self.options.reflectNameCheck.label = self.options.reflectNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.reflectNameCheck.label:SetPoint("LEFT", self.options.reflectNameCheck, "RIGHT", 4, 1)
+    self.options.reflectNameCheck.label:SetText(L.showBuffNames)
+    self.options.reflectNameCheck.label:SetTextColor(1, 0.90, 0.20)
 
-    self.options.reflectSoundCheck = CreateFrame("CheckButton", "GraalHelperReflectSoundCheck",
+    self.options.reflectSoundCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperReflectSoundCheck",
         self.options.panels.reflect,
-        "InterfaceOptionsCheckButtonTemplate")
+        "InterfaceOptionsCheckButtonTemplate"
+    )
     self.options.reflectSoundCheck:SetPoint("TOPLEFT", self.options.reflectNameCheck, "BOTTOMLEFT", 0, -8)
-    _G[self.options.reflectSoundCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
-    _G[self.options.reflectSoundCheck:GetName() .. "Text"]:SetText(L.enableSound)
     self.options.reflectSoundCheck:SetScript("OnClick", function(self)
         GraalHelper.config.reflect.soundEnabled = self:GetChecked() and true or false
     end)
+    self.options.reflectSoundCheck.label = self.options.reflectSoundCheck:CreateFontString(nil, "OVERLAY",
+        "GameFontNormal")
+    self.options.reflectSoundCheck.label:SetPoint("LEFT", self.options.reflectSoundCheck, "RIGHT", 4, 1)
+    self.options.reflectSoundCheck.label:SetText(L.enableSound)
+    self.options.reflectSoundCheck.label:SetTextColor(1, 0.90, 0.20)
 
     self.options.reflectScaleSlider = self:CreateSlider(self.options.panels.reflect, "GraalHelperReflectScaleSlider", "",
-        0.5, 2.0,
-        0.05,
-        280,
-        34, -180)
+        0.5, 2.0, 0.05, 280, 34, -210
+    )
     self.options.reflectScaleSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.reflect.scale = value
@@ -101,6 +124,7 @@ function GraalHelper:addReflectNav(self)
 end
 
 function GraalHelper:RefreshOptionsUIReflect()
+    self.options.reflectActive:SetChecked(self.config.reflect.active)
     self.options.reflectLockCheck:SetChecked(self.config.reflect.locked)
     self.options.reflectNameCheck:SetChecked(self.config.reflect.showBuffNames)
     self.options.reflectSoundCheck:SetChecked(self.config.reflect.soundEnabled)
@@ -114,6 +138,7 @@ function GraalHelper:RefreshOptionsUIReflect()
 end
 
 function GraalHelper:StartReflectTestMode()
+    if not self.config.reflect.active then return end
     R.reflectTestMode = true
     R.reflectDisplayUntil = GetTime() + (self.config.reflect.displayDuration or 4)
     R.lastReflectAlertKey = "TESTMODE"
@@ -129,6 +154,8 @@ function GraalHelper:HandleReflectDisplay(scanData, guid, now)
         end
         return
     end
+
+    if not self.config.reflect.active then return end
 
     local hasReflect = #scanData.reflectBuffs > 0
     local alertKey = nil

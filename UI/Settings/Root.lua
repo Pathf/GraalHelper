@@ -5,6 +5,12 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
+local function ChatSay()
+    if GraalHelper.config.root.chatEnabled then
+        SendChatMessage("❌ ROOT", GraalHelper.config.root.chat)
+    end
+end
+
 function GraalHelper:addRootPanel(self)
     self.options.panels.root = self:CreatePanel(self.options.content)
     self.options.panels.root.title = self.options.panels.root:CreateFontString(nil, "OVERLAY",
@@ -12,10 +18,22 @@ function GraalHelper:addRootPanel(self)
     self.options.panels.root.title:SetPoint("TOPLEFT", 18, -18)
     self.options.panels.root.title:SetText(C.RED .. L.rootSection .. C.RESET)
 
+    self.options.rootActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
+        .root,
+        "InterfaceOptionsCheckButtonTemplate")
+    self.options.rootActive:SetPoint("TOPLEFT", 16, -62)
+    self.options.rootActive:SetScript("OnClick", function(self)
+        GraalHelper.config.root.active = self:GetChecked() and true or false
+    end)
+    self.options.rootActive.label = self.options.rootActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.rootActive.label:SetPoint("LEFT", self.options.rootActive, "RIGHT", 4, 1)
+    self.options.rootActive.label:SetText(L.activeFunctionality)
+    self.options.rootActive.label:SetTextColor(1, 0.90, 0.20)
+
     self.options.rootLockCheck = CreateFrame("CheckButton", "GraalHelperRootLockCheck", self.options.panels
         .root,
         "InterfaceOptionsCheckButtonTemplate")
-    self.options.rootLockCheck:SetPoint("TOPLEFT", 16, -62)
+    self.options.rootLockCheck:SetPoint("TOPLEFT", self.options.rootActive, "BOTTOMLEFT", 0, -8)
     self.options.rootLockCheck:SetScript("OnClick", function(self)
         GraalHelper.config.root.locked = self:GetChecked() and true or false
     end)
@@ -64,7 +82,7 @@ function GraalHelper:addRootPanel(self)
         0.5,
         2.0,
         0.05, 280, 34,
-        -210)
+        -240)
     self.options.rootScaleSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.root.scale = value
@@ -78,7 +96,7 @@ function GraalHelper:addRootPanel(self)
         "GraalHelperRootDurationSlider",
         "", 1, 20,
         1, 280, 34,
-        -280)
+        -310)
     self.options.rootDurationSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.root.displayDuration = value
@@ -88,20 +106,27 @@ function GraalHelper:addRootPanel(self)
     _G[self.options.rootDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
 
     self.options.rootSoundLabel = self.options.panels.root:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.rootSoundLabel:SetPoint("TOPLEFT", 18, -330)
+    self.options.rootSoundLabel:SetPoint("TOPLEFT", 18, -360)
     self.options.rootSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
-
     self.options.rootSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.root,
         "GraalHelperRootSoundDropdown",
-        0, -345,
+        0, -375,
         function() return GraalHelper.config.root.sound end,
         function(value) GraalHelper.config.root.sound = value end,
-        function()
-            if GraalHelper.config.root.soundEnabled then
-                GraalHelper:PlayConfiguredSound(GraalHelper.config.root)
-            end
-        end
+        function() GraalHelper:PlayConfiguredSound(GraalHelper.config.root) end
+    )
+
+    self.options.rootChatLabel = self.options.panels.root:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.rootChatLabel:SetPoint("TOPLEFT", 18, -410)
+    self.options.rootChatLabel:SetText(C.GOLD .. L.chooseChat .. C.RESET)
+    self.options.rootChatDropdown = self:CreateChatDropdown(
+        self.options.panels.root,
+        "GraalHelperDisarmSoundDropdown",
+        0, -425,
+        function() return GraalHelper.config.root.chat end,
+        function(value) GraalHelper.config.root.chat = value end,
+        function() ChatSay() end
     )
 
     self.options.rootTestButton = self:CreateMenuButton(self.options.panels.root, "", 150, 100, 40)
@@ -118,6 +143,7 @@ function GraalHelper:addRootNav(self)
 end
 
 function GraalHelper:RefreshOptionsUIRoot()
+    self.options.rootActive:SetChecked(self.config.root.active)
     self.options.rootLockCheck:SetChecked(self.config.root.locked)
     self.options.rootNameCheck:SetChecked(self.config.root.showBuffNames)
     self.options.rootSayCheck:SetChecked(self.config.root.say)
@@ -129,13 +155,13 @@ function GraalHelper:RefreshOptionsUIRoot()
     local rootSoundEntry = self:GetSelectedSoundEntry(self.config.root.sound)
     UIDropDownMenu_SetSelectedValue(self.options.rootSoundDropdown, rootSoundEntry.value)
     UIDropDownMenu_SetText(self.options.rootSoundDropdown, rootSoundEntry.text)
-end
-
-local function ChatSay()
-    SendChatMessage("❌ ROOT", "PARTY")
+    local rootChatEntry = self:GetSelectedChatEntry(self.config.root.chat)
+    UIDropDownMenu_SetSelectedValue(self.options.rootChatDropdown, rootChatEntry.value)
+    UIDropDownMenu_SetText(self.options.rootChatDropdown, rootChatEntry.text)
 end
 
 function GraalHelper:StartRootTestMode()
+    if not self.config.root.active then return end
     R.rootTestMode = true
     R.rootDisplayUntil = GetTime() + (self.config.root.displayDuration or 4)
     R.lastRootAlertKey = "TESTMODE"
@@ -152,6 +178,8 @@ function GraalHelper:HandleRootDisplay(scanData, guid, now)
         end
         return
     end
+
+    if not self.config.root.active then return end
 
     local hasRoot = #scanData.rootDebuffs > 0
     local alertKey = nil

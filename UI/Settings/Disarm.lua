@@ -5,6 +5,12 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
+local function ChatSay()
+    if GraalHelper.config.disarm.chatEnabled then
+        SendChatMessage("❌ DISARM", GraalHelper.config.disarm.chat)
+    end
+end
+
 function GraalHelper:addDisarmPanel(self)
     self.options.panels.disarm = self:CreatePanel(self.options.content)
     self.options.panels.disarm.title = self.options.panels.disarm:CreateFontString(nil, "OVERLAY",
@@ -12,10 +18,28 @@ function GraalHelper:addDisarmPanel(self)
     self.options.panels.disarm.title:SetPoint("TOPLEFT", 18, -18)
     self.options.panels.disarm.title:SetText(C.RED .. L.disarmSection .. C.RESET)
 
-    self.options.disarmLockCheck = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
-        .disarm,
-        "InterfaceOptionsCheckButtonTemplate")
-    self.options.disarmLockCheck:SetPoint("TOPLEFT", 16, -62)
+    self.options.disarmActive = CreateFrame(
+        "CheckButton",
+        "GraalHelperDisarmLockCheck",
+        self.options.panels.disarm,
+        "InterfaceOptionsCheckButtonTemplate"
+    )
+    self.options.disarmActive:SetPoint("TOPLEFT", 16, -62)
+    self.options.disarmActive:SetScript("OnClick", function(self)
+        GraalHelper.config.disarm.active = self:GetChecked() and true or false
+    end)
+    self.options.disarmActive.label = self.options.disarmActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.disarmActive.label:SetPoint("LEFT", self.options.disarmActive, "RIGHT", 4, 1)
+    self.options.disarmActive.label:SetText(L.activeFunctionality)
+    self.options.disarmActive.label:SetTextColor(1, 0.90, 0.20)
+
+    self.options.disarmLockCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperDisarmLockCheck",
+        self.options.panels.disarm,
+        "InterfaceOptionsCheckButtonTemplate"
+    )
+    self.options.disarmLockCheck:SetPoint("TOPLEFT", self.options.disarmActive, "BOTTOMLEFT", 0, -8)
     self.options.disarmLockCheck:SetScript("OnClick", function(self)
         GraalHelper.config.disarm.locked = self:GetChecked() and true or false
     end)
@@ -24,9 +48,12 @@ function GraalHelper:addDisarmPanel(self)
     self.options.disarmLockCheck.label:SetText(L.lockWindow)
     self.options.disarmLockCheck.label:SetTextColor(1, 0.90, 0.20)
 
-    self.options.disarmNameCheck = CreateFrame("CheckButton", "GraalHelperDisarmNamesCheck",
+    self.options.disarmNameCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperDisarmNamesCheck",
         self.options.panels.disarm,
-        "InterfaceOptionsCheckButtonTemplate")
+        "InterfaceOptionsCheckButtonTemplate"
+    )
     self.options.disarmNameCheck:SetPoint("TOPLEFT", self.options.disarmLockCheck, "BOTTOMLEFT", 0, -8)
     self.options.disarmNameCheck:SetScript("OnClick", function(self)
         GraalHelper.config.disarm.showBuffNames = self:GetChecked() and true or false
@@ -36,21 +63,27 @@ function GraalHelper:addDisarmPanel(self)
     self.options.disarmNameCheck.label:SetText(L.showBuffNames)
     self.options.disarmNameCheck.label:SetTextColor(1, 0.90, 0.20)
 
-    self.options.disarmSayCheck = CreateFrame("CheckButton", "GraalHelperDisarmSayCheck",
+    self.options.disarmSayCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperDisarmSayCheck",
         self.options.panels.disarm,
-        "InterfaceOptionsCheckButtonTemplate")
+        "InterfaceOptionsCheckButtonTemplate"
+    )
     self.options.disarmSayCheck:SetPoint("TOPLEFT", self.options.disarmNameCheck, "BOTTOMLEFT", 0, -8)
     self.options.disarmSayCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.disarm.say = self:GetChecked() and true or false
+        GraalHelper.config.disarm.chatEnabled = self:GetChecked() and true or false
     end)
     self.options.disarmSayCheck.label = self.options.disarmSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.disarmSayCheck.label:SetPoint("LEFT", self.options.disarmSayCheck, "RIGHT", 4, 1)
     self.options.disarmSayCheck.label:SetText(L.sayCheck)
     self.options.disarmSayCheck.label:SetTextColor(1, 0.90, 0.20)
 
-    self.options.disarmSoundCheck = CreateFrame("CheckButton", "GraalHelperDisarmSoundCheck",
+    self.options.disarmSoundCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperDisarmSoundCheck",
         self.options.panels.disarm,
-        "InterfaceOptionsCheckButtonTemplate")
+        "InterfaceOptionsCheckButtonTemplate"
+    )
     self.options.disarmSoundCheck:SetPoint("TOPLEFT", self.options.disarmSayCheck, "BOTTOMLEFT", 0, -8)
     self.options.disarmSoundCheck:SetScript("OnClick", function(self)
         GraalHelper.config.disarm.soundEnabled = self:GetChecked() and true or false
@@ -61,10 +94,8 @@ function GraalHelper:addDisarmPanel(self)
     self.options.disarmSoundCheck.label:SetTextColor(1, 0.90, 0.20)
 
     self.options.disarmScaleSlider = self:CreateSlider(self.options.panels.disarm, "GraalHelperDisarmScaleSlider", "",
-        0.5,
-        2.0,
-        0.05, 280, 34,
-        -210)
+        0.5, 2.0, 0.05, 280, 34, -240
+    )
     self.options.disarmScaleSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.disarm.scale = value
@@ -78,7 +109,7 @@ function GraalHelper:addDisarmPanel(self)
         "GraalHelperDisarmDurationSlider",
         "", 1, 20,
         1, 280, 34,
-        -280)
+        -310)
     self.options.disarmDurationSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.disarm.displayDuration = value
@@ -88,20 +119,27 @@ function GraalHelper:addDisarmPanel(self)
     _G[self.options.disarmDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
 
     self.options.disarmSoundLabel = self.options.panels.disarm:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.disarmSoundLabel:SetPoint("TOPLEFT", 18, -330)
+    self.options.disarmSoundLabel:SetPoint("TOPLEFT", 18, -360)
     self.options.disarmSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
-
     self.options.disarmSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.disarm,
         "GraalHelperDisarmSoundDropdown",
-        0, -345,
+        0, -375,
         function() return GraalHelper.config.disarm.sound end,
         function(value) GraalHelper.config.disarm.sound = value end,
-        function()
-            if GraalHelper.config.disarm.soundEnabled then
-                GraalHelper:PlayConfiguredSound(GraalHelper.config.disarm)
-            end
-        end
+        function() GraalHelper:PlayConfiguredSound(GraalHelper.config.disarm) end
+    )
+
+    self.options.disarmChatLabel = self.options.panels.disarm:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.disarmChatLabel:SetPoint("TOPLEFT", 18, -410)
+    self.options.disarmChatLabel:SetText(C.GOLD .. L.chooseChat .. C.RESET)
+    self.options.disarmChatDropdown = self:CreateChatDropdown(
+        self.options.panels.disarm,
+        "GraalHelperDisarmSoundDropdown",
+        0, -425,
+        function() return GraalHelper.config.disarm.chat end,
+        function(value) GraalHelper.config.disarm.chat = value end,
+        function() ChatSay() end
     )
 
     self.options.disarmTestButton = self:CreateMenuButton(self.options.panels.disarm, "", 150, 100, 40)
@@ -118,9 +156,10 @@ function GraalHelper:addDisarmNav(self)
 end
 
 function GraalHelper:RefreshOptionsUIDisarm()
+    self.options.disarmActive:SetChecked(self.config.disarm.active)
     self.options.disarmLockCheck:SetChecked(self.config.disarm.locked)
     self.options.disarmNameCheck:SetChecked(self.config.disarm.showBuffNames)
-    self.options.disarmSayCheck:SetChecked(self.config.disarm.say)
+    self.options.disarmSayCheck:SetChecked(self.config.disarm.chatEnabled)
     self.options.disarmSoundCheck:SetChecked(self.config.disarm.soundEnabled)
     self.options.disarmScaleSlider:SetValue(self.config.disarm.scale)
     self.options.disarmScaleSlider.valueText:SetText(string.format("%.2f", self.config.disarm.scale))
@@ -129,19 +168,19 @@ function GraalHelper:RefreshOptionsUIDisarm()
     local disarmSoundEntry = self:GetSelectedSoundEntry(self.config.disarm.sound)
     UIDropDownMenu_SetSelectedValue(self.options.disarmSoundDropdown, disarmSoundEntry.value)
     UIDropDownMenu_SetText(self.options.disarmSoundDropdown, disarmSoundEntry.text)
-end
-
-local function ChatSay()
-    SendChatMessage("❌ DISARM", "PARTY")
+    local disarmChatEntry = self:GetSelectedChatEntry(self.config.disarm.chat)
+    UIDropDownMenu_SetSelectedValue(self.options.disarmChatDropdown, disarmChatEntry.value)
+    UIDropDownMenu_SetText(self.options.disarmChatDropdown, disarmChatEntry.text)
 end
 
 function GraalHelper:StartDisarmTestMode()
+    if not self.config.disarm.active then return end
     R.disarmTestMode = true
     R.disarmDisplayUntil = GetTime() + (self.config.disarm.displayDuration or 4)
     R.lastDisarmAlertKey = "TESTMODE"
     self:ShowDisplay(self.uiDisarm, ICONS.DISARM, C.RED .. L.disarmTitle .. C.RESET, L.disarmLine, "")
     self:PlayConfiguredSound(self.config.disarm)
-    if self.config.disarm.say then ChatSay() end
+    if self.config.disarm.chatEnabled then ChatSay() end
 end
 
 function GraalHelper:HandleDisarmDisplay(scanData, guid, now)
@@ -152,6 +191,8 @@ function GraalHelper:HandleDisarmDisplay(scanData, guid, now)
         end
         return
     end
+
+    if not self.config.disarm.active then return end
 
     local hasDisarm = #scanData.disarmDebuffs > 0
     local alertKey = nil
@@ -171,7 +212,7 @@ function GraalHelper:HandleDisarmDisplay(scanData, guid, now)
             L.disarmLine,
             sub
         )
-        if self.config.disarm.say then ChatSay() end
+        if self.config.disarm.chatEnabled then ChatSay() end
 
         self:PlayConfiguredSound(self.config.disarm)
         R.disarmDisplayUntil = now + (self.config.disarm.displayDuration or 4)

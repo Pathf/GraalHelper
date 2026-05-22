@@ -2,14 +2,19 @@ local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
 
-function GraalHelper:GetSelectedSoundEntry(soundValue)
-    for _, entry in ipairs(C.SOUND_OPTIONS) do
-        if entry.value == soundValue then
-            return entry
-        end
+local function GetSelectedEntry(list, value)
+    for _, entry in ipairs(list) do
+        if entry.value == value then return entry end
     end
+    return list[1]
+end
 
-    return C.SOUND_OPTIONS[1]
+function GraalHelper:GetSelectedSoundEntry(soundValue)
+    return GetSelectedEntry(C.SOUND_OPTIONS, soundValue)
+end
+
+function GraalHelper:GetSelectedChatEntry(chatValue)
+    return GetSelectedEntry(C.CHAT_OPTIONS, chatValue)
 end
 
 function GraalHelper:PlayConfiguredSound(sectionConfig)

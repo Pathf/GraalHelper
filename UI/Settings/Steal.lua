@@ -12,37 +12,69 @@ function GraalHelper:addStealPanel(self)
     self.options.panels.steal.title:SetPoint("TOPLEFT", 18, -18)
     self.options.panels.steal.title:SetText(C.BLUE .. L.stealTitle .. C.RESET)
 
-    self.options.stealLockCheck = CreateFrame("CheckButton", "GraalHelperStealLockCheck", self.options.panels.steal,
-        "InterfaceOptionsCheckButtonTemplate")
-    self.options.stealLockCheck:SetPoint("TOPLEFT", 16, -62)
-    _G[self.options.stealLockCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
+    self.options.stealActive = CreateFrame(
+        "CheckButton",
+        "GraalHelperDisarmLockCheck",
+        self.options.panels.steal,
+        "InterfaceOptionsCheckButtonTemplate"
+    )
+    self.options.stealActive:SetPoint("TOPLEFT", 16, -62)
+    self.options.stealActive:SetScript("OnClick", function(self)
+        GraalHelper.config.steal.active = self:GetChecked() and true or false
+    end)
+    self.options.stealActive.label = self.options.stealActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.stealActive.label:SetPoint("LEFT", self.options.stealActive, "RIGHT", 4, 1)
+    self.options.stealActive.label:SetText(L.activeFunctionality)
+    self.options.stealActive.label:SetTextColor(1, 0.90, 0.20)
+
+    self.options.stealLockCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperStealLockCheck",
+        self.options.panels.steal,
+        "InterfaceOptionsCheckButtonTemplate"
+    )
+    self.options.stealLockCheck:SetPoint("TOPLEFT", self.options.stealActive, "BOTTOMLEFT", 0, -8)
     self.options.stealLockCheck:SetScript("OnClick", function(self)
         GraalHelper.config.steal.locked = self:GetChecked() and true or false
     end)
-    _G[self.options.stealLockCheck:GetName() .. "Text"]:SetText(L.lockWindow)
+    self.options.stealLockCheck.label = self.options.stealLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.stealLockCheck.label:SetPoint("LEFT", self.options.stealLockCheck, "RIGHT", 4, 1)
+    self.options.stealLockCheck.label:SetText(L.lockWindow)
+    self.options.stealLockCheck.label:SetTextColor(1, 0.90, 0.20)
 
-    self.options.stealNameCheck = CreateFrame("CheckButton", "GraalHelperStealNamesCheck", self.options.panels.steal,
-        "InterfaceOptionsCheckButtonTemplate")
+    self.options.stealNameCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperStealNamesCheck",
+        self.options.panels.steal,
+        "InterfaceOptionsCheckButtonTemplate"
+    )
     self.options.stealNameCheck:SetPoint("TOPLEFT", self.options.stealLockCheck, "BOTTOMLEFT", 0, -8)
-    _G[self.options.stealNameCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
     self.options.stealNameCheck:SetScript("OnClick", function(self)
         GraalHelper.config.steal.showBuffNames = self:GetChecked() and true or false
     end)
-    _G[self.options.stealNameCheck:GetName() .. "Text"]:SetText(L.showBuffNames)
+    self.options.stealNameCheck.label = self.options.stealNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.stealNameCheck.label:SetPoint("LEFT", self.options.stealNameCheck, "RIGHT", 4, 1)
+    self.options.stealNameCheck.label:SetText(L.showBuffNames)
+    self.options.stealNameCheck.label:SetTextColor(1, 0.90, 0.20)
 
-    self.options.stealSoundCheck = CreateFrame("CheckButton", "GraalHelperStealSoundCheck", self.options.panels.steal,
-        "InterfaceOptionsCheckButtonTemplate")
+    self.options.stealSoundCheck = CreateFrame(
+        "CheckButton",
+        "GraalHelperStealSoundCheck",
+        self.options.panels.steal,
+        "InterfaceOptionsCheckButtonTemplate"
+    )
     self.options.stealSoundCheck:SetPoint("TOPLEFT", self.options.stealNameCheck, "BOTTOMLEFT", 0, -8)
-    _G[self.options.stealSoundCheck:GetName() .. "Text"]:SetTextColor(1, 0.90, 0.20)
     self.options.stealSoundCheck:SetScript("OnClick", function(self)
         GraalHelper.config.steal.soundEnabled = self:GetChecked() and true or false
     end)
-    _G[self.options.stealSoundCheck:GetName() .. "Text"]:SetText(L.enableSound)
+    self.options.stealSoundCheck.label = self.options.stealSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.stealSoundCheck.label:SetPoint("LEFT", self.options.stealSoundCheck, "RIGHT", 4, 1)
+    self.options.stealSoundCheck.label:SetText(L.enableSound)
+    self.options.stealSoundCheck.label:SetTextColor(1, 0.90, 0.20)
 
     self.options.stealScaleSlider = self:CreateSlider(self.options.panels.steal, "GraalHelperStealScaleSlider", "", 0.5,
-        2.0,
-        0.05, 280, 34,
-        -180)
+        2.0, 0.05, 280, 34, -210
+    )
     self.options.stealScaleSlider:SetScript("OnValueChanged", function(self, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.steal.scale = value
@@ -67,7 +99,6 @@ function GraalHelper:addStealPanel(self)
     self.options.stealSoundLabel = self.options.panels.steal:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stealSoundLabel:SetPoint("TOPLEFT", 18, -320)
     self.options.stealSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
-
     self.options.stealSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.steal,
         "GraalHelperStealSoundDropdown",
@@ -95,6 +126,7 @@ function GraalHelper:addStealNav(self)
 end
 
 function GraalHelper:RefreshOptionsUISteal()
+    self.options.stealActive:SetChecked(self.config.steal.active)
     self.options.stealLockCheck:SetChecked(self.config.steal.locked)
     self.options.stealNameCheck:SetChecked(self.config.steal.showBuffNames)
     self.options.stealSoundCheck:SetChecked(self.config.steal.soundEnabled)
@@ -108,6 +140,7 @@ function GraalHelper:RefreshOptionsUISteal()
 end
 
 function GraalHelper:StartStealTestMode()
+    if not self.config.steal.active then return end
     R.stealTestMode = true
     R.stealDisplayUntil = GetTime() + (self.config.steal.displayDuration or 4)
     R.lastStealAlertKey = "TESTMODE"
@@ -123,6 +156,8 @@ function GraalHelper:HandleStealDisplay(scanData, guid, now)
         end
         return
     end
+
+    if not self.config.steal.active then return end
 
     local hasSteal = #scanData.stealBuffs > 0
     local alertKey = nil
