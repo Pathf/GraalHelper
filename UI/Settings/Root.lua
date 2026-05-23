@@ -7,7 +7,8 @@ local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 local function ChatSay()
     if GraalHelper.config.root.chatEnabled then
-        SendChatMessage("❌ ROOT", GraalHelper.config.root.chat)
+        local playerName = UnitName("player")
+        SendChatMessage("{rt7} ROOT - " .. playerName, GraalHelper.config.root.chat)
     end
 end
 

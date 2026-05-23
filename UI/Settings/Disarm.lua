@@ -7,7 +7,8 @@ local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 local function ChatSay()
     if GraalHelper.config.disarm.chatEnabled then
-        SendChatMessage("❌ DISARM", GraalHelper.config.disarm.chat)
+        local playerName = UnitName("player")
+        SendChatMessage("{rt7} DISARM - " .. playerName, GraalHelper.config.disarm.chat)
     end
 end
 

@@ -26,6 +26,7 @@
         "Minimap",
         "C_AddOns",
         "C_LossOfControl",
-        "SendChatMessage"
+        "SendChatMessage",
+        "UnitName"
     ]
 }
