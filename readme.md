@@ -1,3 +1,6 @@
+Translate all wow langage. (deDE, enGB, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW).
+Contact me on Github or cursforge for translation errors.
+
 # Description
 
 **GraalHelper** is a lightweight addon for World of Warcraft: The Burning Crusade Classic designed to help players quickly identify important combat effects during encounters.
