@@ -144,6 +144,7 @@ end
 
 function GraalHelper:ApplyAllDisplaySettings()
     self:ApplyFrameSettings(self.uiSteal, self.config.steal)
+    self:ApplyFrameSettings(self.uiKick, self.config.kick)
     self:ApplyFrameSettings(self.uiReflect, self.config.reflect)
     self:ApplyFrameSettings(self.uiSilence, self.config.silence)
     self:ApplyFrameSettings(self.uiStun, self.config.stun)
@@ -183,6 +184,11 @@ function GraalHelper:UpdateDisplays()
             if now >= R.stealDisplayUntil then self:HideDisplay(self.uiSteal) end
         end
 
+        if not R.kickTestMode then
+            R.lastKickAlertKey = nil
+            if now >= R.kickDisplayUntil then self:HideDisplay(self.uiKick) end
+        end
+
         if not R.reflectTestMode then
             R.lastReflectAlertKey = nil
             if now >= R.reflectDisplayUntil then self:HideDisplay(self.uiReflect) end
@@ -216,6 +222,11 @@ function GraalHelper:UpdateDisplays()
         if R.stealTestMode and now >= R.stealDisplayUntil then
             R.stealTestMode = false
             self:HideDisplay(self.uiSteal)
+        end
+
+        if R.kickTestMode and now >= R.kickDisplayUntil then
+            R.kickTestMode = false
+            self:HideDisplay(self.uiKick)
         end
 
         if R.reflectTestMode and now >= R.reflectDisplayUntil then
@@ -263,12 +274,19 @@ function GraalHelper:UpdateDisplays()
     self:HandleRootDisplay(scanPlayerDebuffData, playerGuid, now)
     self:HandleDisarmDisplay(scanPlayerDebuffData, playerGuid, now)
     self:HandleFearDisplay(scanPlayerDebuffData, playerGuid, now)
+
+    local scanTargetCastData = self:ScanTargetCasts("target")
+    self:HandleKickDisplay(scanTargetCastData, targetGuid, now)
 end
 
 function GraalHelper:StopAllTestsAndHide()
     R.stealTestMode = false
     R.stealDisplayUntil = 0
     R.lastStealAlertKey = nil
+
+    R.kickTestMode = false
+    R.kickDisplayUntil = 0
+    R.lastKickAlertKey = nil
 
     R.reflectTestMode = false
     R.reflectDisplayUntil = 0
@@ -295,6 +313,7 @@ function GraalHelper:StopAllTestsAndHide()
     R.lastFearAlertKey = nil
 
     self:HideDisplay(self.uiSteal)
+    self:HideDisplay(self.uiKick)
     self:HideDisplay(self.uiReflect)
     self:HideDisplay(self.uiSilence)
     self:HideDisplay(self.uiStun)

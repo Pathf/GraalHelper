@@ -15,6 +15,20 @@ GraalHelper.defaults = {
         sound = "RaidWarning",
     },
 
+    kick = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = -170,
+        y = 200,
+        scale = 1.0,
+        active = true,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "RaidWarning",
+    },
+
     reflect = {
         point = "CENTER",
         relativePoint = "CENTER",

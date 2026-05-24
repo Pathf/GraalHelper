@@ -2,26 +2,36 @@ local _, GraalHelper = ...
 
 GraalHelper.Runtime = {
     lastReflectAlertKey = nil,
-    lastSilenceAlertKey = nil,
-    lastStunAlertKey = nil,
-    lastRootAlertKey = nil,
-    lastDisarmAlertKey = nil,
-    lastFearAlertKey = nil,
-    lastStealAlertKey = nil,
     reflectDisplayUntil = 0,
     reflectTestMode = false,
+
+    lastSilenceAlertKey = nil,
     silenceDisplayUntil = 0,
     silenceTestMode = false,
+
+    lastStunAlertKey = nil,
     stunDisplayUntil = 0,
     stunTestMode = false,
+
+    lastRootAlertKey = nil,
     rootDisplayUntil = 0,
     rootTestMode = false,
+
+    lastDisarmAlertKey = nil,
     disarmDisplayUntil = 0,
     disarmTestMode = false,
+
+    lastFearAlertKey = nil,
     fearDisplayUntil = 0,
     fearTestMode = false,
+
+    lastStealAlertKey = nil,
     stealDisplayUntil = 0,
     stealTestMode = false,
+
+    lastKickAlertKey = nil,
+    kickDisplayUntil = 0,
+    kickTestMode = false,
 
     ticker = 0,
     updateInterval = 0.10,

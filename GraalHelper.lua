@@ -27,6 +27,22 @@ function GraalHelper:PLAYER_LOGIN()
         }
     )
 
+    self.uiKick = self:CreateDisplayFrame(
+        "GraalHelperMainFrame",
+        self.config.kick,
+        {
+            titleText = C.BLUE .. L.kickTitle .. C.RESET,
+            lineText = L.kickLine,
+            defaultIcon = ICONS.KICK,
+            glowR = 0.20,
+            glowG = 0.55,
+            glowB = 1.00,
+            barR = 0.25,
+            barG = 0.65,
+            barB = 1.00,
+        }
+    )
+
     self.uiReflect = self:CreateDisplayFrame(
         "GraalHelperReflectFrame",
         self.config.reflect,
@@ -143,6 +159,7 @@ end
 function GraalHelper:PLAYER_LOGOUT()
     if self.config then
         self:SaveFramePosition(self.uiSteal, self.config.steal)
+        self:SaveFramePosition(self.uikick, self.config.kick)
         self:SaveFramePosition(self.uiReflect, self.config.reflect)
         self:SaveFramePosition(self.uiSilence, self.config.silence)
         self:SaveFramePosition(self.uiStun, self.config.stun)

@@ -15,13 +15,14 @@ C.BASE_FRAME_HEIGHT = 96
 
 C.ICONS = {
     SPELLS = {
-        REFLECT = "Interface\\Icons\\Ability_Warrior_Challange",
-        SILENCE = "Interface\\Icons\\Spell_Holy_Silence",
-        STUN = "Interface\\Icons\\Spell_Frost_Stun",
-        ROOT = "Interface\\Icons\\Spell_Nature_StrangleVines",
         DISARM = "Interface\\Icons\\Ability_Warrior_Disarm",
         FEAR = "Interface\\Icons\\Spell_Shadow_Possession",
-        STEAL = "Interface\\Icons\\Spell_Nature_WispSplode"
+        KICK = "Interface\\Icons\\Ability_Kick",
+        REFLECT = "Interface\\Icons\\Ability_Warrior_Challange",
+        ROOT = "Interface\\Icons\\Spell_Nature_StrangleVines",
+        SILENCE = "Interface\\Icons\\Spell_Holy_Silence",
+        STEAL = "Interface\\Icons\\Spell_Nature_WispSplode",
+        STUN = "Interface\\Icons\\Spell_Frost_Stun",
     }
 }
 

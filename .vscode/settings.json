@@ -27,6 +27,8 @@
         "C_AddOns",
         "C_LossOfControl",
         "SendChatMessage",
-        "UnitName"
+        "UnitName",
+        "UnitCastingInfo",
+        "UnitChannelInfo"
     ]
 }

@@ -21,10 +21,12 @@ Utils\UI.lua
 
 Features\Tracking.lua
 Features\BuffScanner.lua
+Features\CastScanner.lua
 Features\DebuffScanner.lua
 
 UI\Settings\Disarm.lua
 UI\Settings\Fear.lua
+UI\Settings\Kick.lua
 UI\Settings\Reflect.lua
 UI\Settings\Root.lua
 UI\Settings\Silence.lua

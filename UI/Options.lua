@@ -39,7 +39,7 @@ local function buildNav(self)
 
     self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.alerts, -20)
     self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.actions, -240)
-    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.settings, -305)
+    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.settings, -335)
 end
 
 local function buildContent(self)
@@ -80,6 +80,9 @@ function GraalHelper:CreateOptionsWindow()
     GraalHelper:addStealPanel(self)
     GraalHelper:addStealNav(self)
 
+    GraalHelper:addKickPanel(self)
+    GraalHelper:addKickNav(self)
+
     GraalHelper:addSilencePanel(self)
     GraalHelper:addSilenceNav(self)
 
@@ -119,6 +122,7 @@ function GraalHelper:RefreshOptionsUI()
     end
 
     self:RefreshOptionsUISteal()
+    self:RefreshOptionsUIKick()
     self:RefreshOptionsUIReflect()
     self:RefreshOptionsUISilence()
     self:RefreshOptionsUIStun()
