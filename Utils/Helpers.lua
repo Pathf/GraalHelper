@@ -6,6 +6,19 @@ function GraalHelper:Print(message)
     )
 end
 
+function GraalHelper:PrintDebug(...)
+    local args = {}
+
+    for i = 1, select("#", ...) do
+        args[i] = tostring(select(i, ...))
+    end
+
+    DEFAULT_CHAT_FRAME:AddMessage()
+    DEFAULT_CHAT_FRAME:AddMessage(
+        "|cff69ccf0GraalHelper DEBUG:|r " .. table.concat(args, " ")
+    )
+end
+
 function GraalHelper:PrintError(message)
     DEFAULT_CHAT_FRAME:AddMessage(
         "|cffff4040GraalHelper Error:|r " .. tostring(message)
