@@ -68,6 +68,7 @@ GraalHelper.L = {
     stunLine = "Stun active!",
     stunSection = "Stun effect",
     stunTitle = "Stun effect!",
+    summonNotifierSection = "Summon Notification",
     test = "Test",
     trackDisarm = "Disarm",
     trackFear = "Fear",

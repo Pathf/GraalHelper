@@ -68,6 +68,7 @@ GraalHelper.L = {
     stunLine = "Оглушение активно!",
     stunSection = "Оглушение",
     stunTitle = "Оглушение!",
+    summonNotifierSection = "Уведомление о призыве",
     test = "Тест",
     trackDisarm = "Обезоруживание",
     trackFear = "Страх",

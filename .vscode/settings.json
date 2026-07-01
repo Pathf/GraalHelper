@@ -29,6 +29,9 @@
         "SendChatMessage",
         "UnitName",
         "UnitCastingInfo",
-        "UnitChannelInfo"
+        "UnitChannelInfo",
+        "IsInGroup",
+        "GetUnitName",
+        "IsInRaid"
     ]
 }

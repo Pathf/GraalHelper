@@ -68,6 +68,7 @@ GraalHelper.L = {
     stunLine = "昏迷已激活！",
     stunSection = "昏迷",
     stunTitle = "昏迷！",
+    summonNotifierSection = "召唤通知",
     test = "测试",
     trackDisarm = "缴械",
     trackFear = "恐惧",

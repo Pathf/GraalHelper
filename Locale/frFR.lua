@@ -68,6 +68,7 @@ GraalHelper.L = {
     stunLine = "Étourdissement actif !",
     stunSection = "Étourdissement",
     stunTitle = "Étourdissement' !",
+    summonNotifierSection = "Notification d'invocation",
     test = "Test",
     trackDisarm = "Désarmement",
     trackFear = "Peur",

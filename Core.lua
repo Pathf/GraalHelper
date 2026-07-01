@@ -47,3 +47,5 @@ end)
 
 GraalHelper.frame:RegisterEvent("PLAYER_LOGIN")
 GraalHelper.frame:RegisterEvent("PLAYER_LOGOUT")
+GraalHelper.frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
+GraalHelper.frame:RegisterEvent("UNIT_SPELLCAST_START")

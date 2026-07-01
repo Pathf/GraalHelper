@@ -68,6 +68,7 @@ GraalHelper.L = {
     stunLine = "기절 활성화!",
     stunSection = "기절",
     stunTitle = "기절!",
+    summonNotifierSection = "소환 알림",
     test = "테스트",
     trackDisarm = "무장 해제",
     trackFear = "공포",

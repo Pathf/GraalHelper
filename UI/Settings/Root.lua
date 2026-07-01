@@ -210,7 +210,7 @@ function GraalHelper:HandleRootDisplay(scanData, guid, now)
 
     if alertKey and alertKey == R.lastRootAlertKey then
         if now < R.rootDisplayUntil then
-            if not self.uiroot:IsShown() then
+            if not self.uiRoot:IsShown() then
                 local sub = self.config.root.showBuffNames and
                     self:FormatBuffList(scanData.rootDebuffs, L.rootFound) or L.rootFound
 

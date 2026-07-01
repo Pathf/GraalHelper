@@ -68,6 +68,7 @@ GraalHelper.L = {
     stunLine = "Betäubung aktiv!",
     stunSection = "Betäubung",
     stunTitle = "Betäubung!",
+    summonNotifierSection = "Beschwörungsbenachrichtigung",
     test = "Test",
     trackDisarm = "Entwaffnung",
     trackFear = "Furcht",

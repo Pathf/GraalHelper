@@ -101,6 +101,9 @@ function GraalHelper:CreateOptionsWindow()
     GraalHelper:addTrackedPanel(self)
     GraalHelper:addTrackedNav(self)
 
+    GraalHelper:addSummonNotifierPanel(self)
+    GraalHelper:addSummonNotifierNav(self)
+
     self:RefreshTrackedSpellsUI()
     self.options.nav.trackedButton:Click()
 end
@@ -129,8 +132,8 @@ function GraalHelper:RefreshOptionsUI()
     self:RefreshOptionsUIRoot()
     self:RefreshOptionsUIDisarm()
     self:RefreshOptionsUIFear()
-
     self:RefreshTrackedSpellsUI()
+    self:RefreshOptionsUISummonNotifier()
 end
 
 function GraalHelper:ToggleOptions()

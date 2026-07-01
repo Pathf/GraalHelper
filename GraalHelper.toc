@@ -20,6 +20,7 @@ Utils\Spell.lua
 Utils\UI.lua
 
 Features\Tracking.lua
+Features\SummonNotifier.lua
 Features\BuffScanner.lua
 Features\CastScanner.lua
 Features\DebuffScanner.lua
@@ -32,6 +33,7 @@ UI\Settings\Root.lua
 UI\Settings\Silence.lua
 UI\Settings\Steal.lua
 UI\Settings\Stun.lua
+UI\Settings\Summon.lua
 UI\Settings\Tracked.lua
 UI\Widgets.lua
 UI\Display.lua

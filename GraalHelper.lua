@@ -168,3 +168,11 @@ function GraalHelper:PLAYER_LOGOUT()
         self:SaveFramePosition(self.uiFear, self.config.fear)
     end
 end
+
+function GraalHelper:UNIT_SPELLCAST_CHANNEL_START(caster, _, spellID)
+    self:SummonNotify(caster, spellID)
+end
+
+function GraalHelper:UNIT_SPELLCAST_START(caster, _, spellID)
+    self:SummonNotify(caster, spellID)
+end

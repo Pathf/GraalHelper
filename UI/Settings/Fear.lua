@@ -144,7 +144,7 @@ function GraalHelper:addFearNav(self)
 end
 
 function GraalHelper:RefreshOptionsUIFear()
-    self.options.fearLockCheck:SetChecked(self.config.fear.active)
+    self.options.fearActive:SetChecked(self.config.fear.active)
     self.options.fearLockCheck:SetChecked(self.config.fear.locked)
     self.options.fearNameCheck:SetChecked(self.config.fear.showBuffNames)
     self.options.fearSayCheck:SetChecked(self.config.fear.chatEnabled)
