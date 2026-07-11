@@ -1,7 +1,5 @@
 # TODO
-- Kick sentence
-- Dispell
-- Dispell sentence
+- Add quand tank miss
 
 # HELP :
 {rt1} = étoile
@@ -12,3 +10,4 @@
 {rt6} = carré
 {rt7} = croix
 {rt8} = crâne
+
