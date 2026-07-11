@@ -32,6 +32,7 @@ GraalHelper.L = {
     kickTitle = "(beta) 法術中斷",
     lockWindow = "鎖定視窗",
     menuTitle = "GraalHelper",
+    missNotifierSection = "未命中通知",
     nav = {
         danger = "危險",
         action = "動作",

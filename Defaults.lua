@@ -123,9 +123,14 @@ GraalHelper.defaults = {
         chat = "PARTY",
     },
 
+    missNotifier = {
+        active = true,
+    },
+
     summonNotifier = {
         active = true,
     },
+
 
     trackedSpells = {},
     spellFilter = {},

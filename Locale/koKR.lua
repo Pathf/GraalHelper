@@ -32,6 +32,7 @@ GraalHelper.L = {
     kickTitle = "(beta) 주문 차단",
     lockWindow = "창 잠금",
     menuTitle = "GraalHelper",
+    missNotifierSection = "빗나감 알림",
     nav = {
         danger = "위험",
         action = "동작",

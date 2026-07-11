@@ -176,3 +176,7 @@ end
 function GraalHelper:UNIT_SPELLCAST_START(caster, _, spellID)
     self:SummonNotify(caster, spellID)
 end
+
+function GraalHelper:COMBAT_LOG_EVENT_UNFILTERED()
+    self:MissNotify()
+end

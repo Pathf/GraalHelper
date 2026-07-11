@@ -32,6 +32,7 @@ GraalHelper.L = {
     kickTitle = "(beta) Прерывание заклинания",
     lockWindow = "Заблокировать окно",
     menuTitle = "GraalHelper",
+    missNotifierSection = "Уведомления о промахах",
     nav = {
         danger = "Опасность",
         action = "Действие",

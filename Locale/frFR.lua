@@ -32,6 +32,7 @@ GraalHelper.L = {
     kickTitle = "(beta) Annulation de sort",
     lockWindow = "Verrouiller la fenetre",
     menuTitle = "GraalHelper",
+    missNotifierSection = "Notification des miss",
     nav = {
         danger = "Danger",
         action = "Action",

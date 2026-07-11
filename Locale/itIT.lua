@@ -32,6 +32,7 @@ GraalHelper.L = {
     kickTitle = "(beta) Interruzione incantesimo",
     lockWindow = "Blocca finestra",
     menuTitle = "GraalHelper",
+    missNotifierSection = "Notifiche dei mancati colpi",
     nav = {
         danger = "Pericolo",
         action = "Azione",
