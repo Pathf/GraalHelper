@@ -26,7 +26,7 @@ GraalHelper.defaults = {
         showBuffNames = true,
         displayDuration = 4,
         soundEnabled = true,
-        sound = "RaidWarning",
+        sound = "MapPing",
     },
 
     reflect = {

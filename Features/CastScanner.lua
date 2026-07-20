@@ -5,7 +5,7 @@ function GraalHelper:ScanTargetCasts(unit)
     local kickIcon = nil
     local kickSignature = {}
 
-    local spellName, icon, _, _, _, _, _, _, notKick = UnitCastingInfo("target")
+    local spellName, _, icon, _, _, _, _, notKick = UnitCastingInfo("target")
 
     -- KICK SPELL
     if spellName and not notKick then

@@ -1,5 +1,6 @@
 # TODO
-- Add quand tank miss
+- Add quand tank miss (vérifier le chan d'envoie)
+- Add un warning enlever aspect de la meute quand on entre en combat
 
 # HELP :
 {rt1} = étoile
