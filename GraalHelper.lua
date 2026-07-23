@@ -4,9 +4,18 @@ local C = GraalHelper.Constants
 local R = GraalHelper.Runtime
 local ICONS = C.ICONS.SPELLS
 
+function GraalHelper:InitializeDB()
+    GraalHelperCharDB = GraalHelperCharDB or {}
+    if not GraalHelperCharDB.migrated then
+        if GraalHelperDB then GraalHelperCharDB = CopyTable(GraalHelperDB) end
+        GraalHelperCharDB.migrated = true
+    end
+end
+
 function GraalHelper:PLAYER_LOGIN()
-    GraalHelperDB = self:CopyDefaults(self.defaults, GraalHelperDB or {})
-    self.config = GraalHelperDB
+    GraalHelper:InitializeDB()
+    GraalHelperCharDB = self:CopyDefaults(self.defaults, GraalHelperCharDB or {})
+    self.config = GraalHelperCharDB
     self.config.trackedSpells = self.config.trackedSpells or {}
     self.config.spellFilter = self.config.spellFilter or {}
     self:SortTrackedSpells()

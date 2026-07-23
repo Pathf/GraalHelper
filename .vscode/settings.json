@@ -33,6 +33,7 @@
         "IsInGroup",
         "GetUnitName",
         "IsInRaid",
-        "CombatLogGetCurrentEventInfo"
+        "CombatLogGetCurrentEventInfo",
+        "CopyTable"
     ]
 }

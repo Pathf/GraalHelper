@@ -4,6 +4,7 @@
 ## Author: Pathf
 ## Version: 1.6.2
 ## SavedVariables: GraalHelperDB
+## SavedVariablesPerCharacter: GraalHelperCharDB
 
 Core.lua
 
