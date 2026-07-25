@@ -206,7 +206,3 @@ end
 function GraalHelper:COMBAT_LOG_EVENT_UNFILTERED()
     self:MissNotify()
 end
-
-function GraalHelper:PLAYER_REGEN_DISABLED()
-    self:CheckHunterAspect()
-end

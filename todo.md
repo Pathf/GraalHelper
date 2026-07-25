@@ -1,5 +1,5 @@
 # TODO
-- Add quand tank miss (vérifier le chan d'envoie)
+- Add de message explicatif de chaque Alertes/Actions/Réglages
 
 # HELP :
 {rt1} = étoile

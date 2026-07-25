@@ -153,7 +153,7 @@ function GraalHelper:HandleHunterPackAspectDisplay(scanData, guid, now)
 
     if not self.config.hunterPackAspect.active then return end
 
-    local hasHunterPackAspect = #scanData.hunterPackAspectDebuffs > 0
+    local hasHunterPackAspect = #scanData.hunterPackAspectBuffs > 0
     local alertKey = nil
 
     if hasHunterPackAspect then
@@ -162,7 +162,7 @@ function GraalHelper:HandleHunterPackAspectDisplay(scanData, guid, now)
 
     if alertKey and alertKey ~= R.lastHunterPackAspectAlertKey then
         local sub = self.config.hunterPackAspect.showBuffNames and
-            self:FormatBuffList(scanData.hunterPackAspectDebuffs, L.hunterPackAspectFound) or
+            self:FormatBuffList(scanData.hunterPackAspectBuffs, L.hunterPackAspectFound) or
             L.hunterPackAspectFound
 
         self:ShowDisplay(
@@ -183,7 +183,7 @@ function GraalHelper:HandleHunterPackAspectDisplay(scanData, guid, now)
         if now < R.hunterPackAspectDisplayUntil then
             if not self.uiHunterPackAspect:IsShown() then
                 local sub = self.config.hunterPackAspect.showBuffNames and
-                    self:FormatBuffList(scanData.hunterPackAspectDebuffs, L.hunterPackAspectFound) or
+                    self:FormatBuffList(scanData.hunterPackAspectBuffs, L.hunterPackAspectFound) or
                     L.hunterPackAspectFound
 
                 self:ShowDisplay(
