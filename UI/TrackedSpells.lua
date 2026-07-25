@@ -46,6 +46,7 @@ end
 function GraalHelper:RefreshTrackedSpellsUI()
     if isRowsExist(self) then return end
 
+    self:SortTrackedSpells()
     local trackedSpells = (self.config and self.config.trackedSpells) or {}
     local content = self.options.panels.tracked.content
     local totalHeight = 0

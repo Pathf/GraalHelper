@@ -73,6 +73,7 @@ GraalHelper.L = {
     test = "Test",
     trackDisarm = "Disarm",
     trackFear = "Fear",
+    trackKick = "Kick",
     trackReflect = "Reflect",
     trackRoot = "Root",
     trackSilence = "Silence",

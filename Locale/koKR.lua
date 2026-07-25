@@ -73,6 +73,7 @@ GraalHelper.L = {
     test = "테스트",
     trackDisarm = "무장 해제",
     trackFear = "공포",
+    trackKick = "차단",
     trackReflect = "반사",
     trackRoot = "이동 불가",
     trackSilence = "침묵",

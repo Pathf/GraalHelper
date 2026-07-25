@@ -73,6 +73,7 @@ GraalHelper.L = {
     test = "測試",
     trackDisarm = "繳械",
     trackFear = "恐懼",
+    trackKick = "打断",
     trackReflect = "反射",
     trackRoot = "定身",
     trackSilence = "沉默",

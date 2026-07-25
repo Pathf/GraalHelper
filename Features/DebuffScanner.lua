@@ -22,7 +22,7 @@ function GraalHelper:ScanTargetDebuffs(unit)
     local fearSignature = {}
 
     for i = 1, 40 do
-        local name, icon, _, _, _, expirationTime, _, _, _, spellId = UnitDebuff(unit, i)
+        local name, icon, _, _, _, _, _, _, _, spellId = UnitDebuff(unit, i)
         local locData = C_LossOfControl.GetActiveLossOfControlDataByUnit(unit, i)
 
         if not name or not locData or not locData.locType then
