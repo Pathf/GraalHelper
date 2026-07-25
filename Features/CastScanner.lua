@@ -5,11 +5,11 @@ function GraalHelper:ScanTargetCasts(unit)
     local kickIcon = nil
     local kickSignature = {}
 
-    local spellName, _, icon, _, _, _, _, notKick = UnitCastingInfo("target")
+    local spellName, _, icon, _, _, _, _, notKick, spellId = UnitCastingInfo("target")
 
     -- KICK SPELL
-    if spellName and not notKick then
-        local spellKey = self:RegisterTrackedSpell(spellName, nil, icon, "kick")
+    if not notKick then
+        local spellKey = self:RegisterTrackedSpell(spellName, spellId, icon, "kick")
         if self:IsSpellEnabled(spellKey) then
             table.insert(kickBuffs, spellName)
             table.insert(kickSignature, spellKey)
