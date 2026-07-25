@@ -4,6 +4,8 @@ local L = GraalHelper.L
 
 local function showAllWarnings()
     GraalHelper:StartStealTestMode()
+    GraalHelper:StartKickTestMode()
+    GraalHelper:StartHunterPackAspectTestMode()
     GraalHelper:StartReflectTestMode()
     GraalHelper:StartSilenceTestMode()
     GraalHelper:StartStunTestMode()
@@ -14,6 +16,8 @@ end
 
 local function lockAllWarnings()
     GraalHelper.config.steal.locked = true
+    GraalHelper.config.kick.locked = true
+    GraalHelper.config.hunterPackAspect.locked = true
     GraalHelper.config.reflect.locked = true
     GraalHelper.config.silence.locked = true
     GraalHelper.config.stun.locked = true
@@ -26,6 +30,8 @@ end
 
 local function unlockAllWarnings()
     GraalHelper.config.steal.locked = false
+    GraalHelper.config.kick.locked = false
+    GraalHelper.config.hunterPackAspect.locked = false
     GraalHelper.config.reflect.locked = false
     GraalHelper.config.silence.locked = false
     GraalHelper.config.stun.locked = false

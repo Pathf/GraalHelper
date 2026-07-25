@@ -2,6 +2,7 @@ local _, GraalHelper = ...
 
 local spellReflectionIds = GraalHelper.Constants.SPELL_REFLECTION_SPELL_IDS
 local spellReflectionNames = GraalHelper.L.MATCH.SPELL_REFLECTION_NAMES
+local spellHunterPackAspectId = GraalHelper.Constants.HUNTER_PACK_ASPECT_ID
 
 function GraalHelper:ScanTargetBuffs(unit)
     local stealBuffs = {}
@@ -56,5 +57,40 @@ function GraalHelper:ScanTargetBuffs(unit)
         reflectBuffs = reflectBuffs,
         reflectIcon = reflectIcon,
         reflectSignature = table.concat(reflectSignature, "|"),
+    }
+end
+
+function GraalHelper:ScanPlayerBuffs(unit)
+    local hunterPackAspectBuffs = {}
+    local hunterPackAspectIcon = nil
+    local hunterPackAspectSignature = {}
+
+
+    local playerClass = select(2, UnitClass("player"))
+
+    for i = 1, 40 do
+        local name, icon, _, _, _, _, _, _, _, spellId = UnitBuff(unit, i)
+
+        if not name then
+            break
+        end
+
+        -- HUNTER PACK ASPECT
+        if playerClass == "HUNTER" and spellId == spellHunterPackAspectId then
+            table.insert(hunterPackAspectBuffs, name)
+            if not hunterPackAspectIcon then
+                hunterPackAspectIcon = icon
+            end
+        end
+    end
+
+    if self.options and self.options:IsShown() then
+        self:RefreshTrackedSpellsUI()
+    end
+
+    return {
+        hunterPackAspectBuffs = hunterPackAspectBuffs,
+        hunterPackAspectIcon = hunterPackAspectIcon,
+        hunterPackAspectSignature = table.concat(hunterPackAspectSignature, "|"),
     }
 end

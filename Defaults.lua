@@ -29,6 +29,20 @@ GraalHelper.defaults = {
         sound = "MapPing",
     },
 
+    hunterPackAspect = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        active = true,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
     reflect = {
         point = "CENTER",
         relativePoint = "CENTER",

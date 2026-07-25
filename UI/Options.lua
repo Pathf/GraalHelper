@@ -38,8 +38,8 @@ local function buildNav(self)
     self:CreateBasicBackdrop(self.options.nav, 0.02, 0.02, 0.02, 0.75)
 
     self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.alerts, -20)
-    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.actions, -240)
-    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.settings, -335)
+    self.options.nav.actionsCategory = self:CreateNavCategory(self.options.nav, L.actions, -240)
+    self.options.nav.settingsCategory = self:CreateNavCategory(self.options.nav, L.settings, -365)
 end
 
 local function buildContent(self)
@@ -82,6 +82,9 @@ function GraalHelper:CreateOptionsWindow()
 
     GraalHelper:addKickPanel(self)
     GraalHelper:addKickNav(self)
+
+    GraalHelper:addHunterPackAspectPanel(self)
+    GraalHelper:addHunterPackAspectNav(self)
 
     GraalHelper:addSilencePanel(self)
     GraalHelper:addSilenceNav(self)
@@ -129,6 +132,7 @@ function GraalHelper:RefreshOptionsUI()
 
     self:RefreshOptionsUISteal()
     self:RefreshOptionsUIKick()
+    self:RefreshOptionsUIHunterPackAspect()
     self:RefreshOptionsUIReflect()
     self:RefreshOptionsUISilence()
     self:RefreshOptionsUIStun()

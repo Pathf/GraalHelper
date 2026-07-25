@@ -39,7 +39,6 @@ function GraalHelper:addReflectPanel(self)
     self.options.reflectLockCheck.label:SetText(L.lockWindow)
     self.options.reflectLockCheck.label:SetTextColor(1, 0.90, 0.20)
 
-
     self.options.reflectNameCheck = CreateFrame(
         "CheckButton",
         "GraalHelperReflectNamesCheck",

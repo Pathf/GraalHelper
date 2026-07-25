@@ -33,6 +33,10 @@ GraalHelper.Runtime = {
     kickDisplayUntil = 0,
     kickTestMode = false,
 
+    lastHunterPackAspectAlertKey = nil,
+    hunterPackAspectDisplayUntil = 0,
+    hunterPackAspectTestMode = false,
+
     ticker = 0,
     updateInterval = 0.10,
 }
@@ -50,3 +54,4 @@ GraalHelper.frame:RegisterEvent("PLAYER_LOGOUT")
 GraalHelper.frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
 GraalHelper.frame:RegisterEvent("UNIT_SPELLCAST_START")
 GraalHelper.frame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+GraalHelper.frame:RegisterEvent("PLAYER_REGEN_DISABLED")

@@ -29,6 +29,7 @@ Features\DebuffScanner.lua
 
 UI\Settings\Disarm.lua
 UI\Settings\Fear.lua
+UI\Settings\HunterPackApsect.lua
 UI\Settings\Kick.lua
 UI\Settings\Miss.lua
 UI\Settings\Reflect.lua

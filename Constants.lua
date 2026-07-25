@@ -17,6 +17,7 @@ C.ICONS = {
     SPELLS = {
         DISARM = "Interface\\Icons\\Ability_Warrior_Disarm",
         FEAR = "Interface\\Icons\\Spell_Shadow_Possession",
+        HUNTER_PACK_ASPECT = "Interface\\Icons\\Ability_mount_whitetiger",
         KICK = "Interface\\Icons\\Ability_Kick",
         REFLECT = "Interface\\Icons\\Ability_Warrior_Challange",
         ROOT = "Interface\\Icons\\Spell_Nature_StrangleVines",
@@ -95,3 +96,5 @@ C.SOUND_OPTIONS = {
 C.SPELL_REFLECTION_SPELL_IDS = {
     [23920] = true
 }
+
+C.HUNTER_PACK_ASPECT_ID = 13159

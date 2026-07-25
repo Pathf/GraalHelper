@@ -145,6 +145,7 @@ end
 function GraalHelper:ApplyAllDisplaySettings()
     self:ApplyFrameSettings(self.uiSteal, self.config.steal)
     self:ApplyFrameSettings(self.uiKick, self.config.kick)
+    self:ApplyFrameSettings(self.uiHunterPackAspect, self.config.hunterPackAspect)
     self:ApplyFrameSettings(self.uiReflect, self.config.reflect)
     self:ApplyFrameSettings(self.uiSilence, self.config.silence)
     self:ApplyFrameSettings(self.uiStun, self.config.stun)
@@ -189,6 +190,11 @@ function GraalHelper:UpdateDisplays()
             if now >= R.kickDisplayUntil then self:HideDisplay(self.uiKick) end
         end
 
+        if not R.hunterPackAspectTestMode then
+            R.lastHunterPackAspectAlertKey = nil
+            if now >= R.hunterPackAspectDisplayUntil then self:HideDisplay(self.uiHunterPackAspect) end
+        end
+
         if not R.reflectTestMode then
             R.lastReflectAlertKey = nil
             if now >= R.reflectDisplayUntil then self:HideDisplay(self.uiReflect) end
@@ -229,6 +235,11 @@ function GraalHelper:UpdateDisplays()
             self:HideDisplay(self.uiKick)
         end
 
+        if R.hunterPackAspectTestMode and now >= R.hunterPackAspectDisplayUntil then
+            R.hunterPackAspectTestMode = false
+            self:HideDisplay(self.uiHunterPackAspect)
+        end
+
         if R.reflectTestMode and now >= R.reflectDisplayUntil then
             R.reflectTestMode = false
             self:HideDisplay(self.uiReflect)
@@ -267,6 +278,9 @@ function GraalHelper:UpdateDisplays()
     self:HandleStealDisplay(scanTargetBuffData, targetGuid, now)
     self:HandleReflectDisplay(scanTargetBuffData, targetGuid, now)
 
+    local scanTargetCastData = self:ScanTargetCasts("target")
+    self:HandleKickDisplay(scanTargetCastData, targetGuid, now)
+
     local playerGuid = UnitGUID("player") or "noguid"
     local scanPlayerDebuffData = self:ScanTargetDebuffs("player")
     self:HandleSilenceDisplay(scanPlayerDebuffData, playerGuid, now)
@@ -275,8 +289,8 @@ function GraalHelper:UpdateDisplays()
     self:HandleDisarmDisplay(scanPlayerDebuffData, playerGuid, now)
     self:HandleFearDisplay(scanPlayerDebuffData, playerGuid, now)
 
-    local scanTargetCastData = self:ScanTargetCasts("target")
-    self:HandleKickDisplay(scanTargetCastData, targetGuid, now)
+    local scanPlayerBuffData = self:ScanPlayerBuffs("player")
+    self:HandleHunterPackAspectDisplay(scanPlayerBuffData, playerGuid, now)
 end
 
 function GraalHelper:StopAllTestsAndHide()
@@ -287,6 +301,10 @@ function GraalHelper:StopAllTestsAndHide()
     R.kickTestMode = false
     R.kickDisplayUntil = 0
     R.lastKickAlertKey = nil
+
+    R.hunterPackAspectTestMode = false
+    R.hunterPackAspectDisplayUntil = 0
+    R.lastHunterPackAspectAlertKey = nil
 
     R.reflectTestMode = false
     R.reflectDisplayUntil = 0
@@ -314,6 +332,7 @@ function GraalHelper:StopAllTestsAndHide()
 
     self:HideDisplay(self.uiSteal)
     self:HideDisplay(self.uiKick)
+    self:HideDisplay(self.uiHunterPackAspect)
     self:HideDisplay(self.uiReflect)
     self:HideDisplay(self.uiSilence)
     self:HideDisplay(self.uiStun)

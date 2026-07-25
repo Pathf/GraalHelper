@@ -35,6 +35,7 @@
         "IsInRaid",
         "CombatLogGetCurrentEventInfo",
         "CopyTable",
-        "GraalHelperDB"
+        "GraalHelperDB",
+        "UnitClass"
     ]
 }

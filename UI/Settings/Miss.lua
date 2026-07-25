@@ -25,7 +25,7 @@ function GraalHelper:addMissNotifierPanel()
 end
 
 function GraalHelper:addMissNotifierNav()
-    self.options.nav.missNotifierButton = self:CreateNavSubItem(self.options.nav, L.missNotifierSection, -425,
+    self.options.nav.missNotifierButton = self:CreateNavSubItem(self.options.nav, L.missNotifierSection, -455,
         function()
             GraalHelper:ShowOptionsPanel("missNotifier")
         end)

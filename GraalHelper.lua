@@ -21,7 +21,7 @@ function GraalHelper:PLAYER_LOGIN()
     self:SortTrackedSpells()
 
     self.uiSteal = self:CreateDisplayFrame(
-        "GraalHelperMainFrame",
+        "GraalHelperStealFrame",
         self.config.steal,
         {
             titleText = C.BLUE .. L.stealTitle .. C.RESET,
@@ -37,12 +37,28 @@ function GraalHelper:PLAYER_LOGIN()
     )
 
     self.uiKick = self:CreateDisplayFrame(
-        "GraalHelperMainFrame",
+        "GraalHelperKickFrame",
         self.config.kick,
         {
             titleText = C.BLUE .. L.kickTitle .. C.RESET,
             lineText = L.kickLine,
             defaultIcon = ICONS.KICK,
+            glowR = 0.20,
+            glowG = 0.55,
+            glowB = 1.00,
+            barR = 0.25,
+            barG = 0.65,
+            barB = 1.00,
+        }
+    )
+
+    self.uiHunterPackAspect = self:CreateDisplayFrame(
+        "GraalHelperHunterPackAspectFrame",
+        self.config.hunterPackAspect,
+        {
+            titleText = C.BLUE .. L.hunterPackAspectTitle .. C.RESET,
+            lineText = L.hunterPackAspectLine,
+            defaultIcon = ICONS.HUNTER_PACK_ASPECT,
             glowR = 0.20,
             glowG = 0.55,
             glowB = 1.00,
@@ -168,7 +184,8 @@ end
 function GraalHelper:PLAYER_LOGOUT()
     if self.config then
         self:SaveFramePosition(self.uiSteal, self.config.steal)
-        self:SaveFramePosition(self.uikick, self.config.kick)
+        self:SaveFramePosition(self.uiKick, self.config.kick)
+        self:SaveFramePosition(self.uiHunterPackAspect, self.config.hunterPackAspect)
         self:SaveFramePosition(self.uiReflect, self.config.reflect)
         self:SaveFramePosition(self.uiSilence, self.config.silence)
         self:SaveFramePosition(self.uiStun, self.config.stun)
@@ -188,4 +205,8 @@ end
 
 function GraalHelper:COMBAT_LOG_EVENT_UNFILTERED()
     self:MissNotify()
+end
+
+function GraalHelper:PLAYER_REGEN_DISABLED()
+    self:CheckHunterAspect()
 end
