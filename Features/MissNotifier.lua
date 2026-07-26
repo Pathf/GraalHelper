@@ -11,10 +11,6 @@ function GraalHelper:MissNotify(caster, spellID)
     if subEvent == "SWING_MISSED" then
         if missType == nil then missType = '' end
         local message = "{rt7} " .. missType .. " - " .. sourceName
-        if IsInRaid() then
-            SendChatMessage(message, "RAID")
-        else
-            SendChatMessage(message, "PARTY")
-        end
+        self:SendRaidOrParty(message)
     end
 end

@@ -8,7 +8,7 @@ local ICONS = GraalHelper.Constants.ICONS.SPELLS
 local function ChatSay()
     if GraalHelper.config.stun.chatEnabled then
         local playerName = UnitName("player")
-        SendChatMessage("{rt7} STUN - " .. playerName, GraalHelper.config.stun.chat)
+        GraalHelper:SendChatMessage("{rt7} STUN - " .. playerName, GraalHelper.config.stun.chat)
     end
 end
 

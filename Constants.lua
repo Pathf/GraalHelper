@@ -29,28 +29,28 @@ C.ICONS = {
 
 C.CHAT_OPTIONS = {
     {
-        text = "Say",
+        text = "say",
         value = "SAY"
     },
     {
-        text = "Yell",
+        text = "yell",
         value = "YELL"
     },
     {
-        text = "Party",
+        text = "party",
         value = "PARTY"
     },
     {
-        text = "Whisper",
-        value = "WHISPER"
-    },
-    {
-        text = "Raid",
+        text = "raid",
         value = "RAID"
     },
     {
-        text = "Guild",
+        text = "guild",
         value = "GUILD"
+    },
+    {
+        text = "raidOrPartyOrNothing",
+        value = "RAID_PARTY"
     },
 }
 

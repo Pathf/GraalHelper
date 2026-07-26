@@ -2,11 +2,7 @@ local _, GraalHelper = ...
 
 function Summoning(spellIDs, spellID, message)
     if (not spellIDs[spellID]) then return end
-    if IsInRaid() then
-        SendChatMessage(message, "RAID")
-    else
-        SendChatMessage(message, "PARTY")
-    end
+    GraalHelper:SendRaidOrParty(message)
     return true
 end
 

@@ -8,7 +8,7 @@ local ICONS = GraalHelper.Constants.ICONS.SPELLS
 local function ChatSay()
     if GraalHelper.config.silence.chatEnabled then
         local playerName = UnitName("player")
-        SendChatMessage("{rt7} SILENCE - " .. playerName, GraalHelper.config.silence.chat)
+        GraalHelper:SendChatMessage("{rt7} SILENCE - " .. playerName, GraalHelper.config.silence.chat)
     end
 end
 

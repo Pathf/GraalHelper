@@ -1,6 +1,7 @@
 local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
+local L = GraalHelper.L
 
 function GraalHelper:CreateNavCategory(parent, text, yOffset)
     local category = CreateFrame("Frame", nil, parent)
@@ -239,12 +240,12 @@ local function CreateDropdown(parent, frameName, options, x, y, getValueFunc, se
     UIDropDownMenu_Initialize(dropdown, function(self, level)
         for _, entry in ipairs(options) do
             local info = UIDropDownMenu_CreateInfo()
-            info.text = entry.text
+            info.text = L[entry.text]
             info.value = entry.value
             info.func = function()
                 setValueFunc(entry.value)
                 UIDropDownMenu_SetSelectedValue(dropdown, entry.value)
-                UIDropDownMenu_SetText(dropdown, entry.text)
+                UIDropDownMenu_SetText(dropdown, L[entry.text])
                 if previewFunc then
                     previewFunc()
                 end

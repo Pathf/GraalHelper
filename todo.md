@@ -1,4 +1,5 @@
 # TODO
+- Permetre la sélection du canal pour le miss
 - Add de message explicatif de chaque Alertes/Actions/Réglages
 
 # HELP :

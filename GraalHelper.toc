@@ -15,6 +15,7 @@ Locale\enUS.lua
 Locale\frFR.lua
 Locale\deDE.lua
 
+Utils\Chat.lua
 Utils\Helpers.lua
 Utils\Sound.lua
 Utils\Spell.lua
