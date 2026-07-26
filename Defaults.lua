@@ -139,6 +139,8 @@ GraalHelper.defaults = {
 
     missNotifier = {
         active = true,
+        chatEnabled = true,
+        chat = "PARTY",
     },
 
     summonNotifier = {

@@ -1,6 +1,7 @@
 # TODO
-- Permetre la sélection du canal pour le miss
 - Add de message explicatif de chaque Alertes/Actions/Réglages
+- Quand on est Healear → decursive
+- Add la gestion des invok pour raid
 
 # HELP :
 {rt1} = étoile
