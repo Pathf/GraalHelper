@@ -16,6 +16,7 @@ C.BASE_FRAME_HEIGHT = 96
 C.ICONS = {
     SPELLS = {
         DISARM = "Interface\\Icons\\Ability_Warrior_Disarm",
+        DISPEL = "Interface\\Icons\\spell_holy_dispelmagic",
         FEAR = "Interface\\Icons\\Spell_Shadow_Possession",
         HUNTER_PACK_ASPECT = "Interface\\Icons\\Ability_mount_whitetiger",
         KICK = "Interface\\Icons\\Ability_Kick",

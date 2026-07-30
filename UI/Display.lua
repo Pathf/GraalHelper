@@ -152,6 +152,7 @@ function GraalHelper:ApplyAllDisplaySettings()
     self:ApplyFrameSettings(self.uiRoot, self.config.root)
     self:ApplyFrameSettings(self.uiDisarm, self.config.disarm)
     self:ApplyFrameSettings(self.uiFear, self.config.fear)
+    self:ApplyFrameSettings(self.uiDispel, self.config.dispel)
 end
 
 function GraalHelper:ShowDisplay(frame, icon, titleText, lineText, subText)
@@ -270,6 +271,11 @@ function GraalHelper:UpdateDisplays()
             self:HideDisplay(self.uiFear)
         end
 
+        if R.dispelTestMode and now >= R.dispelDisplayUntil then
+            R.dispelTestMode = false
+            self:HideDisplay(self.uiDispel)
+        end
+
         return
     end
 
@@ -288,6 +294,7 @@ function GraalHelper:UpdateDisplays()
     self:HandleRootDisplay(scanPlayerDebuffData, playerGuid, now)
     self:HandleDisarmDisplay(scanPlayerDebuffData, playerGuid, now)
     self:HandleFearDisplay(scanPlayerDebuffData, playerGuid, now)
+    self:HandleDispelDisplay(scanPlayerDebuffData, playerGuid, now)
 
     local scanPlayerBuffData = self:ScanPlayerBuffs("player")
     self:HandleHunterPackAspectDisplay(scanPlayerBuffData, playerGuid, now)
@@ -330,6 +337,10 @@ function GraalHelper:StopAllTestsAndHide()
     R.fearDisplayUntil = 0
     R.lastFearAlertKey = nil
 
+    R.dispelTestMode = false
+    R.dispelDisplayUntil = 0
+    R.lastDispelAlertKey = nil
+
     self:HideDisplay(self.uiSteal)
     self:HideDisplay(self.uiKick)
     self:HideDisplay(self.uiHunterPackAspect)
@@ -339,4 +350,5 @@ function GraalHelper:StopAllTestsAndHide()
     self:HideDisplay(self.uiRoot)
     self:HideDisplay(self.uiDisarm)
     self:HideDisplay(self.uiFear)
+    self:HideDisplay(self.uiDispel)
 end

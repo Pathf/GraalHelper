@@ -29,7 +29,7 @@ function GraalHelper:addTrackedPanel(self)
 end
 
 function GraalHelper:addTrackedNav(self)
-    self.options.nav.trackedButton = self:CreateNavSubItem(self.options.nav, L.spellsSection, -395, function()
+    self.options.nav.trackedButton = self:CreateNavSubItem(self.options.nav, L.spellsSection, -425, function()
         GraalHelper:ShowOptionsPanel("tracked")
     end)
 end

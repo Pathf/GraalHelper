@@ -164,6 +164,22 @@ function GraalHelper:PLAYER_LOGIN()
         }
     )
 
+    self.uiDispel = self:CreateDisplayFrame(
+        "GraalHelperDispelFrame",
+        self.config.dispel,
+        {
+            titleText = C.RED .. L.dispelTitle .. C.RESET,
+            lineText = L.dispelLine,
+            defaultIcon = ICONS.DISPEL,
+            glowR = 1.00,
+            glowG = 0.18,
+            glowB = 0.18,
+            barR = 1.00,
+            barG = 0.22,
+            barB = 0.22,
+        }
+    )
+
     self:ApplyAllDisplaySettings()
     self:CreateOptionsWindow()
     self:RefreshOptionsUI()
@@ -192,6 +208,7 @@ function GraalHelper:PLAYER_LOGOUT()
         self:SaveFramePosition(self.uiRoot, self.config.root)
         self:SaveFramePosition(self.uiDisarm, self.config.disarm)
         self:SaveFramePosition(self.uiFear, self.config.fear)
+        self:SaveFramePosition(self.uiDispel, self.config.dispel)
     end
 end
 

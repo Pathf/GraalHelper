@@ -29,6 +29,7 @@ Features\CastScanner.lua
 Features\DebuffScanner.lua
 
 UI\Settings\Disarm.lua
+UI\Settings\Dispel.lua
 UI\Settings\Fear.lua
 UI\Settings\HunterPackApsect.lua
 UI\Settings\Kick.lua

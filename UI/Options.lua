@@ -39,7 +39,7 @@ local function buildNav(self)
 
     self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.alerts, -20)
     self.options.nav.actionsCategory = self:CreateNavCategory(self.options.nav, L.actions, -240)
-    self.options.nav.settingsCategory = self:CreateNavCategory(self.options.nav, L.settings, -365)
+    self.options.nav.settingsCategory = self:CreateNavCategory(self.options.nav, L.settings, -395)
 end
 
 local function buildContent(self)
@@ -110,6 +110,9 @@ function GraalHelper:CreateOptionsWindow()
     GraalHelper:addMissNotifierPanel(self)
     GraalHelper:addMissNotifierNav(self)
 
+    GraalHelper:addDispelPanel(self)
+    GraalHelper:addDispelNav(self)
+
     self:RefreshTrackedSpellsUI()
     self.options.nav.trackedButton:Click()
 end
@@ -142,6 +145,7 @@ function GraalHelper:RefreshOptionsUI()
     self:RefreshTrackedSpellsUI()
     self:RefreshOptionsUISummonNotifier()
     self:RefreshOptionsUIMissNotifier()
+    self:RefreshOptionsUIDispel()
 end
 
 function GraalHelper:ToggleOptions()

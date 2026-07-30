@@ -36,6 +36,7 @@
         "CombatLogGetCurrentEventInfo",
         "CopyTable",
         "GraalHelperDB",
-        "UnitClass"
+        "UnitClass",
+        "C_UnitAuras"
     ]
 }

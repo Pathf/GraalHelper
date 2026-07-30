@@ -5,6 +5,10 @@ GraalHelper.Runtime = {
     reflectDisplayUntil = 0,
     reflectTestMode = false,
 
+    lastDispelAlertKey = nil,
+    dispelDisplayUntil = 0,
+    dispelTestMode = false,
+
     lastSilenceAlertKey = nil,
     silenceDisplayUntil = 0,
     silenceTestMode = false,

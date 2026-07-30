@@ -1,6 +1,6 @@
 # TODO
 - Add de message explicatif de chaque Alertes/Actions/Réglages
-- Quand on est Healear → decursive
+- Faire une demo / et un par default
 - Add la gestion des invok pour raid
 
 # HELP :

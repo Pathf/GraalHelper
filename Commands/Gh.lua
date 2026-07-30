@@ -12,6 +12,7 @@ local function showAllWarnings()
     GraalHelper:StartRootTestMode()
     GraalHelper:StartDisarmTestMode()
     GraalHelper:StartFearTestMode()
+    GraalHelper:StartDispelTestMode()
 end
 
 local function lockAllWarnings()
@@ -24,6 +25,7 @@ local function lockAllWarnings()
     GraalHelper.config.root.locked = true
     GraalHelper.config.disarm.locked = true
     GraalHelper.config.fear.locked = true
+    GraalHelper.config.dispel.locked = true
     GraalHelper:RefreshOptionsUI()
     GraalHelper:Print(L.bothLocked)
 end
@@ -38,6 +40,7 @@ local function unlockAllWarnings()
     GraalHelper.config.root.locked = false
     GraalHelper.config.disarm.locked = false
     GraalHelper.config.fear.locked = false
+    GraalHelper.config.dispel.locked = false
     GraalHelper:RefreshOptionsUI()
     GraalHelper:Print(L.bothUnlocked)
 end

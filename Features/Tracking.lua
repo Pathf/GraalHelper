@@ -33,6 +33,8 @@ local function GetCategoryName(category)
         return { label = L.trackSteal, order = 7 }
     elseif category == "kick" then
         return { label = L.trackKick, order = 8 }
+    elseif category == "dispel" then
+        return { label = L.trackDispel, order = 9 }
     end
     return { label = L.trackUnknow, order = 99 }
 end

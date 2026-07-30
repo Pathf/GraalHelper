@@ -57,6 +57,20 @@ GraalHelper.defaults = {
         sound = "Warning",
     },
 
+    dispel = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        active = true,
+        locked = false,
+        showBuffNames = true,
+        displayDuration = 4,
+        soundEnabled = true,
+        sound = "Warning",
+    },
+
     silence = {
         point = "CENTER",
         relativePoint = "CENTER",
