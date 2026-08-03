@@ -37,6 +37,7 @@
         "CopyTable",
         "GraalHelperDB",
         "UnitClass",
-        "C_UnitAuras"
+        "C_UnitAuras",
+        "UnitIsDeadOrGhost"
     ]
 }

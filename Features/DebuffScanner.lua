@@ -1,11 +1,10 @@
 local _, GraalHelper = ...
 
-local function TargetHasMagicDebuff(unit)
-    unit = unit or "target"
+local function TargetHasMagicDebuff()
     local i = 1
 
     while true do
-        local aura = C_UnitAuras.GetDebuffDataByIndex(unit, i)
+        local aura = C_UnitAuras.GetDebuffDataByIndex("target", i)
         if not aura then break end
 
         if aura.dispelName == "Magic" then
@@ -36,12 +35,9 @@ local function TargetHasMagicDebuff(unit)
 end
 
 local function IsDispelable(dispelType)
-    if not dispelType then return false end
+    if not dispelType or (UnitExists("target") and not UnitIsDeadOrGhost("target") and not UnitIsFriend("player", "target")) then return false end
 
     local playerClass = select(2, UnitClass("player"))
-
-    --if playerClass == 'WARLOCK' then return true end -- TODO: a supprimer
-
     return (dispelType == 'Magic' and (playerClass == 'PRIEST' or playerClass == 'PALADIN'))
         or (dispelType == 'Poison' and (playerClass == 'SHAMAN' or playerClass == 'DRUID' or playerClass == 'PALADIN'))
         or (dispelType == 'Disease' and (playerClass == 'SHAMAN' or playerClass == 'PRIEST' or playerClass == 'PALADIN'))
@@ -49,11 +45,29 @@ local function IsDispelable(dispelType)
         or (dispelType == 'Enrage' and playerClass == 'HUNTER')
 end
 
-function GraalHelper:ScanTargetDebuffs(unit)
+function GraalHelper:ScanTargetAllyDebuffs()
     local dispelDebuffs = {}
     local dispelIcon = nil
     local dispelSignature = {}
 
+    local dispelType, spellDebuffName, spellDebuffId, spellDebuffIcon = TargetHasMagicDebuff()
+    if IsDispelable(dispelType) then
+        local spellKey = self:RegisterTrackedSpell(spellDebuffName, spellDebuffId, spellDebuffIcon, "dispel")
+        if self:IsSpellEnabled(spellKey) then
+            table.insert(dispelDebuffs, spellDebuffName)
+            table.insert(dispelSignature, spellKey)
+            if not dispelIcon then dispelIcon = spellDebuffIcon end
+        end
+    end
+
+    return {
+        dispelDebuffs = dispelDebuffs,
+        dispelIcon = dispelIcon,
+        dispelSignature = table.concat(dispelSignature, "|")
+    }
+end
+
+function GraalHelper:ScanTargetDebuffs(unit)
     local silenceDebuffs = {}
     local silenceIcon = nil
     local silenceSignature = {}
@@ -80,18 +94,6 @@ function GraalHelper:ScanTargetDebuffs(unit)
 
         if not name or not locData or not locData.locType then
             break
-        end
-
-        -- Utilisation :
-        local dispelType, spellDebuffName, spellDebuffId, spellDebuffIcon = TargetHasMagicDebuff("target")
-
-        if IsDispelable(dispelType) then
-            local spellKey = self:RegisterTrackedSpell(spellDebuffName, spellDebuffId, spellDebuffIcon, "dispel")
-            if self:IsSpellEnabled(spellKey) then
-                table.insert(dispelDebuffs, spellDebuffName)
-                table.insert(dispelSignature, spellKey)
-                if not dispelIcon then dispelIcon = spellDebuffIcon end
-            end
         end
 
         if locData.locType == "SILENCE" or locData.locType == "SCHOOL_INTERRUPT" then
@@ -145,10 +147,6 @@ function GraalHelper:ScanTargetDebuffs(unit)
     end
 
     return {
-        dispelDebuffs = dispelDebuffs,
-        dispelIcon = dispelIcon,
-        dispelSignature = table.concat(dispelSignature, "|"),
-
         silenceDebuffs = silenceDebuffs,
         silenceIcon = silenceIcon,
         silenceSignature = table.concat(silenceSignature, "|"),

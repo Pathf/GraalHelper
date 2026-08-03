@@ -13,6 +13,7 @@ function GraalHelper:InitializeDB()
 end
 
 function GraalHelper:PLAYER_LOGIN()
+    GraalHelper:Print("Elle est ou la poulette ?")
     GraalHelper:InitializeDB()
     GraalHelperCharDB = self:CopyDefaults(self.defaults, GraalHelperCharDB or {})
     self.config = GraalHelperCharDB
@@ -168,15 +169,15 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperDispelFrame",
         self.config.dispel,
         {
-            titleText = C.RED .. L.dispelTitle .. C.RESET,
+            titleText = C.BLUE .. L.dispelTitle .. C.RESET,
             lineText = L.dispelLine,
             defaultIcon = ICONS.DISPEL,
-            glowR = 1.00,
-            glowG = 0.18,
-            glowB = 0.18,
-            barR = 1.00,
-            barG = 0.22,
-            barB = 0.22,
+            glowR = 0.20,
+            glowG = 0.55,
+            glowB = 1.00,
+            barR = 0.25,
+            barG = 0.65,
+            barB = 1.00,
         }
     )
 
@@ -222,4 +223,34 @@ end
 
 function GraalHelper:COMBAT_LOG_EVENT_UNFILTERED()
     self:MissNotify()
+end
+
+function GraalHelper:PLAYER_REGEN_ENABLED()
+    local timer = 0
+    local checkInterval = 0.2
+    GraalHelper.playerRegen:SetScript("OnUpdate", function(self, elapsed)
+        timer = timer + elapsed
+        if timer >= checkInterval then
+            timer = 0
+
+            local now = GetTime()
+            local targetExists = UnitExists("target")
+
+            if not targetExists then
+                if R.dispelTestMode and now >= R.dispelDisplayUntil then
+                    R.dispelTestMode = false
+                    GraalHelper:HideDisplay(GraalHelper.uiDispel)
+                end
+                return
+            end
+
+            local playerGuid = UnitGUID("player") or "noguid"
+            local scanPlayerDebuffData = GraalHelper:ScanTargetAllyDebuffs()
+            GraalHelper:HandleDispelDisplay(scanPlayerDebuffData, playerGuid, now)
+        end
+    end)
+end
+
+function GraalHelper:PLAYER_REGEN_DISABLED()
+    GraalHelper.playerRegen:SetScript("OnUpdate", nil)
 end
