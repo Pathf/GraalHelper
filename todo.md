@@ -1,5 +1,4 @@
 # TODO
-- SetCVar("cameraDistanceMaxZoomFactor", 4)
 - Add de message explicatif de chaque Alertes/Actions/Réglages
 - Faire une demo / et une config par defaut
 - Add la gestion des invok pour raid
