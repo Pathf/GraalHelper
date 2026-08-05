@@ -268,7 +268,3 @@ end
 function GraalHelper:CreateChatDropdown(parent, frameName, x, y, getValueFunc, setValueFunc, previewFunc)
     return CreateDropdown(parent, frameName, C.CHAT_OPTIONS, true, x, y, getValueFunc, setValueFunc, previewFunc)
 end
-
-function GraalHelper:CreateDurationDropdown(parent, frameName, x, y, getValueFunc, setValueFunc, previewFunc)
-    return CreateDropdown(parent, frameName, C.DURATION_OPTIONS, false, x, y, getValueFunc, setValueFunc, previewFunc)
-end

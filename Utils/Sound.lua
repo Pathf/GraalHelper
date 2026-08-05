@@ -9,10 +9,6 @@ local function GetSelectedEntry(list, value)
     return list[1]
 end
 
-function GraalHelper:GetSelectedMinDurationEntry(minValue)
-    return GetSelectedEntry(C.DURATION_OPTIONS, minValue)
-end
-
 function GraalHelper:GetSelectedSoundEntry(soundValue)
     return GetSelectedEntry(C.SOUND_OPTIONS, soundValue)
 end
