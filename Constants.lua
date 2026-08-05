@@ -94,6 +94,18 @@ C.SOUND_OPTIONS = {
     },
 }
 
+C.DURATION_OPTIONS = {
+    { text = "0s",   value = 0 },
+    { text = "0.5s", value = 0.5 },
+    { text = "1s",   value = 1 },
+    { text = "1.5s", value = 1.5 },
+    { text = "2s",   value = 2 },
+    { text = "2.5s", value = 2.5 },
+    { text = "3s",   value = 3 },
+    { text = "3.5s", value = 3.5 },
+    { text = "4s",   value = 4 },
+}
+
 C.SPELL_REFLECTION_SPELL_IDS = {
     [23920] = true
 }

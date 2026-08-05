@@ -10,6 +10,7 @@ GraalHelper.L = {
     bothLocked = "Warnungen gesperrt.",
     bothUnlocked = "Warnungen entsperrt.",
     chooseChat = "Chat-Auswahl",
+    chooseMinDuration = "Mindestzauberdauer zum Unterbrechen (ignoriert kürzere)",
     chooseSound = "Klangwahl",
     disarmFound = "Entwaffnung aktiv",
     disarmLine = "Kampf ohne Waffe - Entwaffnung aktiv!",

@@ -10,6 +10,7 @@ GraalHelper.L = {
     bothLocked = "알림이 잠겼습니다.",
     bothUnlocked = "알림이 잠금 해제되었습니다.",
     chooseChat = "채팅 선택",
+    chooseMinDuration = "차단할 최소 주문 시전 시간 (더 짧은 주문 제외)",
     chooseSound = "사운드 선택",
     disarmFound = "무장 해제 활성화",
     disarmLine = "맨손 전투 - 무장 해제 활성화!",

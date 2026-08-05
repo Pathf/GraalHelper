@@ -10,6 +10,7 @@ GraalHelper.L = {
     bothLocked = "Both windows locked.",
     bothUnlocked = "Both windows unlocked.",
     chooseChat = "Chat selection",
+    chooseMinDuration = "Min. spell duration to interrupt (ignores shorter ones)",
     chooseSound = "Choose sound",
     disarmFound = "Disarm effect active",
     disarmLine = "Fighting bare-handed - Disarm active!",

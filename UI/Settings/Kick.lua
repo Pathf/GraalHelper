@@ -112,6 +112,18 @@ function GraalHelper:addKickPanel(self)
         end
     )
 
+    self.options.kickMinDurationLabel = self.options.panels.kick:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    self.options.kickMinDurationLabel:SetPoint("TOPLEFT", 18, -370)
+    self.options.kickMinDurationLabel:SetText(C.GOLD .. L.chooseMinDuration .. C.RESET)
+    self.options.kickMinDurationDropdown = self:CreateDurationDropdown(
+        self.options.panels.kick,
+        "GraalHelperKickMinDurationDropdown",
+        0, -385,
+        function() return GraalHelper.config.kick.minDuration end,
+        function(value) GraalHelper.config.kick.minDuration = value end,
+        function() end
+    )
+
     self.options.kickTestButton = self:CreateMenuButton(self.options.panels.kick, "", 150, 100, 40)
     self.options.kickTestButton:SetScript("OnClick", function()
         GraalHelper:StartKickTestMode()
@@ -137,6 +149,9 @@ function GraalHelper:RefreshOptionsUIKick()
     local kickSoundEntry = self:GetSelectedSoundEntry(self.config.kick.sound)
     UIDropDownMenu_SetSelectedValue(self.options.kickSoundDropdown, kickSoundEntry.value)
     UIDropDownMenu_SetText(self.options.kickSoundDropdown, kickSoundEntry.text)
+    local kickMinDurationEntry = self:GetSelectedMinDurationEntry(self.config.kick.minDuration)
+    UIDropDownMenu_SetSelectedValue(self.options.kickMinDurationDropdown, kickMinDurationEntry.value)
+    UIDropDownMenu_SetText(self.options.kickMinDurationDropdown, kickMinDurationEntry.text)
 end
 
 function GraalHelper:StartKickTestMode()

@@ -10,6 +10,7 @@ GraalHelper.L = {
     bothLocked = "Alertes verrouillées.",
     bothUnlocked = "Alertes déverrouillées.",
     chooseChat = "Choix du chat",
+    chooseMinDuration = "Durée min du sort à annuler (ignore les plus courts)",
     chooseSound = "Choix du son",
     disarmFound = "Désarmement actif",
     disarmLine = "Combat à mains nus - Désarmement actif !",

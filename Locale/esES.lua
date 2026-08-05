@@ -10,6 +10,7 @@ GraalHelper.L = {
     bothLocked = "Alertas bloqueadas.",
     bothUnlocked = "Alertas desbloqueadas.",
     chooseChat = "Selección de chat",
+    chooseMinDuration = "Duración mín. del hechizo para interrumpir (ignora los más cortos)",
     chooseSound = "Selección de sonido",
     disarmFound = "Desarme activo",
     disarmLine = "Combatiendo sin armas - ¡Desarme activo!",

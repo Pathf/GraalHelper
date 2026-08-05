@@ -232,7 +232,7 @@ function GraalHelper:SkinSlider(slider, r, g, b)
     UpdateFill(slider)
 end
 
-local function CreateDropdown(parent, frameName, options, x, y, getValueFunc, setValueFunc, previewFunc)
+local function CreateDropdown(parent, frameName, options, isTranslate, x, y, getValueFunc, setValueFunc, previewFunc)
     local dropdown = CreateFrame("Frame", frameName, parent, "UIDropDownMenuTemplate")
     dropdown:SetPoint("TOPLEFT", x, y)
 
@@ -240,12 +240,15 @@ local function CreateDropdown(parent, frameName, options, x, y, getValueFunc, se
     UIDropDownMenu_Initialize(dropdown, function(self, level)
         for _, entry in ipairs(options) do
             local info = UIDropDownMenu_CreateInfo()
-            info.text = L[entry.text]
+            info.text = entry.text
+            if isTranslate then info.text = L[entry.text] end
             info.value = entry.value
             info.func = function()
                 setValueFunc(entry.value)
                 UIDropDownMenu_SetSelectedValue(dropdown, entry.value)
-                UIDropDownMenu_SetText(dropdown, L[entry.text])
+                local entryText = entry.text
+                if isTranslate then entryText = L[entry.text] end
+                UIDropDownMenu_SetText(dropdown, entryText)
                 if previewFunc then
                     previewFunc()
                 end
@@ -259,9 +262,13 @@ local function CreateDropdown(parent, frameName, options, x, y, getValueFunc, se
 end
 
 function GraalHelper:CreateSoundDropdown(parent, frameName, x, y, getValueFunc, setValueFunc, previewFunc)
-    return CreateDropdown(parent, frameName, C.SOUND_OPTIONS, x, y, getValueFunc, setValueFunc, previewFunc)
+    return CreateDropdown(parent, frameName, C.SOUND_OPTIONS, false, x, y, getValueFunc, setValueFunc, previewFunc)
 end
 
 function GraalHelper:CreateChatDropdown(parent, frameName, x, y, getValueFunc, setValueFunc, previewFunc)
-    return CreateDropdown(parent, frameName, C.CHAT_OPTIONS, x, y, getValueFunc, setValueFunc, previewFunc)
+    return CreateDropdown(parent, frameName, C.CHAT_OPTIONS, true, x, y, getValueFunc, setValueFunc, previewFunc)
+end
+
+function GraalHelper:CreateDurationDropdown(parent, frameName, x, y, getValueFunc, setValueFunc, previewFunc)
+    return CreateDropdown(parent, frameName, C.DURATION_OPTIONS, false, x, y, getValueFunc, setValueFunc, previewFunc)
 end

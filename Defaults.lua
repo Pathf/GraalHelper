@@ -27,6 +27,7 @@ GraalHelper.defaults = {
         displayDuration = 4,
         soundEnabled = true,
         sound = "MapPing",
+        minDuration = 1.5
     },
 
     hunterPackAspect = {

@@ -10,6 +10,7 @@ GraalHelper.L = {
     bothLocked = "警報已鎖定。",
     bothUnlocked = "警報已解鎖。",
     chooseChat = "聊天選擇",
+    chooseMinDuration = "打斷的最小法術施放時間（忽略更短的）",
     chooseSound = "聲音選擇",
     disarmFound = "繳械已啟用",
     disarmLine = "徒手戰鬥 - 繳械已啟用！",
