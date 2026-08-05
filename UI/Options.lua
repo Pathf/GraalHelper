@@ -113,6 +113,9 @@ function GraalHelper:CreateOptionsWindow()
     GraalHelper:addDispelPanel(self)
     GraalHelper:addDispelNav(self)
 
+    GraalHelper:addGlobalPanel(self)
+    GraalHelper:addGlobalNav(self)
+
     self:RefreshTrackedSpellsUI()
     self.options.nav.trackedButton:Click()
 end
@@ -146,6 +149,7 @@ function GraalHelper:RefreshOptionsUI()
     self:RefreshOptionsUISummonNotifier()
     self:RefreshOptionsUIMissNotifier()
     self:RefreshOptionsUIDispel()
+    self:RefreshOptionsUIGlobal()
 end
 
 function GraalHelper:ToggleOptions()

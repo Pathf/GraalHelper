@@ -38,6 +38,7 @@
         "GraalHelperDB",
         "UnitClass",
         "C_UnitAuras",
-        "UnitIsDeadOrGhost"
+        "UnitIsDeadOrGhost",
+        "SetCVar"
     ]
 }

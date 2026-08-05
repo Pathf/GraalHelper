@@ -165,4 +165,5 @@ GraalHelper.defaults = {
 
     trackedSpells = {},
     spellFilter = {},
+    cameraMaxZoom = 1,
 }

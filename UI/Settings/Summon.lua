@@ -25,7 +25,7 @@ function GraalHelper:addSummonNotifierPanel()
 end
 
 function GraalHelper:addSummonNotifierNav()
-    self.options.nav.summonNotifierButton = self:CreateNavSubItem(self.options.nav, L.summonNotifierSection, -455,
+    self.options.nav.summonNotifierButton = self:CreateNavSubItem(self.options.nav, L.summonNotifierSection, -485,
         function()
             GraalHelper:ShowOptionsPanel("summonNotifier")
         end)

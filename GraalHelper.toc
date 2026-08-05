@@ -27,10 +27,12 @@ Features\MissNotifier.lua
 Features\BuffScanner.lua
 Features\CastScanner.lua
 Features\DebuffScanner.lua
+Features\ZoomOut.lua
 
 UI\Settings\Disarm.lua
 UI\Settings\Dispel.lua
 UI\Settings\Fear.lua
+UI\Settings\Global.lua
 UI\Settings\HunterPackApsect.lua
 UI\Settings\Kick.lua
 UI\Settings\Miss.lua
