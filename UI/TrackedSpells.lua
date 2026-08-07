@@ -48,6 +48,9 @@ function GraalHelper:RefreshTrackedSpellsUI()
 
     self:SortTrackedSpells()
 
+    -- Initialisation de la table pour mémoriser l'état plié/déplié des catégories
+    self.collapsedCategories = self.collapsedCategories or {}
+
     local trackedSpells = (self.config and self.config.trackedSpells) or {}
     local content = self.options.panels.tracked.content
 
@@ -109,103 +112,127 @@ function GraalHelper:RefreshTrackedSpellsUI()
 
     for _, category in ipairs(order) do
         ------------------------------------------------------------------
-        -- Header
+        -- Header (Bouton Cliquable avec [+] aligné à droite)
         ------------------------------------------------------------------
         local header = self.options.panels.tracked.headers[category]
 
         if not header then
-            header = content:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-            header:SetTextColor(1, 0.82, 0)
+            header = CreateFrame("Button", nil, content)
+            -- Largeur ajustée (ex: 260px) pour correspondre à vos rangées de sorts
+            header:SetSize(260, 20)
+
+            -- Nom de la catégorie (à gauche)
+            header.title = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+            header.title:SetPoint("LEFT", header, "LEFT", 0, 0)
+            header.title:SetTextColor(1, 0.82, 0)
+
+            -- Indicateur [+] / [-] (à droite)
+            header.arrow = header:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+            header.arrow:SetPoint("RIGHT", header, "RIGHT", 0, 0)
+
             self.options.panels.tracked.headers[category] = header
         end
 
         header:ClearAllPoints()
         header:SetPoint("TOPLEFT", 10, -y)
-        header:SetText(category)
-        header:Show()
 
+        local isCollapsed = self.collapsedCategories[category]
+
+        -- Mettre à jour le titre et la flèche séparément
+        header.title:SetText(category)
+        header.arrow:SetText(isCollapsed and "|cffa8a8a8[+]|r" or "|cffa8a8a8[-]|r")
+
+        -- Action au clic
+        header:SetScript("OnClick", function()
+            self.collapsedCategories[category] = not self.collapsedCategories[category]
+            self:RefreshTrackedSpellsUI()
+        end)
+
+        header:Show()
         y = y + 22
 
         ------------------------------------------------------------------
-        -- Sorts
+        -- Sorts (Affichés uniquement si la catégorie n'est pas pliée)
         ------------------------------------------------------------------
-        for _, spell in ipairs(groups[category]) do
-            local row = self.options.panels.tracked.rows[rowIndex]
+        if not isCollapsed then
+            for _, spell in ipairs(groups[category]) do
+                local row = self.options.panels.tracked.rows[rowIndex]
 
-            if not row then
-                row = CreateFrame("Frame", nil, content)
-                row:SetSize(270, 28)
-                row:EnableMouse(true)
+                if not row then
+                    row = CreateFrame("Frame", nil, content)
+                    row:SetSize(270, 28)
+                    row:EnableMouse(true)
 
-                row.check = CreateFrame("CheckButton", nil, row, "UICheckButtonTemplate")
-                row.check:SetPoint("TOPLEFT", 0, 2)
+                    row.check = CreateFrame("CheckButton", nil, row, "UICheckButtonTemplate")
+                    row.check:SetPoint("TOPLEFT", 0, 2)
 
-                row.icon = row:CreateTexture(nil, "ARTWORK")
-                row.icon:SetSize(18, 18)
-                row.icon:SetPoint("LEFT", row.check, "RIGHT", 2, 0)
+                    row.icon = row:CreateTexture(nil, "ARTWORK")
+                    row.icon:SetSize(18, 18)
+                    row.icon:SetPoint("LEFT", row.check, "RIGHT", 2, 0)
 
-                row.name = row:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-                row.name:SetPoint("TOPLEFT", row.icon, "TOPRIGHT", 6, 0)
-                row.name:SetWidth(180)
-                row.name:SetJustifyH("LEFT")
+                    row.name = row:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+                    row.name:SetPoint("TOPLEFT", row.icon, "TOPRIGHT", 6, 0)
+                    row.name:SetWidth(180)
+                    row.name:SetJustifyH("LEFT")
 
-                row.category = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-                row.category:SetPoint("TOPLEFT", row.name, "BOTTOMLEFT", 0, -2)
-                row.category:SetWidth(180)
-                row.category:SetJustifyH("LEFT")
+                    row.category = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+                    row.category:SetPoint("TOPLEFT", row.name, "BOTTOMLEFT", 0, -2)
+                    row.category:SetWidth(180)
+                    row.category:SetJustifyH("LEFT")
 
-                row.divider = row:CreateTexture(nil, "BACKGROUND")
-                row.divider:SetPoint("BOTTOMLEFT", 0, 0)
-                row.divider:SetPoint("BOTTOMRIGHT", -10, 0)
-                row.divider:SetHeight(1)
-                row.divider:SetTexture("Interface\\Buttons\\WHITE8x8")
-                row.divider:SetVertexColor(0.20, 0.20, 0.24, 0.85)
+                    row.divider = row:CreateTexture(nil, "BACKGROUND")
+                    row.divider:SetPoint("BOTTOMLEFT", 0, 0)
+                    row.divider:SetPoint("BOTTOMRIGHT", -10, 0)
+                    row.divider:SetHeight(1)
+                    row.divider:SetTexture("Interface\\Buttons\\WHITE8x8")
+                    row.divider:SetVertexColor(0.20, 0.20, 0.24, 0.85)
 
-                self.options.panels.tracked.rows[rowIndex] = row
+                    self.options.panels.tracked.rows[rowIndex] = row
+                end
+
+                row:ClearAllPoints()
+                row:SetPoint("TOPLEFT", 10, -y)
+
+                row.check:SetChecked(self:IsSpellEnabled(spell.key))
+                row.icon:SetTexture(spell.icon or "Interface\\Icons\\INV_Misc_QuestionMark")
+                row.name:SetText(spell.name or spell.key)
+
+                row.category:SetText(
+                    spell.spellId and ("|cffa8a8a8[#" .. spell.spellId .. "]|r") or ""
+                )
+
+                row.check:SetScript("OnClick", function(btn)
+                    self.config.spellFilter[spell.key] = btn:GetChecked() or false
+                end)
+
+                local function ShowTooltip()
+                    self:ShowTrackedSpellTooltip(row, spell)
+                end
+
+                local function HideTooltip()
+                    GameTooltip:Hide()
+                end
+
+                row:SetScript("OnEnter", ShowTooltip)
+                row:SetScript("OnLeave", HideTooltip)
+
+                row.check:SetScript("OnEnter", ShowTooltip)
+                row.check:SetScript("OnLeave", HideTooltip)
+
+                row.icon:SetScript("OnEnter", ShowTooltip)
+                row.icon:SetScript("OnLeave", HideTooltip)
+
+                row.name:SetScript("OnEnter", ShowTooltip)
+                row.name:SetScript("OnLeave", HideTooltip)
+
+                row.category:SetScript("OnEnter", ShowTooltip)
+                row.category:SetScript("OnLeave", HideTooltip)
+
+                row:Show()
+
+                rowIndex = rowIndex + 1
+                y = y + 30
             end
-
-            row:ClearAllPoints()
-            row:SetPoint("TOPLEFT", 10, -y)
-
-            row.check:SetChecked(self:IsSpellEnabled(spell.key))
-            row.icon:SetTexture(spell.icon or "Interface\\Icons\\INV_Misc_QuestionMark")
-            row.name:SetText(spell.name or spell.key)
-
-            row.category:SetText(
-                spell.spellId and ("|cffa8a8a8[#" .. spell.spellId .. "]|r") or ""
-            )
-
-            row.check:SetScript("OnClick", function(btn)
-                self.config.spellFilter[spell.key] = btn:GetChecked() or false
-            end)
-
-            local function ShowTooltip()
-                self:ShowTrackedSpellTooltip(row, spell)
-            end
-
-            local function HideTooltip()
-                GameTooltip:Hide()
-            end
-
-            row:SetScript("OnEnter", ShowTooltip)
-            row:SetScript("OnLeave", HideTooltip)
-
-            row.check:SetScript("OnEnter", ShowTooltip)
-            row.check:SetScript("OnLeave", HideTooltip)
-
-            row.icon:SetScript("OnEnter", ShowTooltip)
-            row.icon:SetScript("OnLeave", HideTooltip)
-
-            row.name:SetScript("OnEnter", ShowTooltip)
-            row.name:SetScript("OnLeave", HideTooltip)
-
-            row.category:SetScript("OnEnter", ShowTooltip)
-            row.category:SetScript("OnLeave", HideTooltip)
-
-            row:Show()
-
-            rowIndex = rowIndex + 1
-            y = y + 30
         end
 
         y = y + 6
