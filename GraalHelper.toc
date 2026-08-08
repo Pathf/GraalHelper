@@ -2,7 +2,7 @@
 ## Title: GraalHelper
 ## Notes: Helper with warnings
 ## Author: Pathf
-## Version: 1.14.0
+## Version: 1.14.1
 ## SavedVariables: GraalHelperDB
 ## SavedVariablesPerCharacter: GraalHelperCharDB
 
