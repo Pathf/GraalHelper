@@ -1,10 +1,10 @@
 local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
-local ritualOfRefreshmentID = C.RITUAL_OF_REFRESHMENT.ID
-local ritualOfSoulsID = C.RITUAL_OF_SOULS.ID
-local ritualOfSummoningID = C.RITUAL_OF_SUMMONING.ID
-local summoningStoneID = C.SUMMONING_STONE.ID
+local ritualOfRefreshmentID = C.SPELL.RITUAL_OF_REFRESHMENT.ID
+local ritualOfSoulsID = C.SPELL.RITUAL_OF_SOULS.ID
+local ritualOfSummoningID = C.SPELL.RITUAL_OF_SUMMONING.ID
+local summoningStoneID = C.SPELL.SUMMONING_STONE.ID
 
 function Summoning(spellIDs, spellID, message)
     if (not spellIDs[spellID]) then return end

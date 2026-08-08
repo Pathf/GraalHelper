@@ -44,7 +44,7 @@ function GraalHelper:addHunterPackAspectPanel()
         "InterfaceOptionsCheckButtonTemplate")
     self.options.hunterPackAspectNameCheck:SetPoint("TOPLEFT", self.options.hunterPackAspectLockCheck, "BOTTOMLEFT", 0,
         -8)
-    self.options.hunterPackAspectNameCheck:SetScript("OnClick", function(seslf)
+    self.options.hunterPackAspectNameCheck:SetScript("OnClick", function(s)
         GraalHelper.config.hunterPackAspect.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.hunterPackAspectNameCheck.label = self.options.hunterPackAspectNameCheck:CreateFontString(nil, "OVERLAY",
