@@ -4,10 +4,12 @@ GraalHelper.Constants = {}
 
 local C = GraalHelper.Constants
 
-C.GOLD = "|cffffd100"
-C.WHITE = "|cffffffff"
-C.BLUE = "|cff66ccff"
-C.RED = "|cffff4444"
+C.GOLD = "|cffffd100"  -- RGB: 1.0, 0.82, 0.0
+C.WHITE = "|cffffffff" -- RGB: 0.0, 0.0, 0.0
+C.BLACK = "|cff000000" -- RGB: 1.0, 1.0, 1.0
+C.BLUE = "|cff66ccff"  -- RGB: 0.25, 0.65, 1.0
+C.RED = "|cffff4444"   -- RGB: 1.0, 0.30, 0.20
+C.GREEN = "|cff33ff33" -- RGB: 0.20, 1.0, 0.20
 C.RESET = "|r"
 
 C.BASE_FRAME_WIDTH = 420

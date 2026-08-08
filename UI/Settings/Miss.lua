@@ -15,7 +15,7 @@ function GraalHelper:addMissNotifierPanel()
     self.options.panels.missNotifier.title = self.options.panels.missNotifier:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.missNotifier.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.missNotifier.title:SetText(C.RED .. L.missNotifierSection .. C.RESET)
+    self.options.panels.missNotifier.title:SetText(C.GREEN .. L.missNotifierSection .. C.RESET)
 
     self.options.missNotifierActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .missNotifier,

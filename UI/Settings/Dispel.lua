@@ -65,36 +65,36 @@ function GraalHelper:addDispelPanel()
         0.5,
         2.0,
         0.05, 280, 34,
-        -240)
+        -180)
     self.options.dispelScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.dispel.scale = value
         s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiDispel, GraalHelper.config.dispel)
     end)
-    self:SkinSlider(self.options.dispelScaleSlider, 1.0, 0.30, 0.20)
+    self:SkinSlider(self.options.dispelScaleSlider, 0.25, 0.65, 1.0)
     _G[self.options.dispelScaleSlider:GetName() .. "Text"]:SetText(L.scale)
 
     self.options.dispelDurationSlider = self:CreateSlider(self.options.panels.dispel,
         "GraalHelperDispelDurationSlider",
         "", 1, 20,
         1, 280, 34,
-        -310)
+        -250)
     self.options.dispelDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.dispel.displayDuration = value
         s.valueText:SetText(tostring(value) .. " Sec.")
     end)
-    self:SkinSlider(self.options.dispelDurationSlider, 1.0, 0.30, 0.20)
+    self:SkinSlider(self.options.dispelDurationSlider, 0.25, 0.65, 1.0)
     _G[self.options.dispelDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
 
     self.options.dispelSoundLabel = self.options.panels.dispel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.dispelSoundLabel:SetPoint("TOPLEFT", 18, -360)
+    self.options.dispelSoundLabel:SetPoint("TOPLEFT", 18, -300)
     self.options.dispelSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
     self.options.dispelSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.dispel,
         "GraalHelperDispelSoundDropdown",
-        0, -375,
+        0, -315,
         function() return GraalHelper.config.dispel.sound end,
         function(value) GraalHelper.config.dispel.sound = value end,
         function() GraalHelper:PlayConfiguredSound(GraalHelper.config.dispel) end
