@@ -10,7 +10,7 @@ function GraalHelper:addKickPanel()
     self.options.panels.kick.title = self.options.panels.kick:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.kick.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.kick.title:SetText(C.BLUE .. L.kickTitle .. C.RESET)
+    self.options.panels.kick.title:SetText(C.COLORS.BLUE.C .. L.kickTitle .. C.RESET)
 
     self.options.kickActive = CreateFrame(
         "CheckButton",
@@ -98,7 +98,7 @@ function GraalHelper:addKickPanel()
 
     self.options.kickSoundLabel = self.options.panels.kick:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.kickSoundLabel:SetPoint("TOPLEFT", 18, -320)
-    self.options.kickSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
+    self.options.kickSoundLabel:SetText(C.COLORS.GOLD.C .. L.chooseSound .. C.RESET)
     self.options.kickSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.kick,
         "GraalHelperKickSoundDropdown",
@@ -158,7 +158,7 @@ function GraalHelper:StartKickTestMode()
     R.kickTestMode = true
     R.kickDisplayUntil = GetTime() + (self.config.kick.displayDuration or 4)
     R.lastKickAlertKey = "TESTMODE"
-    self:ShowDisplay(self.uiKick, ICONS.KICK, C.BLUE .. L.kickTitle .. C.RESET, L.spellkickLine, "")
+    self:ShowDisplay(self.uiKick, ICONS.KICK, C.COLORS.BLUE.C .. L.kickTitle .. C.RESET, L.spellkickLine, "")
     self:PlayConfiguredSound(self.config.kick)
 end
 
@@ -187,7 +187,7 @@ function GraalHelper:HandleKickDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiKick,
             scanData.kickIcon or ICONS.KICK,
-            C.BLUE .. L.kickTitle .. C.RESET,
+            C.COLORS.BLUE.C .. L.kickTitle .. C.RESET,
             L.spellkickLine,
             sub
         )
@@ -208,7 +208,7 @@ function GraalHelper:HandleKickDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiKick,
                     scanData.kickIcon or ICONS.KICK,
-                    C.BLUE .. L.kickTitle .. C.RESET,
+                    C.COLORS.BLUE.C .. L.kickTitle .. C.RESET,
                     L.spellkickLine,
                     sub
                 )

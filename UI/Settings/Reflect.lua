@@ -10,7 +10,7 @@ function GraalHelper:addReflectPanel()
     self.options.panels.reflect.title = self.options.panels.reflect:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.reflect.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.reflect.title:SetText(C.RED .. L.reflectSection .. C.RESET)
+    self.options.panels.reflect.title:SetText(C.COLORS.RED.C .. L.reflectSection .. C.RESET)
 
     self.options.reflectActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .reflect,
@@ -97,7 +97,7 @@ function GraalHelper:addReflectPanel()
 
     self.options.reflectSoundLabel = self.options.panels.reflect:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.reflectSoundLabel:SetPoint("TOPLEFT", 18, -320)
-    self.options.reflectSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
+    self.options.reflectSoundLabel:SetText(C.COLORS.GOLD.C .. L.chooseSound .. C.RESET)
 
     self.options.reflectSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.reflect,
@@ -142,7 +142,7 @@ function GraalHelper:StartReflectTestMode()
     R.reflectTestMode = true
     R.reflectDisplayUntil = GetTime() + (self.config.reflect.displayDuration or 4)
     R.lastReflectAlertKey = "TESTMODE"
-    self:ShowDisplay(self.uiReflect, ICONS.REFLECT, C.RED .. L.reflectTitle .. C.RESET, L.reflectLine, "")
+    self:ShowDisplay(self.uiReflect, ICONS.REFLECT, C.COLORS.RED.C .. L.reflectTitle .. C.RESET, L.reflectLine, "")
     self:PlayConfiguredSound(self.config.reflect)
 end
 
@@ -171,7 +171,7 @@ function GraalHelper:HandleReflectDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiReflect,
             scanData.reflectIcon or ICONS.REFLECT,
-            C.RED .. L.reflectTitle .. C.RESET,
+            C.COLORS.RED.C .. L.reflectTitle .. C.RESET,
             L.reflectLine,
             sub
         )
@@ -192,7 +192,7 @@ function GraalHelper:HandleReflectDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiReflect,
                     scanData.reflectIcon or ICONS.REFLECT,
-                    C.RED .. L.reflectTitle .. C.RESET,
+                    C.COLORS.RED.C .. L.reflectTitle .. C.RESET,
                     L.reflectLine,
                     sub
                 )

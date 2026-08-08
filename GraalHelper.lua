@@ -25,7 +25,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperStealFrame",
         self.config.steal,
         {
-            titleText = C.BLUE .. L.stealTitle .. C.RESET,
+            titleText = C.COLORS.BLUE.C .. L.stealTitle .. C.RESET,
             lineText = L.spellstealLine,
             defaultIcon = ICONS.STEAL,
             glowR = 0.20,
@@ -41,7 +41,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperKickFrame",
         self.config.kick,
         {
-            titleText = C.BLUE .. L.kickTitle .. C.RESET,
+            titleText = C.COLORS.BLUE.C .. L.kickTitle .. C.RESET,
             lineText = L.kickLine,
             defaultIcon = ICONS.KICK,
             glowR = 0.20,
@@ -57,7 +57,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperHunterPackAspectFrame",
         self.config.hunterPackAspect,
         {
-            titleText = C.BLUE .. L.hunterPackAspectTitle .. C.RESET,
+            titleText = C.COLORS.BLUE.C .. L.hunterPackAspectTitle .. C.RESET,
             lineText = L.hunterPackAspectLine,
             defaultIcon = ICONS.HUNTER_PACK_ASPECT,
             glowR = 0.20,
@@ -73,7 +73,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperReflectFrame",
         self.config.reflect,
         {
-            titleText = C.RED .. L.reflectTitle .. C.RESET,
+            titleText = C.COLORS.RED.C .. L.reflectTitle .. C.RESET,
             lineText = L.reflectLine,
             defaultIcon = ICONS.REFLECT,
             glowR = 1.00,
@@ -89,7 +89,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperSilenceFrame",
         self.config.silence,
         {
-            titleText = C.RED .. L.silenceTitle .. C.RESET,
+            titleText = C.COLORS.RED.C .. L.silenceTitle .. C.RESET,
             lineText = L.silenceLine,
             defaultIcon = ICONS.SILENCE,
             glowR = 1.00,
@@ -105,7 +105,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperStunFrame",
         self.config.stun,
         {
-            titleText = C.RED .. L.stunTitle .. C.RESET,
+            titleText = C.COLORS.RED.C .. L.stunTitle .. C.RESET,
             lineText = L.stunLine,
             defaultIcon = ICONS.STUN,
             glowR = 1.00,
@@ -121,7 +121,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperRootFrame",
         self.config.root,
         {
-            titleText = C.RED .. L.rootTitle .. C.RESET,
+            titleText = C.COLORS.RED.C .. L.rootTitle .. C.RESET,
             lineText = L.rootLine,
             defaultIcon = ICONS.ROOT,
             glowR = 1.00,
@@ -137,7 +137,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperDisarmFrame",
         self.config.disarm,
         {
-            titleText = C.RED .. L.disarmTitle .. C.RESET,
+            titleText = C.COLORS.RED.C .. L.disarmTitle .. C.RESET,
             lineText = L.disarmLine,
             defaultIcon = ICONS.DISARM,
             glowR = 1.00,
@@ -153,7 +153,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperFearFrame",
         self.config.fear,
         {
-            titleText = C.RED .. L.fearTitle .. C.RESET,
+            titleText = C.COLORS.RED.C .. L.fearTitle .. C.RESET,
             lineText = L.fearLine,
             defaultIcon = ICONS.FEAR,
             glowR = 1.00,
@@ -169,7 +169,7 @@ function GraalHelper:PLAYER_LOGIN()
         "GraalHelperDispelFrame",
         self.config.dispel,
         {
-            titleText = C.BLUE .. L.dispelTitle .. C.RESET,
+            titleText = C.COLORS.BLUE.C .. L.dispelTitle .. C.RESET,
             lineText = L.dispelLine,
             defaultIcon = ICONS.DISPEL,
             glowR = 0.20,
@@ -225,7 +225,7 @@ function GraalHelper:COMBAT_LOG_EVENT_UNFILTERED()
     self:MissNotify()
 end
 
-function GraalHelper:PLAYER_REGEN_ENABLED()
+function GraalHelper:PLAYER_REGEN_DISABLED()
     local timer = 0
     local checkInterval = 0.2
     GraalHelper.playerRegen:SetScript("OnUpdate", function(_, elapsed)
@@ -251,6 +251,6 @@ function GraalHelper:PLAYER_REGEN_ENABLED()
     end)
 end
 
-function GraalHelper:PLAYER_REGEN_DISABLED()
+function GraalHelper:PLAYER_REGEN_ENABLED()
     GraalHelper.playerRegen:SetScript("OnUpdate", nil)
 end

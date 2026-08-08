@@ -6,11 +6,7 @@ local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addDispelPanel()
-    self.options.panels.dispel = self:CreatePanel(self.options.content)
-    self.options.panels.dispel.title = self.options.panels.dispel:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.dispel.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.dispel.title:SetText(C.BLUE .. L.dispelSection .. C.RESET)
+    self.options.panels.dispel = self:CreatePanelWithTitle(self.options.content, L.dispelSection, C.COLORS.BLUE.C)
 
     self.options.dispelActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .dispel,
@@ -90,7 +86,7 @@ function GraalHelper:addDispelPanel()
 
     self.options.dispelSoundLabel = self.options.panels.dispel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.dispelSoundLabel:SetPoint("TOPLEFT", 18, -300)
-    self.options.dispelSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
+    self.options.dispelSoundLabel:SetText(C.COLORS.GOLD.C .. L.chooseSound .. C.RESET)
     self.options.dispelSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.dispel,
         "GraalHelperDispelSoundDropdown",
@@ -133,7 +129,7 @@ function GraalHelper:StartDispelTestMode()
     R.dispelTestMode = true
     R.dispelDisplayUntil = GetTime() + (self.config.dispel.displayDuration or 4)
     R.lastDispelAlertKey = "TESTMODE"
-    self:ShowDisplay(self.uiDispel, ICONS.DISPEL, C.BLUE .. L.dispelTitle .. C.RESET, L.dispelLine, "")
+    self:ShowDisplay(self.uiDispel, ICONS.DISPEL, C.COLORS.BLUE.C .. L.dispelTitle .. C.RESET, L.dispelLine, "")
     self:PlayConfiguredSound(self.config.dispel)
 end
 
@@ -162,7 +158,7 @@ function GraalHelper:HandleDispelDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiDispel,
             scanData.dispelIcon or ICONS.DISPEL,
-            C.BLUE .. L.dispelTitle .. C.RESET,
+            C.COLORS.BLUE.C .. L.dispelTitle .. C.RESET,
             L.dispelLine,
             sub
         )
@@ -183,7 +179,7 @@ function GraalHelper:HandleDispelDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiDispel,
                     scanData.dispelIcon or ICONS.DISPEL,
-                    C.BLUE .. L.dispelTitle .. C.RESET,
+                    C.COLORS.BLUE.C .. L.dispelTitle .. C.RESET,
                     L.dispelLine,
                     sub
                 )

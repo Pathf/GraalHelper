@@ -21,11 +21,12 @@ local function buildTopBar(self)
 
     self.options.title = self.options:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     self.options.title:SetPoint("TOP", 0, -18)
-    self.options.title:SetText(C.GOLD .. L.menuTitle .. C.RESET)
+    self.options.title:SetText(C.COLORS.GOLD.C .. L.menuTitle .. C.RESET)
 
     self.options.subtitle = self.options:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     self.options.subtitle:SetPoint("TOP", self.options.title, "BOTTOM", 0, -8)
-    self.options.subtitle:SetText(C.WHITE .. "v" .. C_AddOns.GetAddOnMetadata('GraalHelper', 'version') .. C.RESET)
+    self.options.subtitle:SetText(C.COLORS.WHITE.C ..
+    "v" .. C_AddOns.GetAddOnMetadata('GraalHelper', 'version') .. C.RESET)
 
     self.options.closeButton = CreateFrame("Button", nil, self.options, "UIPanelCloseButton")
     self.options.closeButton:SetPoint("TOPRIGHT", -5, -5)

@@ -17,7 +17,7 @@ function GraalHelper:addStunPanel()
     self.options.panels.stun.title = self.options.panels.stun:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.stun.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.stun.title:SetText(C.RED .. L.stunSection .. C.RESET)
+    self.options.panels.stun.title:SetText(C.COLORS.RED.C .. L.stunSection .. C.RESET)
 
     self.options.stunActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .stun,
@@ -108,7 +108,7 @@ function GraalHelper:addStunPanel()
 
     self.options.stunSoundLabel = self.options.panels.stun:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stunSoundLabel:SetPoint("TOPLEFT", 18, -360)
-    self.options.stunSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
+    self.options.stunSoundLabel:SetText(C.COLORS.GOLD.C .. L.chooseSound .. C.RESET)
     self.options.stunSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.stun,
         "GraalHelperStunSoundDropdown",
@@ -120,7 +120,7 @@ function GraalHelper:addStunPanel()
 
     self.options.stunChatLabel = self.options.panels.stun:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stunChatLabel:SetPoint("TOPLEFT", 18, -410)
-    self.options.stunChatLabel:SetText(C.GOLD .. L.chooseChat .. C.RESET)
+    self.options.stunChatLabel:SetText(C.COLORS.GOLD.C .. L.chooseChat .. C.RESET)
     self.options.stunChatDropdown = self:CreateChatDropdown(
         self.options.panels.stun,
         "GraalHelperDisarmSoundDropdown",
@@ -167,7 +167,7 @@ function GraalHelper:StartStunTestMode()
     R.stunTestMode = true
     R.stunDisplayUntil = GetTime() + (self.config.stun.displayDuration or 4)
     R.lastStunAlertKey = "TESTMODE"
-    self:ShowDisplay(self.uiStun, ICONS.STUN, C.RED .. L.stunTitle .. C.RESET, L.stunLine, "")
+    self:ShowDisplay(self.uiStun, ICONS.STUN, C.COLORS.RED.C .. L.stunTitle .. C.RESET, L.stunLine, "")
     self:PlayConfiguredSound(self.config.stun)
     if self.config.stun.chatEnabled then ChatSay() end
 end
@@ -197,7 +197,7 @@ function GraalHelper:HandleStunDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiStun,
             scanData.stunIcon or ICONS.STUN,
-            C.RED .. L.stunTitle .. C.RESET,
+            C.COLORS.RED.C .. L.stunTitle .. C.RESET,
             L.stunLine,
             sub
         )
@@ -218,7 +218,7 @@ function GraalHelper:HandleStunDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiStun,
                     scanData.stunIcon or ICONS.STUN,
-                    C.RED .. L.stunTitle .. C.RESET,
+                    C.COLORS.RED.C .. L.stunTitle .. C.RESET,
                     L.stunLine,
                     sub
                 )

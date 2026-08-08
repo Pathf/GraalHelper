@@ -10,7 +10,7 @@ function GraalHelper:addStealPanel()
     self.options.panels.steal.title = self.options.panels.steal:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.steal.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.steal.title:SetText(C.BLUE .. L.stealSection .. C.RESET)
+    self.options.panels.steal.title:SetText(C.COLORS.BLUE.C .. L.stealSection .. C.RESET)
 
     self.options.stealActive = CreateFrame(
         "CheckButton",
@@ -98,7 +98,7 @@ function GraalHelper:addStealPanel()
 
     self.options.stealSoundLabel = self.options.panels.steal:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stealSoundLabel:SetPoint("TOPLEFT", 18, -320)
-    self.options.stealSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
+    self.options.stealSoundLabel:SetText(C.COLORS.GOLD.C .. L.chooseSound .. C.RESET)
     self.options.stealSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.steal,
         "GraalHelperStealSoundDropdown",
@@ -145,7 +145,7 @@ function GraalHelper:StartStealTestMode()
     R.stealTestMode = true
     R.stealDisplayUntil = GetTime() + (self.config.steal.displayDuration or 4)
     R.lastStealAlertKey = "TESTMODE"
-    self:ShowDisplay(self.uiSteal, ICONS.STEAL, C.BLUE .. L.stealTitle .. C.RESET, L.spellstealLine, "")
+    self:ShowDisplay(self.uiSteal, ICONS.STEAL, C.COLORS.BLUE.C .. L.stealTitle .. C.RESET, L.spellstealLine, "")
     self:PlayConfiguredSound(self.config.steal)
 end
 
@@ -174,7 +174,7 @@ function GraalHelper:HandleStealDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiSteal,
             scanData.stealIcon or ICONS.STEAL,
-            C.BLUE .. L.stealTitle .. C.RESET,
+            C.COLORS.BLUE.C .. L.stealTitle .. C.RESET,
             L.spellstealLine,
             sub
         )
@@ -195,7 +195,7 @@ function GraalHelper:HandleStealDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiSteal,
                     scanData.stealIcon or ICONS.STEAL,
-                    C.BLUE .. L.stealTitle .. C.RESET,
+                    C.COLORS.BLUE.C .. L.stealTitle .. C.RESET,
                     L.spellstealLine,
                     sub
                 )

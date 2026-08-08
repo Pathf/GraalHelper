@@ -104,7 +104,8 @@ function GraalHelper:RefreshNav()
         local isCollapsed = self.collapsedNavCategories[category.key]
         category:ClearAllPoints()
         category:SetPoint("TOPLEFT", 10, -y)
-        category.arrow:SetText(isCollapsed and C.GOLD .. "[+]" .. C.RESET or C.GOLD .. "[-]" .. C.RESET)
+        category.arrow:SetText(isCollapsed and C.COLORS.GOLD.C .. "[+]" .. C.RESET or C.COLORS.GOLD.C .. "[-]" .. C
+            .RESET)
         category:Show()
         y = y + 28
 
@@ -316,4 +317,67 @@ end
 
 function GraalHelper:CreateChatDropdown(parent, frameName, x, y, getValueFunc, setValueFunc, previewFunc)
     return CreateDropdown(parent, frameName, C.CHAT_OPTIONS, true, x, y, getValueFunc, setValueFunc, previewFunc)
+end
+
+function GraalHelper:CreateDropdownWithConfig(options, isTranslate, parent, frameName, text, y, color, getValueFunc,
+                                              setValueFunc, previewFunc)
+    local label = parent:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    label:SetPoint("TOPLEFT", 18, y)
+    label:SetText(color.C .. text .. C.RESET)
+    local dropdown = CreateDropdown(parent, frameName, options, isTranslate, 0, y - 15, getValueFunc, setValueFunc,
+        previewFunc)
+    return label, dropdown
+end
+
+function GraalHelper:CreatePanelWithTitle(parent, titleText, colorCode)
+    local panel = self:CreatePanel(parent)
+
+    panel.title = panel:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    panel.title:SetPoint("TOPLEFT", 18, -18)
+
+    local color = colorCode or C.COLORS.GOLD.C
+    panel.title:SetText(color .. titleText .. C.RESET)
+
+    return panel
+end
+
+function GraalHelper:CreateCheckButton(parent, frameName, labelText, x, y, getValueFunc, setValueFunc, relativeTo)
+    local check = CreateFrame("CheckButton", frameName, parent, "InterfaceOptionsCheckButtonTemplate")
+
+    if relativeTo then
+        check:SetPoint("TOPLEFT", relativeTo, "BOTTOMLEFT", x or 0, y or -8)
+    else
+        check:SetPoint("TOPLEFT", x or 16, y or -62)
+    end
+
+    check.label = check:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    check.label:SetPoint("LEFT", check, "RIGHT", 4, 1)
+    check.label:SetText(labelText)
+    check.label:SetTextColor(1, 0.90, 0.20)
+
+    if getValueFunc then
+        check:SetChecked(getValueFunc())
+    end
+
+    check:SetScript("OnClick", function(s)
+        local isChecked = s:GetChecked() and true or false
+        if setValueFunc then
+            setValueFunc(isChecked)
+        end
+    end)
+
+    return check
+end
+
+function GraalHelper:CreateSliderWithConfig(parent, name, title, minVal, maxVal, step, width, x, y, rgb, onValueChanged)
+    local slider = self:CreateSlider(parent, name, title, minVal, maxVal, step, width, x, y)
+    slider:SetScript("OnValueChanged", onValueChanged)
+    self:SkinSlider(slider, rgb.R, rgb.G, rgb.B)
+    return slider
+end
+
+function GraalHelper:CreateTestButton(parent, text, testFunction)
+    local testButton = self:CreateMenuButton(parent, text, 150, 100, 40)
+    testButton:SetScript("OnClick", testFunction)
+    return testButton
 end

@@ -17,7 +17,7 @@ function GraalHelper:addRootPanel()
     self.options.panels.root.title = self.options.panels.root:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.root.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.root.title:SetText(C.RED .. L.rootSection .. C.RESET)
+    self.options.panels.root.title:SetText(C.COLORS.RED.C .. L.rootSection .. C.RESET)
 
     self.options.rootActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .root,
@@ -108,7 +108,7 @@ function GraalHelper:addRootPanel()
 
     self.options.rootSoundLabel = self.options.panels.root:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.rootSoundLabel:SetPoint("TOPLEFT", 18, -360)
-    self.options.rootSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
+    self.options.rootSoundLabel:SetText(C.COLORS.GOLD.C .. L.chooseSound .. C.RESET)
     self.options.rootSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.root,
         "GraalHelperRootSoundDropdown",
@@ -120,7 +120,7 @@ function GraalHelper:addRootPanel()
 
     self.options.rootChatLabel = self.options.panels.root:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.rootChatLabel:SetPoint("TOPLEFT", 18, -410)
-    self.options.rootChatLabel:SetText(C.GOLD .. L.chooseChat .. C.RESET)
+    self.options.rootChatLabel:SetText(C.COLORS.GOLD.C .. L.chooseChat .. C.RESET)
     self.options.rootChatDropdown = self:CreateChatDropdown(
         self.options.panels.root,
         "GraalHelperDisarmSoundDropdown",
@@ -167,7 +167,7 @@ function GraalHelper:StartRootTestMode()
     R.rootTestMode = true
     R.rootDisplayUntil = GetTime() + (self.config.root.displayDuration or 4)
     R.lastRootAlertKey = "TESTMODE"
-    self:ShowDisplay(self.uiRoot, ICONS.ROOT, C.RED .. L.rootTitle .. C.RESET, L.rootLine, "")
+    self:ShowDisplay(self.uiRoot, ICONS.ROOT, C.COLORS.RED.C .. L.rootTitle .. C.RESET, L.rootLine, "")
     self:PlayConfiguredSound(self.config.root)
     if self.config.root.say then ChatSay() end
 end
@@ -197,7 +197,7 @@ function GraalHelper:HandleRootDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiRoot,
             scanData.rootIcon or ICONS.ROOT,
-            C.RED .. L.rootTitle .. C.RESET,
+            C.COLORS.RED.C .. L.rootTitle .. C.RESET,
             L.rootLine,
             sub
         )
@@ -218,7 +218,7 @@ function GraalHelper:HandleRootDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiRoot,
                     scanData.rootIcon or ICONS.ROOT,
-                    C.RED .. L.rootTitle .. C.RESET,
+                    C.COLORS.RED.C .. L.rootTitle .. C.RESET,
                     L.rootLine,
                     sub
                 )

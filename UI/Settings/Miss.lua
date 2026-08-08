@@ -15,7 +15,7 @@ function GraalHelper:addMissNotifierPanel()
     self.options.panels.missNotifier.title = self.options.panels.missNotifier:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.missNotifier.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.missNotifier.title:SetText(C.GREEN .. L.missNotifierSection .. C.RESET)
+    self.options.panels.missNotifier.title:SetText(C.COLORS.GREEN.C .. L.missNotifierSection .. C.RESET)
 
     self.options.missNotifierActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .missNotifier,
@@ -33,7 +33,7 @@ function GraalHelper:addMissNotifierPanel()
     self.options.missNotifierChatLabel = self.options.panels.missNotifier:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
     self.options.missNotifierChatLabel:SetPoint("TOPLEFT", 18, -92)
-    self.options.missNotifierChatLabel:SetText(C.GOLD .. L.chooseChat .. C.RESET)
+    self.options.missNotifierChatLabel:SetText(C.COLORS.GOLD.C .. L.chooseChat .. C.RESET)
     self.options.missNotifierChatDropdown = self:CreateChatDropdown(
         self.options.panels.missNotifier,
         "GraalHelperDisarmSoundDropdown",

@@ -10,7 +10,7 @@ function GraalHelper:addHunterPackAspectPanel()
     self.options.panels.hunterPackAspect.title = self.options.panels.hunterPackAspect:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.hunterPackAspect.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.hunterPackAspect.title:SetText(C.BLUE .. L.hunterPackAspectSection .. C.RESET)
+    self.options.panels.hunterPackAspect.title:SetText(C.COLORS.BLUE.C .. L.hunterPackAspectSection .. C.RESET)
 
     self.options.hunterPackAspectActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .hunterPackAspect,
@@ -91,7 +91,7 @@ function GraalHelper:addHunterPackAspectPanel()
     self.options.hunterPackAspectSoundLabel = self.options.panels.hunterPackAspect:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
     self.options.hunterPackAspectSoundLabel:SetPoint("TOPLEFT", 18, -320)
-    self.options.hunterPackAspectSoundLabel:SetText(C.GOLD .. L.chooseSound .. C.RESET)
+    self.options.hunterPackAspectSoundLabel:SetText(C.COLORS.GOLD.C .. L.chooseSound .. C.RESET)
 
     self.options.hunterPackAspectSoundDropdown = self:CreateSoundDropdown(
         self.options.panels.hunterPackAspect,
@@ -138,7 +138,8 @@ function GraalHelper:StartHunterPackAspectTestMode()
     R.hunterPackAspectTestMode = true
     R.hunterPackAspectDisplayUntil = GetTime() + (self.config.hunterPackAspect.displayDuration or 4)
     R.lastHunterPackAspectAlertKey = "TESTMODE"
-    self:ShowDisplay(self.uiHunterPackAspect, ICONS.HUNTER_PACK_ASPECT, C.BLUE .. L.hunterPackAspectTitle .. C.RESET,
+    self:ShowDisplay(self.uiHunterPackAspect, ICONS.HUNTER_PACK_ASPECT,
+        C.COLORS.BLUE.C .. L.hunterPackAspectTitle .. C.RESET,
         L.hunterPackAspectLine, "")
     self:PlayConfiguredSound(self.config.hunterPackAspect)
 end
@@ -169,7 +170,7 @@ function GraalHelper:HandleHunterPackAspectDisplay(scanData, guid, now)
         self:ShowDisplay(
             self.uiHunterPackAspect,
             scanData.hunterPackAspectIcon or ICONS.HUNTER_PACK_ASPECT,
-            C.BLUE .. L.hunterPackAspectTitle .. C.RESET,
+            C.COLORS.BLUE.C .. L.hunterPackAspectTitle .. C.RESET,
             L.hunterPackAspectLine,
             sub
         )
@@ -190,7 +191,7 @@ function GraalHelper:HandleHunterPackAspectDisplay(scanData, guid, now)
                 self:ShowDisplay(
                     self.uiHunterPackAspect,
                     scanData.hunterPackAspectIcon or ICONS.HUNTER_PACK_ASPECT,
-                    C.BLUE .. L.hunterPackAspectTitle .. C.RESET,
+                    C.COLORS.BLUE.C .. L.hunterPackAspectTitle .. C.RESET,
                     L.hunterPackAspectLine,
                     sub
                 )
