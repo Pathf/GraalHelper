@@ -66,15 +66,15 @@ function GraalHelper:CreateDisplayFrame(frameName, sectionConfig, theme)
     frame.defaultLineText = theme.lineText
     frame.defaultIcon = theme.defaultIcon
 
-    frame:SetScript("OnDragStart", function(self)
+    frame:SetScript("OnDragStart", function(s)
         if not sectionConfig.locked then
-            self:StartMoving()
+            s:StartMoving()
         end
     end)
 
-    frame:SetScript("OnDragStop", function(self)
-        self:StopMovingOrSizing()
-        GraalHelper:SaveFramePosition(self, sectionConfig)
+    frame:SetScript("OnDragStop", function(s)
+        s:StopMovingOrSizing()
+        GraalHelper:SaveFramePosition(s, sectionConfig)
     end)
 
     frame.anim = frame:CreateAnimationGroup()
@@ -278,7 +278,7 @@ function GraalHelper:UpdateDisplays()
     self:HandleStealDisplay(scanTargetBuffData, targetGuid, now)
     self:HandleReflectDisplay(scanTargetBuffData, targetGuid, now)
 
-    local scanTargetCastData = self:ScanTargetCasts("target")
+    local scanTargetCastData = self:ScanTargetCasts()
     self:HandleKickDisplay(scanTargetCastData, targetGuid, now)
 
     local playerGuid = UnitGUID("player") or "noguid"

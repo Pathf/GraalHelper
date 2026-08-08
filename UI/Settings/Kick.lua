@@ -5,7 +5,7 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
-function GraalHelper:addKickPanel(self)
+function GraalHelper:addKickPanel()
     self.options.panels.kick = self:CreatePanel(self.options.content)
     self.options.panels.kick.title = self.options.panels.kick:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -19,8 +19,8 @@ function GraalHelper:addKickPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.kickActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.kickActive:SetScript("OnClick", function(self)
-        GraalHelper.config.kick.active = self:GetChecked() and true or false
+    self.options.kickActive:SetScript("OnClick", function(s)
+        GraalHelper.config.kick.active = s:GetChecked() and true or false
     end)
     self.options.kickActive.label = self.options.kickActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.kickActive.label:SetPoint("LEFT", self.options.kickActive, "RIGHT", 4, 1)
@@ -34,8 +34,8 @@ function GraalHelper:addKickPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.kickLockCheck:SetPoint("TOPLEFT", self.options.kickActive, "BOTTOMLEFT", 0, -8)
-    self.options.kickLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.kick.locked = self:GetChecked() and true or false
+    self.options.kickLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.kick.locked = s:GetChecked() and true or false
     end)
     self.options.kickLockCheck.label = self.options.kickLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.kickLockCheck.label:SetPoint("LEFT", self.options.kickLockCheck, "RIGHT", 4, 1)
@@ -49,8 +49,8 @@ function GraalHelper:addKickPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.kickNameCheck:SetPoint("TOPLEFT", self.options.kickLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.kickNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.kick.showBuffNames = self:GetChecked() and true or false
+    self.options.kickNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.kick.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.kickNameCheck.label = self.options.kickNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.kickNameCheck.label:SetPoint("LEFT", self.options.kickNameCheck, "RIGHT", 4, 1)
@@ -64,8 +64,8 @@ function GraalHelper:addKickPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.kickSoundCheck:SetPoint("TOPLEFT", self.options.kickNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.kickSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.kick.soundEnabled = self:GetChecked() and true or false
+    self.options.kickSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.kick.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.kickSoundCheck.label = self.options.kickSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.kickSoundCheck.label:SetPoint("LEFT", self.options.kickSoundCheck, "RIGHT", 4, 1)
@@ -75,10 +75,10 @@ function GraalHelper:addKickPanel(self)
     self.options.kickScaleSlider = self:CreateSlider(self.options.panels.kick, "GraalHelperKickScaleSlider", "", 0.5,
         2.0, 0.05, 280, 34, -210
     )
-    self.options.kickScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.kickScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.kick.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiKick, GraalHelper.config.kick)
     end)
     self:SkinSlider(self.options.kickScaleSlider, 0.25, 0.65, 1.0)
@@ -88,10 +88,10 @@ function GraalHelper:addKickPanel(self)
         "", 1, 20,
         1, 280, 34,
         -280)
-    self.options.kickDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.kickDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.kick.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.kickDurationSlider, 0.25, 0.65, 1.0)
     _G[self.options.kickDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -115,10 +115,10 @@ function GraalHelper:addKickPanel(self)
     self.options.kickMinDurationSlider = self:CreateSlider(self.options.panels.kick, "GraalHelperKickMinDurationSlider",
         "", 0,
         5, 0.25, 280, 34, -385)
-    self.options.kickMinDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.kickMinDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.kick.minDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.kickMinDurationSlider, 0.25, 0.65, 1.0)
     _G[self.options.kickMinDurationSlider:GetName() .. "Text"]:SetText(L.chooseMinDuration)
@@ -130,8 +130,9 @@ function GraalHelper:addKickPanel(self)
     self.options.kickTestButton:SetText(L.test)
 end
 
-function GraalHelper:addKickNav(self)
-    self.options.nav.kickButton = self:CreateNavSubItem(self.options.nav, L.kickSection, -300, function()
+function GraalHelper:addKickNav(parent, category)
+    self:addKickPanel()
+    self.options.nav.kickButton = self:CreateNavSubItem(parent, L.kickSection, category, function()
         GraalHelper:ShowOptionsPanel("kick")
     end)
 end

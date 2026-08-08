@@ -3,31 +3,42 @@ local _, GraalHelper = ...
 local C = GraalHelper.Constants
 local L = GraalHelper.L
 
-function GraalHelper:CreateNavCategory(parent, text, yOffset)
-    local category = CreateFrame("Frame", nil, parent)
+function GraalHelper:CreateNavCategory(parent, key, text)
+    local width = 174
 
-    category:SetSize(180, 24)
-    category:SetPoint("TOPLEFT", 12, yOffset)
+    local category = CreateFrame("Button", nil, parent)
+    category:SetSize(width, 24)
 
     category.text = category:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     category.text:SetPoint("LEFT", 0, 0)
     category.text:SetText(text)
     category.text:SetTextColor(1, 0.82, 0)
 
+    category.arrow = category:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    category.arrow:SetPoint("RIGHT", category, "RIGHT", 0, 0)
+
     category.line = category:CreateTexture(nil, "ARTWORK")
     category.line:SetPoint("TOPLEFT", category, "BOTTOMLEFT", 0, -2)
-    category.line:SetSize(160, 1)
+    category.line:SetSize(width, 1)
     category.line:SetTexture("Interface\\Buttons\\WHITE8x8")
     category.line:SetVertexColor(1, 1, 1, 0.08)
+
+    category.key = key
+    category.items = {}
+
+    category:SetScript("OnClick", function()
+        self.collapsedNavCategories = self.collapsedNavCategories or {}
+        self.collapsedNavCategories[key] = not self.collapsedNavCategories[key]
+        self:RefreshNav()
+    end)
 
     return category
 end
 
-function GraalHelper:CreateNavSubItem(parent, text, yOffset, callback)
+function GraalHelper:CreateNavSubItem(parent, text, category, callback)
     local item = CreateFrame("Button", nil, parent)
 
     item:SetSize(170, 26)
-    item:SetPoint("TOPLEFT", 24, yOffset)
 
     item.bg = item:CreateTexture(nil, "BACKGROUND")
     item.bg:SetAllPoints(true)
@@ -45,25 +56,23 @@ function GraalHelper:CreateNavSubItem(parent, text, yOffset, callback)
     item.text:SetText(text)
     item.text:SetTextColor(0.75, 0.75, 0.75)
 
-    item:SetScript("OnEnter", function(self)
-        self.bg:SetVertexColor(1, 1, 1, 0.03)
+    item:SetScript("OnEnter", function(s)
+        s.bg:SetVertexColor(1, 1, 1, 0.03)
+        if not s.selected then s.text:SetTextColor(1, 1, 1) end
+    end)
 
-        if not self.selected then
-            self.text:SetTextColor(1, 1, 1)
+    item:SetScript("OnLeave", function(s)
+        if not s.selected then
+            s.bg:SetVertexColor(1, 1, 1, 0)
+            s.text:SetTextColor(0.75, 0.75, 0.75)
         end
     end)
 
-    item:SetScript("OnLeave", function(self)
-        if not self.selected then
-            self.bg:SetVertexColor(1, 1, 1, 0)
-            self.text:SetTextColor(0.75, 0.75, 0.75)
-        end
-    end)
+    item:SetScript("OnClick", function(s)
+        if callback then callback(s) end
 
-    item:SetScript("OnClick", function(self)
-        callback()
-
-        for _, child in ipairs({ parent:GetChildren() }) do
+        local content = s:GetParent()
+        for _, child in ipairs({ content:GetChildren() }) do
             if child.indicator then
                 child.selected = false
                 child.indicator:SetVertexColor(0, 0, 0, 0)
@@ -72,14 +81,54 @@ function GraalHelper:CreateNavSubItem(parent, text, yOffset, callback)
             end
         end
 
-        self.selected = true
-
-        self.indicator:SetVertexColor(1, 0.82, 0, 1)
-        self.bg:SetVertexColor(1, 1, 1, 0.05)
-        self.text:SetTextColor(1, 1, 1)
+        s.selected = true
+        s.indicator:SetVertexColor(1, 0.82, 0, 1)
+        s.bg:SetVertexColor(1, 1, 1, 0.05)
+        s.text:SetTextColor(1, 1, 1)
     end)
 
+    if category and category.items then
+        table.insert(category.items, item)
+    end
+
     return item
+end
+
+function GraalHelper:RefreshNav()
+    if not self.options or not self.options.navCategories then return end
+
+    self.collapsedNavCategories = self.collapsedNavCategories or {}
+    local y = 10
+
+    for _, category in ipairs(self.options.navCategories) do
+        local isCollapsed = self.collapsedNavCategories[category.key]
+        category:ClearAllPoints()
+        category:SetPoint("TOPLEFT", 10, -y)
+        category.arrow:SetText(isCollapsed and C.GOLD .. "[+]" .. C.RESET or C.GOLD .. "[-]" .. C.RESET)
+        category:Show()
+        y = y + 28
+
+        if not isCollapsed then
+            for _, item in ipairs(category.items) do
+                item:ClearAllPoints()
+                item:SetPoint("TOPLEFT", 10, -y)
+                item:Show()
+                y = y + 28
+            end
+            category.line:Show()
+        else
+            for _, item in ipairs(category.items) do
+                item:Hide()
+            end
+            category.line:Hide()
+        end
+
+        y = y + 10
+    end
+
+    if self.options.navContent then
+        self.options.navContent:SetHeight(math.abs(y) + 20)
+    end
 end
 
 function GraalHelper:CreateNavItem(parent, text, yOffset, callback)
@@ -104,19 +153,19 @@ function GraalHelper:CreateNavItem(parent, text, yOffset, callback)
     item.text:SetText(text)
     item.text:SetTextColor(0.85, 0.85, 0.85)
 
-    item:SetScript("OnEnter", function(self)
-        self.bg:SetVertexColor(1, 1, 1, 0.04)
-        self.text:SetTextColor(1, 1, 1)
+    item:SetScript("OnEnter", function(s)
+        s.bg:SetVertexColor(1, 1, 1, 0.04)
+        s.text:SetTextColor(1, 1, 1)
     end)
 
-    item:SetScript("OnLeave", function(self)
-        if not self.selected then
-            self.bg:SetVertexColor(1, 1, 1, 0)
-            self.text:SetTextColor(0.85, 0.85, 0.85)
+    item:SetScript("OnLeave", function(s)
+        if not s.selected then
+            s.bg:SetVertexColor(1, 1, 1, 0)
+            s.text:SetTextColor(0.85, 0.85, 0.85)
         end
     end)
 
-    item:SetScript("OnClick", function(self)
+    item:SetScript("OnClick", function(s)
         callback()
 
         for _, child in ipairs({ parent:GetChildren() }) do
@@ -128,10 +177,10 @@ function GraalHelper:CreateNavItem(parent, text, yOffset, callback)
             end
         end
 
-        self.selected = true
-        self.highlight:SetVertexColor(1, 0.82, 0, 1)
-        self.bg:SetVertexColor(1, 1, 1, 0.06)
-        self.text:SetTextColor(1, 1, 1)
+        s.selected = true
+        s.highlight:SetVertexColor(1, 0.82, 0, 1)
+        s.bg:SetVertexColor(1, 1, 1, 0.06)
+        s.text:SetTextColor(1, 1, 1)
     end)
 
     return item
@@ -237,7 +286,7 @@ local function CreateDropdown(parent, frameName, options, isTranslate, x, y, get
     dropdown:SetPoint("TOPLEFT", x, y)
 
     UIDropDownMenu_SetWidth(dropdown, 170)
-    UIDropDownMenu_Initialize(dropdown, function(self, level)
+    UIDropDownMenu_Initialize(dropdown, function(_, level)
         for _, entry in ipairs(options) do
             local info = UIDropDownMenu_CreateInfo()
             info.text = entry.text

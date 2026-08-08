@@ -1,6 +1,6 @@
 local _, GraalHelper = ...
 
-function GraalHelper:MissNotify(caster, spellID)
+function GraalHelper:MissNotify()
     local desactivate = not self.config.missNotifier.active
     if desactivate then return end
     local playerGUID = UnitGUID("player")

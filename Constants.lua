@@ -98,4 +98,20 @@ C.SPELL_REFLECTION_SPELL_IDS = {
     [23920] = true
 }
 
-C.HUNTER_PACK_ASPECT_ID = 13159
+C.SPELL = {
+    HUNTER_PACK_ASPECT = {
+        ID = 13159
+    },
+    RITUAL_OF_REFRESHMENT = {
+        ID = 43987
+    },
+    RITUAL_OF_SOULS = {
+        ID = 29893
+    },
+    RITUAL_OF_SUMMONING = {
+        ID = 698
+    },
+    SUMMONING_STONE = {
+        ID = 23598
+    },
+}

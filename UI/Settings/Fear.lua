@@ -12,7 +12,7 @@ local function ChatSay()
     end
 end
 
-function GraalHelper:addFearPanel(self)
+function GraalHelper:addFearPanel()
     self.options.panels.fear = self:CreatePanel(self.options.content)
     self.options.panels.fear.title = self.options.panels.fear:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -23,8 +23,8 @@ function GraalHelper:addFearPanel(self)
         .fear,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.fearActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.fearActive:SetScript("OnClick", function(self)
-        GraalHelper.config.fear.active = self:GetChecked() and true or false
+    self.options.fearActive:SetScript("OnClick", function(s)
+        GraalHelper.config.fear.active = s:GetChecked() and true or false
     end)
     self.options.fearActive.label = self.options.fearActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.fearActive.label:SetPoint("LEFT", self.options.fearActive, "RIGHT", 4, 1)
@@ -35,8 +35,8 @@ function GraalHelper:addFearPanel(self)
         .fear,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.fearLockCheck:SetPoint("TOPLEFT", self.options.fearActive, "BOTTOMLEFT", 0, -8)
-    self.options.fearLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.fear.locked = self:GetChecked() and true or false
+    self.options.fearLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.fear.locked = s:GetChecked() and true or false
     end)
     self.options.fearLockCheck.label = self.options.fearLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.fearLockCheck.label:SetPoint("LEFT", self.options.fearLockCheck, "RIGHT", 4, 1)
@@ -47,8 +47,8 @@ function GraalHelper:addFearPanel(self)
         self.options.panels.fear,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.fearNameCheck:SetPoint("TOPLEFT", self.options.fearLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.fearNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.fear.showBuffNames = self:GetChecked() and true or false
+    self.options.fearNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.fear.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.fearNameCheck.label = self.options.fearNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.fearNameCheck.label:SetPoint("LEFT", self.options.fearNameCheck, "RIGHT", 4, 1)
@@ -59,8 +59,8 @@ function GraalHelper:addFearPanel(self)
         self.options.panels.fear,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.fearSayCheck:SetPoint("TOPLEFT", self.options.fearNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.fearSayCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.fear.chatEnabled = self:GetChecked() and true or false
+    self.options.fearSayCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.fear.chatEnabled = s:GetChecked() and true or false
     end)
     self.options.fearSayCheck.label = self.options.fearSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.fearSayCheck.label:SetPoint("LEFT", self.options.fearSayCheck, "RIGHT", 4, 1)
@@ -71,8 +71,8 @@ function GraalHelper:addFearPanel(self)
         self.options.panels.fear,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.fearSoundCheck:SetPoint("TOPLEFT", self.options.fearSayCheck, "BOTTOMLEFT", 0, -8)
-    self.options.fearSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.fear.soundEnabled = self:GetChecked() and true or false
+    self.options.fearSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.fear.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.fearSoundCheck.label = self.options.fearSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.fearSoundCheck.label:SetPoint("LEFT", self.options.fearSoundCheck, "RIGHT", 4, 1)
@@ -84,10 +84,10 @@ function GraalHelper:addFearPanel(self)
         2.0,
         0.05, 280, 34,
         -240)
-    self.options.fearScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.fearScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.fear.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiFear, GraalHelper.config.fear)
     end)
     self:SkinSlider(self.options.fearScaleSlider, 1.0, 0.30, 0.20)
@@ -98,10 +98,10 @@ function GraalHelper:addFearPanel(self)
         "", 1, 20,
         1, 280, 34,
         -310)
-    self.options.fearDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.fearDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.fear.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.fearDurationSlider, 1.0, 0.30, 0.20)
     _G[self.options.fearDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -137,8 +137,9 @@ function GraalHelper:addFearPanel(self)
     self.options.fearTestButton:SetText(L.test)
 end
 
-function GraalHelper:addFearNav(self)
-    self.options.nav.fearButton = self:CreateNavSubItem(self.options.nav, L.fearSection, -85, function()
+function GraalHelper:addFearNav(parent, category)
+    self:addFearPanel()
+    self.options.nav.fearButton = self:CreateNavSubItem(parent, L.fearSection, category, function()
         GraalHelper:ShowOptionsPanel("fear")
     end)
 end

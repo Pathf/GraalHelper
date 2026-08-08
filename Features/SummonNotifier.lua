@@ -1,5 +1,11 @@
 local _, GraalHelper = ...
 
+local C = GraalHelper.Constants
+local ritualOfRefreshmentID = C.RITUAL_OF_REFRESHMENT.ID
+local ritualOfSoulsID = C.RITUAL_OF_SOULS.ID
+local ritualOfSummoningID = C.RITUAL_OF_SUMMONING.ID
+local summoningStoneID = C.SUMMONING_STONE.ID
+
 function Summoning(spellIDs, spellID, message)
     if (not spellIDs[spellID]) then return end
     GraalHelper:SendRaidOrParty(message)
@@ -9,28 +15,24 @@ end
 function SummoningPeopleByStone(spellID)
     local target = GetUnitName("target", false)
     if target == nil then return end
-    -- 23598 = summoning stone (channeled)
-    local trackedSpells = { [23598] = true }
+    local trackedSpells = { [summoningStoneID] = true }
     return Summoning(trackedSpells, spellID, "-> Summoning " .. target .. ". Please click! <-")
 end
 
 function SummoningPeopleByRitual(spellID)
     local target = GetUnitName("target", false)
     if target == nil then return end
-    -- 698 = ritual of summoning (initial cast, not the channel)
-    local trackedSpells = { [698] = true }
+    local trackedSpells = { [ritualOfSummoningID] = true }
     return Summoning(trackedSpells, spellID, "-> Summoning " .. target .. ". Please click! <-")
 end
 
 function SummoningRitualOfSouls(spellID)
-    -- 29893 = ritual of souls
-    local trackedSpells = { [29893] = true }
+    local trackedSpells = { [ritualOfSoulsID] = true }
     return Summoning(trackedSpells, spellID, "-> Summoning Candy. Please click! <-")
 end
 
 function SummoningRitualOfRefreshment(spellID)
-    -- 43987 = Ritual of refreshment
-    local trackedSpells = { [43987] = true }
+    local trackedSpells = { [ritualOfRefreshmentID] = true }
     return Summoning(trackedSpells, spellID, "-> Summoning Refreshment. Please click! <-")
 end
 

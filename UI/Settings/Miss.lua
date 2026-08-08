@@ -21,8 +21,8 @@ function GraalHelper:addMissNotifierPanel()
         .missNotifier,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.missNotifierActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.missNotifierActive:SetScript("OnClick", function(self)
-        GraalHelper.config.missNotifier.active = self:GetChecked() and true or false
+    self.options.missNotifierActive:SetScript("OnClick", function(s)
+        GraalHelper.config.missNotifier.active = s:GetChecked() and true or false
     end)
     self.options.missNotifierActive.label = self.options.missNotifierActive:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
@@ -44,11 +44,11 @@ function GraalHelper:addMissNotifierPanel()
     )
 end
 
-function GraalHelper:addMissNotifierNav()
-    self.options.nav.missNotifierButton = self:CreateNavSubItem(self.options.nav, L.missNotifierSection, -515,
-        function()
-            GraalHelper:ShowOptionsPanel("missNotifier")
-        end)
+function GraalHelper:addMissNotifierNav(parent, category)
+    self:addMissNotifierPanel()
+    self.options.nav.missNotifierButton = self:CreateNavSubItem(parent, L.missNotifierSection, category, function()
+        GraalHelper:ShowOptionsPanel("missNotifier")
+    end)
 end
 
 function GraalHelper:RefreshOptionsUIMissNotifier()

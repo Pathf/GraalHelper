@@ -5,7 +5,7 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
-function GraalHelper:addHunterPackAspectPanel(self)
+function GraalHelper:addHunterPackAspectPanel()
     self.options.panels.hunterPackAspect = self:CreatePanel(self.options.content)
     self.options.panels.hunterPackAspect.title = self.options.panels.hunterPackAspect:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -16,8 +16,8 @@ function GraalHelper:addHunterPackAspectPanel(self)
         .hunterPackAspect,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.hunterPackAspectActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.hunterPackAspectActive:SetScript("OnClick", function(self)
-        GraalHelper.config.hunterPackAspect.active = self:GetChecked() and true or false
+    self.options.hunterPackAspectActive:SetScript("OnClick", function(s)
+        GraalHelper.config.hunterPackAspect.active = s:GetChecked() and true or false
     end)
     self.options.hunterPackAspectActive.label = self.options.hunterPackAspectActive:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
@@ -30,8 +30,8 @@ function GraalHelper:addHunterPackAspectPanel(self)
         .hunterPackAspect,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.hunterPackAspectLockCheck:SetPoint("TOPLEFT", self.options.hunterPackAspectActive, "BOTTOMLEFT", 0, -8)
-    self.options.hunterPackAspectLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.hunterPackAspect.locked = self:GetChecked() and true or false
+    self.options.hunterPackAspectLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.hunterPackAspect.locked = s:GetChecked() and true or false
     end)
     self.options.hunterPackAspectLockCheck.label = self.options.hunterPackAspectLockCheck:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
@@ -44,8 +44,8 @@ function GraalHelper:addHunterPackAspectPanel(self)
         "InterfaceOptionsCheckButtonTemplate")
     self.options.hunterPackAspectNameCheck:SetPoint("TOPLEFT", self.options.hunterPackAspectLockCheck, "BOTTOMLEFT", 0,
         -8)
-    self.options.hunterPackAspectNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.hunterPackAspect.showBuffNames = self:GetChecked() and true or false
+    self.options.hunterPackAspectNameCheck:SetScript("OnClick", function(seslf)
+        GraalHelper.config.hunterPackAspect.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.hunterPackAspectNameCheck.label = self.options.hunterPackAspectNameCheck:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
@@ -58,8 +58,8 @@ function GraalHelper:addHunterPackAspectPanel(self)
         "InterfaceOptionsCheckButtonTemplate")
     self.options.hunterPackAspectSoundCheck:SetPoint("TOPLEFT", self.options.hunterPackAspectNameCheck, "BOTTOMLEFT", 0,
         -8)
-    self.options.hunterPackAspectSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.hunterPackAspect.soundEnabled = self:GetChecked() and true or false
+    self.options.hunterPackAspectSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.hunterPackAspect.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.hunterPackAspectSoundCheck.label =
         self.options.hunterPackAspectSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -69,10 +69,10 @@ function GraalHelper:addHunterPackAspectPanel(self)
 
     self.options.hunterPackAspectScaleSlider = self:CreateSlider(self.options.panels.hunterPackAspect,
         "GraalHelperHunterPackAspectScaleSlider", "", 0.5, 2.0, 0.05, 280, 34, -210)
-    self.options.hunterPackAspectScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.hunterPackAspectScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.hunterPackAspect.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiHunterPackAspect, GraalHelper.config.hunterPackAspect)
     end)
     self:SkinSlider(self.options.hunterPackAspectScaleSlider, 0.25, 0.65, 1.0)
@@ -80,10 +80,10 @@ function GraalHelper:addHunterPackAspectPanel(self)
 
     self.options.hunterPackAspectDurationSlider = self:CreateSlider(self.options.panels.hunterPackAspect,
         "GraalHelperHunterPackAspectDurationSlider", "", 1, 20, 1, 280, 34, -280)
-    self.options.hunterPackAspectDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.hunterPackAspectDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.hunterPackAspect.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.hunterPackAspectDurationSlider, 0.25, 0.65, 1.0)
     _G[self.options.hunterPackAspectDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -110,8 +110,9 @@ function GraalHelper:addHunterPackAspectPanel(self)
     self.options.hunterPackAspectTestButton:SetText(L.test)
 end
 
-function GraalHelper:addHunterPackAspectNav(self)
-    self.options.nav.hunterPackAspectButton = self:CreateNavSubItem(self.options.nav, L.hunterPackAspectSection, -330,
+function GraalHelper:addHunterPackAspectNav(parent, category)
+    self:addHunterPackAspectPanel()
+    self.options.nav.hunterPackAspectButton = self:CreateNavSubItem(parent, L.hunterPackAspectSection, category,
         function()
             GraalHelper:ShowOptionsPanel("hunterPackAspect")
         end)

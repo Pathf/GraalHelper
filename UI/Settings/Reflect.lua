@@ -5,7 +5,7 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
-function GraalHelper:addReflectPanel(self)
+function GraalHelper:addReflectPanel()
     self.options.panels.reflect = self:CreatePanel(self.options.content)
     self.options.panels.reflect.title = self.options.panels.reflect:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -16,8 +16,8 @@ function GraalHelper:addReflectPanel(self)
         .reflect,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.reflectActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.reflectActive:SetScript("OnClick", function(self)
-        GraalHelper.config.reflect.active = self:GetChecked() and true or false
+    self.options.reflectActive:SetScript("OnClick", function(s)
+        GraalHelper.config.reflect.active = s:GetChecked() and true or false
     end)
     self.options.reflectActive.label = self.options.reflectActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.reflectActive.label:SetPoint("LEFT", self.options.reflectActive, "RIGHT", 4, 1)
@@ -31,8 +31,8 @@ function GraalHelper:addReflectPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.reflectLockCheck:SetPoint("TOPLEFT", self.options.reflectActive, "BOTTOMLEFT", 0, -8)
-    self.options.reflectLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.reflect.locked = self:GetChecked() and true or false
+    self.options.reflectLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.reflect.locked = s:GetChecked() and true or false
     end)
     self.options.reflectLockCheck.label = self.options.reflectLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.reflectLockCheck.label:SetPoint("LEFT", self.options.reflectLockCheck, "RIGHT", 4, 1)
@@ -46,8 +46,8 @@ function GraalHelper:addReflectPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.reflectNameCheck:SetPoint("TOPLEFT", self.options.reflectLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.reflectNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.reflect.showBuffNames = self:GetChecked() and true or false
+    self.options.reflectNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.reflect.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.reflectNameCheck.label = self.options.reflectNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.reflectNameCheck.label:SetPoint("LEFT", self.options.reflectNameCheck, "RIGHT", 4, 1)
@@ -61,8 +61,8 @@ function GraalHelper:addReflectPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.reflectSoundCheck:SetPoint("TOPLEFT", self.options.reflectNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.reflectSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.reflect.soundEnabled = self:GetChecked() and true or false
+    self.options.reflectSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.reflect.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.reflectSoundCheck.label = self.options.reflectSoundCheck:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
@@ -73,10 +73,10 @@ function GraalHelper:addReflectPanel(self)
     self.options.reflectScaleSlider = self:CreateSlider(self.options.panels.reflect, "GraalHelperReflectScaleSlider", "",
         0.5, 2.0, 0.05, 280, 34, -210
     )
-    self.options.reflectScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.reflectScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.reflect.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiReflect, GraalHelper.config.reflect)
     end)
     self:SkinSlider(self.options.reflectScaleSlider, 1.0, 0.30, 0.20)
@@ -87,10 +87,10 @@ function GraalHelper:addReflectPanel(self)
         20, 1,
         280,
         34, -280)
-    self.options.reflectDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.reflectDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.reflect.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.reflectDurationSlider, 1.0, 0.30, 0.20)
     _G[self.options.reflectDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -116,8 +116,9 @@ function GraalHelper:addReflectPanel(self)
     self.options.reflectTestButton:SetScript("OnClick", function() GraalHelper:StartReflectTestMode() end)
 end
 
-function GraalHelper:addReflectNav(self)
-    self.options.nav.reflectButton = self:CreateNavSubItem(self.options.nav, L.reflectSection, -115, function()
+function GraalHelper:addReflectNav(parent, category)
+    self:addReflectPanel()
+    self.options.nav.reflectButton = self:CreateNavSubItem(parent, L.reflectSection, category, function()
         GraalHelper:ShowOptionsPanel("reflect")
     end)
 end

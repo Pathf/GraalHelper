@@ -12,7 +12,7 @@ local function ChatSay()
     end
 end
 
-function GraalHelper:addDisarmPanel(self)
+function GraalHelper:addDisarmPanel()
     self.options.panels.disarm = self:CreatePanel(self.options.content)
     self.options.panels.disarm.title = self.options.panels.disarm:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -26,8 +26,8 @@ function GraalHelper:addDisarmPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.disarmActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.disarmActive:SetScript("OnClick", function(self)
-        GraalHelper.config.disarm.active = self:GetChecked() and true or false
+    self.options.disarmActive:SetScript("OnClick", function(s)
+        GraalHelper.config.disarm.active = s:GetChecked() and true or false
     end)
     self.options.disarmActive.label = self.options.disarmActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.disarmActive.label:SetPoint("LEFT", self.options.disarmActive, "RIGHT", 4, 1)
@@ -41,8 +41,8 @@ function GraalHelper:addDisarmPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.disarmLockCheck:SetPoint("TOPLEFT", self.options.disarmActive, "BOTTOMLEFT", 0, -8)
-    self.options.disarmLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.disarm.locked = self:GetChecked() and true or false
+    self.options.disarmLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.disarm.locked = s:GetChecked() and true or false
     end)
     self.options.disarmLockCheck.label = self.options.disarmLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.disarmLockCheck.label:SetPoint("LEFT", self.options.disarmLockCheck, "RIGHT", 4, 1)
@@ -56,8 +56,8 @@ function GraalHelper:addDisarmPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.disarmNameCheck:SetPoint("TOPLEFT", self.options.disarmLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.disarmNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.disarm.showBuffNames = self:GetChecked() and true or false
+    self.options.disarmNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.disarm.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.disarmNameCheck.label = self.options.disarmNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.disarmNameCheck.label:SetPoint("LEFT", self.options.disarmNameCheck, "RIGHT", 4, 1)
@@ -71,8 +71,8 @@ function GraalHelper:addDisarmPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.disarmSayCheck:SetPoint("TOPLEFT", self.options.disarmNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.disarmSayCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.disarm.chatEnabled = self:GetChecked() and true or false
+    self.options.disarmSayCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.disarm.chatEnabled = s:GetChecked() and true or false
     end)
     self.options.disarmSayCheck.label = self.options.disarmSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.disarmSayCheck.label:SetPoint("LEFT", self.options.disarmSayCheck, "RIGHT", 4, 1)
@@ -86,8 +86,8 @@ function GraalHelper:addDisarmPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.disarmSoundCheck:SetPoint("TOPLEFT", self.options.disarmSayCheck, "BOTTOMLEFT", 0, -8)
-    self.options.disarmSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.disarm.soundEnabled = self:GetChecked() and true or false
+    self.options.disarmSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.disarm.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.disarmSoundCheck.label = self.options.disarmSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.disarmSoundCheck.label:SetPoint("LEFT", self.options.disarmSoundCheck, "RIGHT", 4, 1)
@@ -97,10 +97,10 @@ function GraalHelper:addDisarmPanel(self)
     self.options.disarmScaleSlider = self:CreateSlider(self.options.panels.disarm, "GraalHelperDisarmScaleSlider", "",
         0.5, 2.0, 0.05, 280, 34, -240
     )
-    self.options.disarmScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.disarmScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.disarm.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiDisarm, GraalHelper.config.disarm)
     end)
     self:SkinSlider(self.options.disarmScaleSlider, 1.0, 0.30, 0.20)
@@ -111,10 +111,10 @@ function GraalHelper:addDisarmPanel(self)
         "", 1, 20,
         1, 280, 34,
         -310)
-    self.options.disarmDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.disarmDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.disarm.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.disarmDurationSlider, 1.0, 0.30, 0.20)
     _G[self.options.disarmDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -150,8 +150,9 @@ function GraalHelper:addDisarmPanel(self)
     self.options.disarmTestButton:SetText(L.test)
 end
 
-function GraalHelper:addDisarmNav(self)
-    self.options.nav.disarmButton = self:CreateNavSubItem(self.options.nav, L.disarmSection, -55, function()
+function GraalHelper:addDisarmNav(parent, category)
+    self:addDisarmPanel()
+    self.options.nav.disarmButton = self:CreateNavSubItem(parent, L.disarmSection, category, function()
         GraalHelper:ShowOptionsPanel("disarm")
     end)
 end

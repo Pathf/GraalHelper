@@ -228,7 +228,7 @@ end
 function GraalHelper:PLAYER_REGEN_ENABLED()
     local timer = 0
     local checkInterval = 0.2
-    GraalHelper.playerRegen:SetScript("OnUpdate", function(self, elapsed)
+    GraalHelper.playerRegen:SetScript("OnUpdate", function(_, elapsed)
         timer = timer + elapsed
         if timer >= checkInterval then
             timer = 0

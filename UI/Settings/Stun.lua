@@ -12,7 +12,7 @@ local function ChatSay()
     end
 end
 
-function GraalHelper:addStunPanel(self)
+function GraalHelper:addStunPanel()
     self.options.panels.stun = self:CreatePanel(self.options.content)
     self.options.panels.stun.title = self.options.panels.stun:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -23,8 +23,8 @@ function GraalHelper:addStunPanel(self)
         .stun,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stunActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.stunActive:SetScript("OnClick", function(self)
-        GraalHelper.config.stun.active = self:GetChecked() and true or false
+    self.options.stunActive:SetScript("OnClick", function(s)
+        GraalHelper.config.stun.active = s:GetChecked() and true or false
     end)
     self.options.stunActive.label = self.options.stunActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stunActive.label:SetPoint("LEFT", self.options.stunActive, "RIGHT", 4, 1)
@@ -35,8 +35,8 @@ function GraalHelper:addStunPanel(self)
         .stun,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stunLockCheck:SetPoint("TOPLEFT", self.options.stunActive, "BOTTOMLEFT", 0, -8)
-    self.options.stunLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.stun.locked = self:GetChecked() and true or false
+    self.options.stunLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.stun.locked = s:GetChecked() and true or false
     end)
     self.options.stunLockCheck.label = self.options.stunLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stunLockCheck.label:SetPoint("LEFT", self.options.stunLockCheck, "RIGHT", 4, 1)
@@ -47,8 +47,8 @@ function GraalHelper:addStunPanel(self)
         self.options.panels.stun,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stunNameCheck:SetPoint("TOPLEFT", self.options.stunLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.stunNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.stun.showBuffNames = self:GetChecked() and true or false
+    self.options.stunNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.stun.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.stunNameCheck.label = self.options.stunNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stunNameCheck.label:SetPoint("LEFT", self.options.stunNameCheck, "RIGHT", 4, 1)
@@ -59,8 +59,8 @@ function GraalHelper:addStunPanel(self)
         self.options.panels.stun,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stunSayCheck:SetPoint("TOPLEFT", self.options.stunNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.stunSayCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.stun.chatEnabled = self:GetChecked() and true or false
+    self.options.stunSayCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.stun.chatEnabled = s:GetChecked() and true or false
     end)
     self.options.stunSayCheck.label = self.options.stunSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stunSayCheck.label:SetPoint("LEFT", self.options.stunSayCheck, "RIGHT", 4, 1)
@@ -71,8 +71,8 @@ function GraalHelper:addStunPanel(self)
         self.options.panels.stun,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.stunSoundCheck:SetPoint("TOPLEFT", self.options.stunSayCheck, "BOTTOMLEFT", 0, -8)
-    self.options.stunSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.stun.soundEnabled = self:GetChecked() and true or false
+    self.options.stunSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.stun.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.stunSoundCheck.label = self.options.stunSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stunSoundCheck.label:SetPoint("LEFT", self.options.stunSoundCheck, "RIGHT", 4, 1)
@@ -84,10 +84,10 @@ function GraalHelper:addStunPanel(self)
         2.0,
         0.05, 280, 34,
         -240)
-    self.options.stunScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.stunScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.stun.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiStun, GraalHelper.config.stun)
     end)
     self:SkinSlider(self.options.stunScaleSlider, 1.0, 0.30, 0.20)
@@ -98,10 +98,10 @@ function GraalHelper:addStunPanel(self)
         "", 1, 20,
         1, 280, 34,
         -310)
-    self.options.stunDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.stunDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.stun.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.stunDurationSlider, 1.0, 0.30, 0.20)
     _G[self.options.stunDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -137,8 +137,9 @@ function GraalHelper:addStunPanel(self)
     self.options.stunTestButton:SetText(L.test)
 end
 
-function GraalHelper:addStunNav(self)
-    self.options.nav.stunButton = self:CreateNavSubItem(self.options.nav, L.stunSection, -205, function()
+function GraalHelper:addStunNav(parent, category)
+    self:addStunPanel()
+    self.options.nav.stunButton = self:CreateNavSubItem(parent, L.stunSection, category, function()
         GraalHelper:ShowOptionsPanel("stun")
     end)
 end

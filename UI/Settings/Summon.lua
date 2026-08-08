@@ -14,8 +14,8 @@ function GraalHelper:addSummonNotifierPanel()
         .summonNotifier,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.summonNotifierActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.summonNotifierActive:SetScript("OnClick", function(self)
-        GraalHelper.config.summonNotifier.active = self:GetChecked() and true or false
+    self.options.summonNotifierActive:SetScript("OnClick", function(s)
+        GraalHelper.config.summonNotifier.active = s:GetChecked() and true or false
     end)
     self.options.summonNotifierActive.label = self.options.summonNotifierActive:CreateFontString(nil, "OVERLAY",
         "GameFontNormal")
@@ -24,11 +24,11 @@ function GraalHelper:addSummonNotifierPanel()
     self.options.summonNotifierActive.label:SetTextColor(1, 0.90, 0.20)
 end
 
-function GraalHelper:addSummonNotifierNav()
-    self.options.nav.summonNotifierButton = self:CreateNavSubItem(self.options.nav, L.summonNotifierSection, -485,
-        function()
-            GraalHelper:ShowOptionsPanel("summonNotifier")
-        end)
+function GraalHelper:addSummonNotifierNav(parent, category)
+    self:addSummonNotifierPanel()
+    self.options.nav.summonNotifierButton = self:CreateNavSubItem(parent, L.summonNotifierSection, category, function()
+        GraalHelper:ShowOptionsPanel("summonNotifier")
+    end)
 end
 
 function GraalHelper:RefreshOptionsUISummonNotifier()

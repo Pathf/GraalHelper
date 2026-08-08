@@ -1,6 +1,6 @@
 local _, GraalHelper = ...
 
-function GraalHelper:ScanTargetCasts(unit)
+function GraalHelper:ScanTargetCasts()
     local kickBuffs = {}
     local kickIcon = nil
     local kickSignature = {}

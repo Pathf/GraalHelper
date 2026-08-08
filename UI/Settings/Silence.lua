@@ -12,7 +12,7 @@ local function ChatSay()
     end
 end
 
-function GraalHelper:addSilencePanel(self)
+function GraalHelper:addSilencePanel()
     self.options.panels.silence = self:CreatePanel(self.options.content)
     self.options.panels.silence.title = self.options.panels.silence:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -23,8 +23,8 @@ function GraalHelper:addSilencePanel(self)
         .silence,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.silenceActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.silenceActive:SetScript("OnClick", function(self)
-        GraalHelper.config.silence.active = self:GetChecked() and true or false
+    self.options.silenceActive:SetScript("OnClick", function(s)
+        GraalHelper.config.silence.active = s:GetChecked() and true or false
     end)
     self.options.silenceActive.label = self.options.silenceActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.silenceActive.label:SetPoint("LEFT", self.options.silenceActive, "RIGHT", 4, 1)
@@ -35,8 +35,8 @@ function GraalHelper:addSilencePanel(self)
         .silence,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.silenceLockCheck:SetPoint("TOPLEFT", self.options.silenceActive, "BOTTOMLEFT", 0, -8)
-    self.options.silenceLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.silence.locked = self:GetChecked() and true or false
+    self.options.silenceLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.silence.locked = s:GetChecked() and true or false
     end)
     self.options.silenceLockCheck.label = self.options.silenceLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.silenceLockCheck.label:SetPoint("LEFT", self.options.silenceLockCheck, "RIGHT", 4, 1)
@@ -47,8 +47,8 @@ function GraalHelper:addSilencePanel(self)
         self.options.panels.silence,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.silenceNameCheck:SetPoint("TOPLEFT", self.options.silenceLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.silenceNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.silence.showBuffNames = self:GetChecked() and true or false
+    self.options.silenceNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.silence.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.silenceNameCheck.label = self.options.silenceNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.silenceNameCheck.label:SetPoint("LEFT", self.options.silenceNameCheck, "RIGHT", 4, 1)
@@ -59,8 +59,8 @@ function GraalHelper:addSilencePanel(self)
         self.options.panels.silence,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.silenceSayCheck:SetPoint("TOPLEFT", self.options.silenceNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.silenceSayCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.silence.say = self:GetChecked() and true or false
+    self.options.silenceSayCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.silence.say = s:GetChecked() and true or false
     end)
     self.options.silenceSayCheck.label = self.options.silenceSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.silenceSayCheck.label:SetPoint("LEFT", self.options.silenceSayCheck, "RIGHT", 4, 1)
@@ -71,8 +71,8 @@ function GraalHelper:addSilencePanel(self)
         self.options.panels.silence,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.silenceSoundCheck:SetPoint("TOPLEFT", self.options.silenceSayCheck, "BOTTOMLEFT", 0, -8)
-    self.options.silenceSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.silence.soundEnabled = self:GetChecked() and true or false
+    self.options.silenceSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.silence.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.silenceSoundCheck.label =
         self.options.silenceSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -85,10 +85,10 @@ function GraalHelper:addSilencePanel(self)
         2.0,
         0.05, 280, 34,
         -240)
-    self.options.silenceScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.silenceScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.silence.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiSilence, GraalHelper.config.silence)
     end)
     self:SkinSlider(self.options.silenceScaleSlider, 1.0, 0.30, 0.20)
@@ -99,10 +99,10 @@ function GraalHelper:addSilencePanel(self)
         "", 1, 20,
         1, 280, 34,
         -310)
-    self.options.silenceDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.silenceDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.silence.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.silenceDurationSlider, 1.0, 0.30, 0.20)
     _G[self.options.silenceDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -138,8 +138,9 @@ function GraalHelper:addSilencePanel(self)
     self.options.silenceTestButton:SetText(L.test)
 end
 
-function GraalHelper:addSilenceNav(self)
-    self.options.nav.silenceButton = self:CreateNavSubItem(self.options.nav, L.silenceSection, -175, function()
+function GraalHelper:addSilenceNav(parent, category)
+    self:addSilencePanel()
+    self.options.nav.silenceButton = self:CreateNavSubItem(parent, L.silenceSection, category, function()
         GraalHelper:ShowOptionsPanel("silence")
     end)
 end

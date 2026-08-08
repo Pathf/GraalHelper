@@ -32,14 +32,34 @@ local function buildTopBar(self)
 end
 
 local function buildNav(self)
-    self.options.nav = CreateFrame("Frame", nil, self.options, BackdropTemplateMixin and "BackdropTemplate")
-    self.options.nav:SetPoint("TOPLEFT", 14, -62)
-    self.options.nav:SetSize(220, 544)
-    self:CreateBasicBackdrop(self.options.nav, 0.02, 0.02, 0.02, 0.75)
+    local navFrame = CreateFrame("Frame", nil, self.options, BackdropTemplateMixin and "BackdropTemplate")
+    navFrame:SetPoint("TOPLEFT", 14, -62)
+    navFrame:SetSize(220, 544)
+    self:CreateBasicBackdrop(navFrame, 0.02, 0.02, 0.02, 0.75)
 
-    self.options.nav.alertsCategory = self:CreateNavCategory(self.options.nav, L.alerts, -20)
-    self.options.nav.actionsCategory = self:CreateNavCategory(self.options.nav, L.actions, -240)
-    self.options.nav.settingsCategory = self:CreateNavCategory(self.options.nav, L.settings, -395)
+    local scrollFrame = CreateFrame("ScrollFrame", "GraalHelperNavScrollFrame", navFrame, "UIPanelScrollFrameTemplate")
+    scrollFrame:SetPoint("TOPLEFT", 4, -6)
+    scrollFrame:SetPoint("BOTTOMRIGHT", -26, 6)
+
+    local navContent = CreateFrame("Frame", nil, scrollFrame)
+    navContent:SetSize(180, 1)
+    scrollFrame:SetScrollChild(navContent)
+
+    self.options.nav = navFrame
+    self.options.navScrollFrame = scrollFrame
+    self.options.navContent = navContent
+
+    self.options.navCategories = {
+        self:CreateNavCategory(navContent, "settings", L.settings),
+        self:CreateNavCategory(navContent, "alerts", L.alerts),
+        self:CreateNavCategory(navContent, "actions", L.actions),
+        self:CreateNavCategory(navContent, "notifiers", L.notifiers),
+    }
+
+    self.options.nav.settingsCategory = self.options.navCategories[1]
+    self.options.nav.alertsCategory = self.options.navCategories[2]
+    self.options.nav.actionsCategory = self.options.navCategories[3]
+    self.options.nav.notifiersCategory = self.options.navCategories[4]
 end
 
 local function buildContent(self)
@@ -62,62 +82,41 @@ function GraalHelper:CreateOptionsWindow()
     self.options:RegisterForDrag("LeftButton")
     self.options:SetClampedToScreen(true)
     self.options:Hide()
-    self.options:SetScript("OnDragStart", function(self)
-        self:StartMoving()
-    end)
-    self.options:SetScript("OnDragStop", function(self)
-        self:StopMovingOrSizing()
-    end)
+    self.options:SetScript("OnDragStart", function(s) s:StartMoving() end)
+    self.options:SetScript("OnDragStop", function(s) s:StopMovingOrSizing() end)
 
     buildBackground(self)
     buildTopBar(self)
     buildNav(self)
     buildContent(self)
 
-    GraalHelper:addReflectPanel(self)
-    GraalHelper:addReflectNav(self)
+    local parent = self.options.navContent
 
-    GraalHelper:addStealPanel(self)
-    GraalHelper:addStealNav(self)
+    local settings = self.options.nav.settingsCategory
+    GraalHelper:addGlobalNav(parent, settings)
+    GraalHelper:addTrackedNav(parent, settings)
 
-    GraalHelper:addKickPanel(self)
-    GraalHelper:addKickNav(self)
+    local alerts = self.options.nav.alertsCategory
+    GraalHelper:addDisarmNav(parent, alerts)
+    GraalHelper:addStunNav(parent, alerts)
+    GraalHelper:addRootNav(parent, alerts)
+    GraalHelper:addFearNav(parent, alerts)
+    GraalHelper:addSilenceNav(parent, alerts)
+    GraalHelper:addReflectNav(parent, alerts)
 
-    GraalHelper:addHunterPackAspectPanel(self)
-    GraalHelper:addHunterPackAspectNav(self)
+    local actions = self.options.nav.actionsCategory
+    GraalHelper:addKickNav(parent, actions)
+    GraalHelper:addHunterPackAspectNav(parent, actions)
+    GraalHelper:addDispelNav(parent, actions)
+    GraalHelper:addStealNav(parent, actions)
 
-    GraalHelper:addSilencePanel(self)
-    GraalHelper:addSilenceNav(self)
+    local notifiers = self.options.nav.notifiersCategory
+    GraalHelper:addSummonNotifierNav(parent, notifiers)
+    GraalHelper:addMissNotifierNav(parent, notifiers)
 
-    GraalHelper:addStunPanel(self)
-    GraalHelper:addStunNav(self)
-
-    GraalHelper:addRootPanel(self)
-    GraalHelper:addRootNav(self)
-
-    GraalHelper:addDisarmPanel(self)
-    GraalHelper:addDisarmNav(self)
-
-    GraalHelper:addFearPanel(self)
-    GraalHelper:addFearNav(self)
-
-    GraalHelper:addTrackedPanel(self)
-    GraalHelper:addTrackedNav(self)
-
-    GraalHelper:addSummonNotifierPanel(self)
-    GraalHelper:addSummonNotifierNav(self)
-
-    GraalHelper:addMissNotifierPanel(self)
-    GraalHelper:addMissNotifierNav(self)
-
-    GraalHelper:addDispelPanel(self)
-    GraalHelper:addDispelNav(self)
-
-    GraalHelper:addGlobalPanel(self)
-    GraalHelper:addGlobalNav(self)
-
+    self:RefreshNav()
     self:RefreshTrackedSpellsUI()
-    self.options.nav.trackedButton:Click()
+    self:OpenGlobalPanel()
 end
 
 function GraalHelper:ShowOptionsPanel(panelName)

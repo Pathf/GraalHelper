@@ -1,5 +1,6 @@
 local _, GraalHelper = ...
 
+local C = GraalHelper.Constants
 local L = GraalHelper.L
 
 function GraalHelper:ShowTrackedSpellTooltip(owner, spell)
@@ -140,7 +141,7 @@ function GraalHelper:RefreshTrackedSpellsUI()
 
         -- Mettre à jour le titre et la flèche séparément
         header.title:SetText(category)
-        header.arrow:SetText(isCollapsed and "|cffa8a8a8[+]|r" or "|cffa8a8a8[-]|r")
+        header.arrow:SetText(isCollapsed and C.GOLD .. "[+]" .. C.RESET or C.GOLD .. "[-]" .. C.RESET)
 
         -- Action au clic
         header:SetScript("OnClick", function()

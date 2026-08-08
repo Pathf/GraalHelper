@@ -3,7 +3,7 @@ local _, GraalHelper = ...
 local C = GraalHelper.Constants
 local L = GraalHelper.L
 
-function GraalHelper:addTrackedPanel(self)
+function GraalHelper:addTrackedPanel()
     self.options.panels.tracked = self:CreatePanel(self.options.content)
     self.options.panels.tracked.title = self.options.panels.tracked:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -28,8 +28,9 @@ function GraalHelper:addTrackedPanel(self)
     self.options.panels.tracked.rows = {}
 end
 
-function GraalHelper:addTrackedNav(self)
-    self.options.nav.trackedButton = self:CreateNavSubItem(self.options.nav, L.spellsSection, -455, function()
+function GraalHelper:addTrackedNav(parent, category)
+    self:addTrackedPanel()
+    self.options.nav.trackedButton = self:CreateNavSubItem(parent, L.spellsSection, category, function()
         GraalHelper:ShowOptionsPanel("tracked")
     end)
 end

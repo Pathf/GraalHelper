@@ -2,7 +2,7 @@ local _, GraalHelper = ...
 
 local spellReflectionIds = GraalHelper.Constants.SPELL_REFLECTION_SPELL_IDS
 local spellReflectionNames = GraalHelper.L.MATCH.SPELL_REFLECTION_NAMES
-local spellHunterPackAspectId = GraalHelper.Constants.HUNTER_PACK_ASPECT_ID
+local spellHunterPackAspectId = GraalHelper.Constants.SPELL.HUNTER_PACK_ASPECT.ID
 
 function GraalHelper:ScanTargetBuffs(unit)
     local stealBuffs = {}

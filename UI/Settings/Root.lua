@@ -12,7 +12,7 @@ local function ChatSay()
     end
 end
 
-function GraalHelper:addRootPanel(self)
+function GraalHelper:addRootPanel()
     self.options.panels.root = self:CreatePanel(self.options.content)
     self.options.panels.root.title = self.options.panels.root:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -23,8 +23,8 @@ function GraalHelper:addRootPanel(self)
         .root,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.rootActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.rootActive:SetScript("OnClick", function(self)
-        GraalHelper.config.root.active = self:GetChecked() and true or false
+    self.options.rootActive:SetScript("OnClick", function(s)
+        GraalHelper.config.root.active = s:GetChecked() and true or false
     end)
     self.options.rootActive.label = self.options.rootActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.rootActive.label:SetPoint("LEFT", self.options.rootActive, "RIGHT", 4, 1)
@@ -35,8 +35,8 @@ function GraalHelper:addRootPanel(self)
         .root,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.rootLockCheck:SetPoint("TOPLEFT", self.options.rootActive, "BOTTOMLEFT", 0, -8)
-    self.options.rootLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.root.locked = self:GetChecked() and true or false
+    self.options.rootLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.root.locked = s:GetChecked() and true or false
     end)
     self.options.rootLockCheck.label = self.options.rootLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.rootLockCheck.label:SetPoint("LEFT", self.options.rootLockCheck, "RIGHT", 4, 1)
@@ -47,8 +47,8 @@ function GraalHelper:addRootPanel(self)
         self.options.panels.root,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.rootNameCheck:SetPoint("TOPLEFT", self.options.rootLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.rootNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.root.showBuffNames = self:GetChecked() and true or false
+    self.options.rootNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.root.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.rootNameCheck.label = self.options.rootNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.rootNameCheck.label:SetPoint("LEFT", self.options.rootNameCheck, "RIGHT", 4, 1)
@@ -59,8 +59,8 @@ function GraalHelper:addRootPanel(self)
         self.options.panels.root,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.rootSayCheck:SetPoint("TOPLEFT", self.options.rootNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.rootSayCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.root.say = self:GetChecked() and true or false
+    self.options.rootSayCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.root.say = s:GetChecked() and true or false
     end)
     self.options.rootSayCheck.label = self.options.rootSayCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.rootSayCheck.label:SetPoint("LEFT", self.options.rootSayCheck, "RIGHT", 4, 1)
@@ -71,8 +71,8 @@ function GraalHelper:addRootPanel(self)
         self.options.panels.root,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.rootSoundCheck:SetPoint("TOPLEFT", self.options.rootSayCheck, "BOTTOMLEFT", 0, -8)
-    self.options.rootSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.root.soundEnabled = self:GetChecked() and true or false
+    self.options.rootSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.root.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.rootSoundCheck.label = self.options.rootSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.rootSoundCheck.label:SetPoint("LEFT", self.options.rootSoundCheck, "RIGHT", 4, 1)
@@ -84,10 +84,10 @@ function GraalHelper:addRootPanel(self)
         2.0,
         0.05, 280, 34,
         -240)
-    self.options.rootScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.rootScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.root.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiRoot, GraalHelper.config.root)
     end)
     self:SkinSlider(self.options.rootScaleSlider, 1.0, 0.30, 0.20)
@@ -98,10 +98,10 @@ function GraalHelper:addRootPanel(self)
         "", 1, 20,
         1, 280, 34,
         -310)
-    self.options.rootDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.rootDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.root.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.rootDurationSlider, 1.0, 0.30, 0.20)
     _G[self.options.rootDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -137,8 +137,9 @@ function GraalHelper:addRootPanel(self)
     self.options.rootTestButton:SetText(L.test)
 end
 
-function GraalHelper:addRootNav(self)
-    self.options.nav.rootButton = self:CreateNavSubItem(self.options.nav, L.rootSection, -145, function()
+function GraalHelper:addRootNav(parent, category)
+    self:addRootPanel()
+    self.options.nav.rootButton = self:CreateNavSubItem(parent, L.rootSection, category, function()
         GraalHelper:ShowOptionsPanel("root")
     end)
 end

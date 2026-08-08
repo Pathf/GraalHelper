@@ -5,12 +5,12 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
-function GraalHelper:addStealPanel(self)
+function GraalHelper:addStealPanel()
     self.options.panels.steal = self:CreatePanel(self.options.content)
     self.options.panels.steal.title = self.options.panels.steal:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
     self.options.panels.steal.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.steal.title:SetText(C.BLUE .. L.stealTitle .. C.RESET)
+    self.options.panels.steal.title:SetText(C.BLUE .. L.stealSection .. C.RESET)
 
     self.options.stealActive = CreateFrame(
         "CheckButton",
@@ -19,8 +19,8 @@ function GraalHelper:addStealPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.stealActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.stealActive:SetScript("OnClick", function(self)
-        GraalHelper.config.steal.active = self:GetChecked() and true or false
+    self.options.stealActive:SetScript("OnClick", function(s)
+        GraalHelper.config.steal.active = s:GetChecked() and true or false
     end)
     self.options.stealActive.label = self.options.stealActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stealActive.label:SetPoint("LEFT", self.options.stealActive, "RIGHT", 4, 1)
@@ -34,8 +34,8 @@ function GraalHelper:addStealPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.stealLockCheck:SetPoint("TOPLEFT", self.options.stealActive, "BOTTOMLEFT", 0, -8)
-    self.options.stealLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.steal.locked = self:GetChecked() and true or false
+    self.options.stealLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.steal.locked = s:GetChecked() and true or false
     end)
     self.options.stealLockCheck.label = self.options.stealLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stealLockCheck.label:SetPoint("LEFT", self.options.stealLockCheck, "RIGHT", 4, 1)
@@ -49,8 +49,8 @@ function GraalHelper:addStealPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.stealNameCheck:SetPoint("TOPLEFT", self.options.stealLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.stealNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.steal.showBuffNames = self:GetChecked() and true or false
+    self.options.stealNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.steal.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.stealNameCheck.label = self.options.stealNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stealNameCheck.label:SetPoint("LEFT", self.options.stealNameCheck, "RIGHT", 4, 1)
@@ -64,8 +64,8 @@ function GraalHelper:addStealPanel(self)
         "InterfaceOptionsCheckButtonTemplate"
     )
     self.options.stealSoundCheck:SetPoint("TOPLEFT", self.options.stealNameCheck, "BOTTOMLEFT", 0, -8)
-    self.options.stealSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.steal.soundEnabled = self:GetChecked() and true or false
+    self.options.stealSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.steal.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.stealSoundCheck.label = self.options.stealSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.stealSoundCheck.label:SetPoint("LEFT", self.options.stealSoundCheck, "RIGHT", 4, 1)
@@ -75,10 +75,10 @@ function GraalHelper:addStealPanel(self)
     self.options.stealScaleSlider = self:CreateSlider(self.options.panels.steal, "GraalHelperStealScaleSlider", "", 0.5,
         2.0, 0.05, 280, 34, -210
     )
-    self.options.stealScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.stealScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.steal.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiSteal, GraalHelper.config.steal)
     end)
     self:SkinSlider(self.options.stealScaleSlider, 0.25, 0.65, 1.0)
@@ -88,10 +88,10 @@ function GraalHelper:addStealPanel(self)
         "", 1, 20,
         1, 280, 34,
         -280)
-    self.options.stealDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.stealDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.steal.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.stealDurationSlider, 0.25, 0.65, 1.0)
     _G[self.options.stealDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -119,8 +119,9 @@ function GraalHelper:addStealPanel(self)
     self.options.stealTestButton:SetText(L.test)
 end
 
-function GraalHelper:addStealNav(self)
-    self.options.nav.stealButton = self:CreateNavSubItem(self.options.nav, L.stealTitle, -270, function()
+function GraalHelper:addStealNav(parent, category)
+    self:addStealPanel()
+    self.options.nav.stealButton = self:CreateNavSubItem(parent, L.stealSection, category, function()
         GraalHelper:ShowOptionsPanel("steal")
     end)
 end

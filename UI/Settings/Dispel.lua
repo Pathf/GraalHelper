@@ -5,7 +5,7 @@ local L = GraalHelper.L
 local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
-function GraalHelper:addDispelPanel(self)
+function GraalHelper:addDispelPanel()
     self.options.panels.dispel = self:CreatePanel(self.options.content)
     self.options.panels.dispel.title = self.options.panels.dispel:CreateFontString(nil, "OVERLAY",
         "GameFontNormalLarge")
@@ -16,8 +16,8 @@ function GraalHelper:addDispelPanel(self)
         .dispel,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.dispelActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.dispelActive:SetScript("OnClick", function(self)
-        GraalHelper.config.dispel.active = self:GetChecked() and true or false
+    self.options.dispelActive:SetScript("OnClick", function(s)
+        GraalHelper.config.dispel.active = s:GetChecked() and true or false
     end)
     self.options.dispelActive.label = self.options.dispelActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.dispelActive.label:SetPoint("LEFT", self.options.dispelActive, "RIGHT", 4, 1)
@@ -28,8 +28,8 @@ function GraalHelper:addDispelPanel(self)
         .dispel,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.dispelLockCheck:SetPoint("TOPLEFT", self.options.dispelActive, "BOTTOMLEFT", 0, -8)
-    self.options.dispelLockCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.dispel.locked = self:GetChecked() and true or false
+    self.options.dispelLockCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.dispel.locked = s:GetChecked() and true or false
     end)
     self.options.dispelLockCheck.label = self.options.dispelLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.dispelLockCheck.label:SetPoint("LEFT", self.options.dispelLockCheck, "RIGHT", 4, 1)
@@ -40,8 +40,8 @@ function GraalHelper:addDispelPanel(self)
         self.options.panels.dispel,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.dispelNameCheck:SetPoint("TOPLEFT", self.options.dispelLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.dispelNameCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.dispel.showBuffNames = self:GetChecked() and true or false
+    self.options.dispelNameCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.dispel.showBuffNames = s:GetChecked() and true or false
     end)
     self.options.dispelNameCheck.label = self.options.dispelNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     self.options.dispelNameCheck.label:SetPoint("LEFT", self.options.dispelNameCheck, "RIGHT", 4, 1)
@@ -52,8 +52,8 @@ function GraalHelper:addDispelPanel(self)
         self.options.panels.dispel,
         "InterfaceOptionsCheckButtonTemplate")
     self.options.dispelSoundCheck:SetPoint("TOPLEFT", self.options.dispelSayCheck, "BOTTOMLEFT", 0, -8)
-    self.options.dispelSoundCheck:SetScript("OnClick", function(self)
-        GraalHelper.config.dispel.soundEnabled = self:GetChecked() and true or false
+    self.options.dispelSoundCheck:SetScript("OnClick", function(s)
+        GraalHelper.config.dispel.soundEnabled = s:GetChecked() and true or false
     end)
     self.options.dispelSoundCheck.label =
         self.options.dispelSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -66,10 +66,10 @@ function GraalHelper:addDispelPanel(self)
         2.0,
         0.05, 280, 34,
         -240)
-    self.options.dispelScaleSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.dispelScaleSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor((value * 100) + 0.5) / 100
         GraalHelper.config.dispel.scale = value
-        self.valueText:SetText(string.format("%.2f", value))
+        s.valueText:SetText(string.format("%.2f", value))
         GraalHelper:ApplyFrameSettings(GraalHelper.uiDispel, GraalHelper.config.dispel)
     end)
     self:SkinSlider(self.options.dispelScaleSlider, 1.0, 0.30, 0.20)
@@ -80,10 +80,10 @@ function GraalHelper:addDispelPanel(self)
         "", 1, 20,
         1, 280, 34,
         -310)
-    self.options.dispelDurationSlider:SetScript("OnValueChanged", function(self, value)
+    self.options.dispelDurationSlider:SetScript("OnValueChanged", function(s, value)
         value = math.floor(value + 0.5)
         GraalHelper.config.dispel.displayDuration = value
-        self.valueText:SetText(tostring(value) .. " Sec.")
+        s.valueText:SetText(tostring(value) .. " Sec.")
     end)
     self:SkinSlider(self.options.dispelDurationSlider, 1.0, 0.30, 0.20)
     _G[self.options.dispelDurationSlider:GetName() .. "Text"]:SetText(L.displayDuration)
@@ -107,8 +107,9 @@ function GraalHelper:addDispelPanel(self)
     self.options.dispelTestButton:SetText(L.test)
 end
 
-function GraalHelper:addDispelNav(self)
-    self.options.nav.dispelButton = self:CreateNavSubItem(self.options.nav, L.dispelSection, -360, function()
+function GraalHelper:addDispelNav(parent, category)
+    self:addDispelPanel()
+    self.options.nav.dispelButton = self:CreateNavSubItem(parent, L.dispelSection, category, function()
         GraalHelper:ShowOptionsPanel("dispel")
     end)
 end
