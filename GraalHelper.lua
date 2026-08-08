@@ -252,5 +252,8 @@ function GraalHelper:PLAYER_REGEN_DISABLED()
 end
 
 function GraalHelper:PLAYER_REGEN_ENABLED()
-    GraalHelper.playerRegen:SetScript("OnUpdate", nil)
+    local delai = 60 -- in secondes
+    C_Timer.After(delai, function()
+        if not InCombatLockdown() then GraalHelper.playerRegen:SetScript("OnUpdate", nil) end
+    end)
 end

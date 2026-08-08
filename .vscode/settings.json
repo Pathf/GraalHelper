@@ -39,6 +39,8 @@
         "UnitClass",
         "C_UnitAuras",
         "UnitIsDeadOrGhost",
-        "SetCVar"
+        "SetCVar",
+        "C_Timer",
+        "InCombatLockdown"
     ]
 }
