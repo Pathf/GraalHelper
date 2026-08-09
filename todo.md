@@ -3,6 +3,7 @@
 - Faire une demo / et une config par defaut
 - Add la gestion des invok pour raid
 - add zperl
+- refacto les UI Settings
 
 # HELP
 {rt1} = étoile

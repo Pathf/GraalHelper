@@ -1,5 +1,7 @@
 local _, GraalHelper = ...
 
+local L = GraalHelper.L
+
 local function TargetHasMagicDebuff()
     local i = 1
 
@@ -8,24 +10,24 @@ local function TargetHasMagicDebuff()
         if not aura then break end
 
         if aura.dispelName == "Magic" then
-            return "Magic", aura.name, aura.spellId, aura.icon
+            return "Magic", aura.name, aura.spellId, aura.icon, L.dispelTypeMagic
         end
 
         if aura.dispelName == "Poison" then
-            return "Poison", aura.name, aura.spellId, aura.icon
+            return "Poison", aura.name, aura.spellId, aura.icon, L.dispelTypePoison
         end
 
         if aura.dispelName == "Disease" then
-            return "Disease", aura.name, aura.spellId, aura.icon
+            return "Disease", aura.name, aura.spellId, aura.icon, L.dispelTypeDisease
         end
 
         if aura.dispelName == "Curse" then
-            return "Curse", aura.name, aura.spellId, aura.icon
+            return "Curse", aura.name, aura.spellId, aura.icon, L.dispelTypeCurse
         end
 
         -- Pour tranquilisant / appaisement
         if aura.dispelName == "Enrage" then
-            return "Enrage", aura.name, aura.spellId, aura.icon
+            return "Enrage", aura.name, aura.spellId, aura.icon, L.dispelTypeEnrage
         end
 
         i = i + 1
@@ -50,11 +52,11 @@ function GraalHelper:ScanTargetAllyDebuffs()
     local dispelIcon = nil
     local dispelSignature = {}
 
-    local dispelType, spellDebuffName, spellDebuffId, spellDebuffIcon = TargetHasMagicDebuff()
+    local dispelType, spellDebuffName, spellDebuffId, spellDebuffIcon, dispelTypeTranslated = TargetHasMagicDebuff()
     if IsDispelable(dispelType) then
         local spellKey = self:RegisterTrackedSpell(spellDebuffName, spellDebuffId, spellDebuffIcon, "dispel")
         if self:IsSpellEnabled(spellKey) then
-            table.insert(dispelDebuffs, spellDebuffName)
+            table.insert(dispelDebuffs, spellDebuffName .. " -> " .. dispelTypeTranslated)
             table.insert(dispelSignature, spellKey)
             if not dispelIcon then dispelIcon = spellDebuffIcon end
         end

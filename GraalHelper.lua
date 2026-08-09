@@ -254,6 +254,8 @@ end
 function GraalHelper:PLAYER_REGEN_ENABLED()
     local delai = 60 -- in secondes
     C_Timer.After(delai, function()
-        if not InCombatLockdown() then GraalHelper.playerRegen:SetScript("OnUpdate", nil) end
+        if not InCombatLockdown() then
+            GraalHelper.playerRegen:SetScript("OnUpdate", nil)
+        end
     end)
 end
