@@ -11,11 +11,8 @@ local function ChatSay()
 end
 
 function GraalHelper:addMissNotifierPanel()
-    self.options.panels.missNotifier = self:CreatePanel(self.options.content)
-    self.options.panels.missNotifier.title = self.options.panels.missNotifier:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.missNotifier.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.missNotifier.title:SetText(C.COLORS.GREEN.C .. L.missNotifierSection .. C.RESET)
+    self.options.panels.missNotifier = self:CreatePanelWithTitle(self.options.content, L.missNotifierSection,
+        C.COLORS.GREEN.C)
 
     self.options.missNotifierActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .missNotifier,

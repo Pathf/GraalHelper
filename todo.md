@@ -3,7 +3,7 @@
 - Faire une demo / et une config par defaut
 - Add la gestion des invok pour raid
 - add zperl
-- refacto les UI Settings
+- refacto les UI Settings (le code comme dans disarm)
 
 # HELP
 {rt1} = étoile

@@ -270,6 +270,12 @@ function GraalHelper:UpdateDisplays()
             R.fearTestMode = false
             self:HideDisplay(self.uiFear)
         end
+
+        if R.dispelTestMode and now >= R.dispelDisplayUntil then
+            R.dispelTestMode = false
+            self:HideDisplay(self.uiDispel)
+        end
+
         return
     end
 

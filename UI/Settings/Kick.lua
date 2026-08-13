@@ -6,11 +6,7 @@ local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addKickPanel()
-    self.options.panels.kick = self:CreatePanel(self.options.content)
-    self.options.panels.kick.title = self.options.panels.kick:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.kick.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.kick.title:SetText(C.COLORS.BLUE.C .. L.kickTitle .. C.RESET)
+    self.options.panels.kick = self:CreatePanelWithTitle(self.options.content, L.kickTitle, C.COLORS.BLUE.C)
 
     self.options.kickActive = CreateFrame(
         "CheckButton",

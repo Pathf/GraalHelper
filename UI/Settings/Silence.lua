@@ -13,11 +13,7 @@ local function ChatSay()
 end
 
 function GraalHelper:addSilencePanel()
-    self.options.panels.silence = self:CreatePanel(self.options.content)
-    self.options.panels.silence.title = self.options.panels.silence:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.silence.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.silence.title:SetText(C.COLORS.RED.C .. L.silenceSection .. C.RESET)
+    self.options.panels.silence = self:CreatePanelWithTitle(self.options.content, L.silenceSection, C.COLORS.RED.C)
 
     self.options.silenceActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .silence,

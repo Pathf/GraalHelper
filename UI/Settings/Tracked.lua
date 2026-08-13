@@ -4,11 +4,7 @@ local C = GraalHelper.Constants
 local L = GraalHelper.L
 
 function GraalHelper:addTrackedPanel()
-    self.options.panels.tracked = self:CreatePanel(self.options.content)
-    self.options.panels.tracked.title = self.options.panels.tracked:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.tracked.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.tracked.title:SetText(C.COLORS.GOLD.C .. L.spellsSection .. C.RESET)
+    self.options.panels.tracked = self:CreatePanelWithTitle(self.options.content, L.spellsSection, C.COLORS.GOLD.C)
 
     self.options.panels.tracked.hint = self.options.panels.tracked:CreateFontString(nil, "OVERLAY",
         "GameFontHighlightSmall")

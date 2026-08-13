@@ -6,11 +6,7 @@ local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addStealPanel()
-    self.options.panels.steal = self:CreatePanel(self.options.content)
-    self.options.panels.steal.title = self.options.panels.steal:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.steal.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.steal.title:SetText(C.COLORS.BLUE.C .. L.stealSection .. C.RESET)
+    self.options.panels.steal = self:CreatePanelWithTitle(self.options.content, L.stealSection, C.COLORS.BLUE.C)
 
     self.options.stealActive = CreateFrame(
         "CheckButton",

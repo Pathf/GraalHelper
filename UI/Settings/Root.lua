@@ -13,11 +13,7 @@ local function ChatSay()
 end
 
 function GraalHelper:addRootPanel()
-    self.options.panels.root = self:CreatePanel(self.options.content)
-    self.options.panels.root.title = self.options.panels.root:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.root.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.root.title:SetText(C.COLORS.RED.C .. L.rootSection .. C.RESET)
+    self.options.panels.root = self:CreatePanelWithTitle(self.options.content, L.rootSection, C.COLORS.RED.C)
 
     self.options.rootActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .root,

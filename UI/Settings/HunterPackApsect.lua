@@ -6,11 +6,8 @@ local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addHunterPackAspectPanel()
-    self.options.panels.hunterPackAspect = self:CreatePanel(self.options.content)
-    self.options.panels.hunterPackAspect.title = self.options.panels.hunterPackAspect:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.hunterPackAspect.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.hunterPackAspect.title:SetText(C.COLORS.BLUE.C .. L.hunterPackAspectSection .. C.RESET)
+    self.options.panels.hunterPackAspect = self:CreatePanelWithTitle(self.options.content, L.hunterPackAspectSection,
+        C.COLORS.BLUE.C)
 
     self.options.hunterPackAspectActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .hunterPackAspect,

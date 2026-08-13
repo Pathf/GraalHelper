@@ -4,11 +4,8 @@ local C = GraalHelper.Constants
 local L = GraalHelper.L
 
 function GraalHelper:addSummonNotifierPanel()
-    self.options.panels.summonNotifier = self:CreatePanel(self.options.content)
-    self.options.panels.summonNotifier.title = self.options.panels.summonNotifier:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.summonNotifier.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.summonNotifier.title:SetText(C.COLORS.GREEN.C .. L.summonNotifierSection .. C.RESET)
+    self.options.panels.summonNotifier = self:CreatePanelWithTitle(self.options.content, L.summonNotifierSection,
+        C.COLORS.GREEN.C)
 
     self.options.summonNotifierActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .summonNotifier,

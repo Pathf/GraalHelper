@@ -6,11 +6,7 @@ local R = GraalHelper.Runtime
 local ICONS = GraalHelper.Constants.ICONS.SPELLS
 
 function GraalHelper:addReflectPanel()
-    self.options.panels.reflect = self:CreatePanel(self.options.content)
-    self.options.panels.reflect.title = self.options.panels.reflect:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.reflect.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.reflect.title:SetText(C.COLORS.RED.C .. L.reflectSection .. C.RESET)
+    self.options.panels.reflect = self:CreatePanelWithTitle(self.options.content, L.reflectSection, C.COLORS.RED.C)
 
     self.options.reflectActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .reflect,

@@ -13,11 +13,7 @@ local function ChatSay()
 end
 
 function GraalHelper:addStunPanel()
-    self.options.panels.stun = self:CreatePanel(self.options.content)
-    self.options.panels.stun.title = self.options.panels.stun:CreateFontString(nil, "OVERLAY",
-        "GameFontNormalLarge")
-    self.options.panels.stun.title:SetPoint("TOPLEFT", 18, -18)
-    self.options.panels.stun.title:SetText(C.COLORS.RED.C .. L.stunSection .. C.RESET)
+    self.options.panels.stun = self:CreatePanelWithTitle(self.options.content, L.stunSection, C.COLORS.RED.C)
 
     self.options.stunActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
         .stun,

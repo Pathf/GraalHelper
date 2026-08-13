@@ -8,54 +8,44 @@ local ICONS = GraalHelper.Constants.ICONS.SPELLS
 function GraalHelper:addDispelPanel()
     self.options.panels.dispel = self:CreatePanelWithTitle(self.options.content, L.dispelSection, C.COLORS.BLUE.C)
 
-    self.options.dispelActive = CreateFrame("CheckButton", "GraalHelperDisarmLockCheck", self.options.panels
-        .dispel,
-        "InterfaceOptionsCheckButtonTemplate")
-    self.options.dispelActive:SetPoint("TOPLEFT", 16, -62)
-    self.options.dispelActive:SetScript("OnClick", function(s)
-        GraalHelper.config.dispel.active = s:GetChecked() and true or false
-    end)
-    self.options.dispelActive.label = self.options.dispelActive:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.dispelActive.label:SetPoint("LEFT", self.options.dispelActive, "RIGHT", 4, 1)
-    self.options.dispelActive.label:SetText(L.activeFunctionality)
-    self.options.dispelActive.label:SetTextColor(1, 0.90, 0.20)
-
-    self.options.dispelLockCheck = CreateFrame("CheckButton", "GraalHelperDispelLockCheck", self.options.panels
-        .dispel,
-        "InterfaceOptionsCheckButtonTemplate")
-    self.options.dispelLockCheck:SetPoint("TOPLEFT", self.options.dispelActive, "BOTTOMLEFT", 0, -8)
-    self.options.dispelLockCheck:SetScript("OnClick", function(s)
-        GraalHelper.config.dispel.locked = s:GetChecked() and true or false
-    end)
-    self.options.dispelLockCheck.label = self.options.dispelLockCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.dispelLockCheck.label:SetPoint("LEFT", self.options.dispelLockCheck, "RIGHT", 4, 1)
-    self.options.dispelLockCheck.label:SetText(L.lockWindow)
-    self.options.dispelLockCheck.label:SetTextColor(1, 0.90, 0.20)
-
-    self.options.dispelNameCheck = CreateFrame("CheckButton", "GraalHelperDispelNamesCheck",
+    self.options.dispelActive = self:CreateCheckButton(
         self.options.panels.dispel,
-        "InterfaceOptionsCheckButtonTemplate")
-    self.options.dispelNameCheck:SetPoint("TOPLEFT", self.options.dispelLockCheck, "BOTTOMLEFT", 0, -8)
-    self.options.dispelNameCheck:SetScript("OnClick", function(s)
-        GraalHelper.config.dispel.showBuffNames = s:GetChecked() and true or false
-    end)
-    self.options.dispelNameCheck.label = self.options.dispelNameCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.dispelNameCheck.label:SetPoint("LEFT", self.options.dispelNameCheck, "RIGHT", 4, 1)
-    self.options.dispelNameCheck.label:SetText(L.showBuffNames)
-    self.options.dispelNameCheck.label:SetTextColor(1, 0.90, 0.20)
+        "GraalHelperDispelActiveCheck",
+        L.activeFunctionality,
+        16, -62,
+        function() return GraalHelper.config.dispel.active end,
+        function(val) GraalHelper.config.dispel.active = val end
+    )
 
-    self.options.dispelSoundCheck = CreateFrame("CheckButton", "GraalHelperDispelSoundCheck",
+    self.options.dispelLockCheck = self:CreateCheckButton(
         self.options.panels.dispel,
-        "InterfaceOptionsCheckButtonTemplate")
-    self.options.dispelSoundCheck:SetPoint("TOPLEFT", self.options.dispelSayCheck, "BOTTOMLEFT", 0, -8)
-    self.options.dispelSoundCheck:SetScript("OnClick", function(s)
-        GraalHelper.config.dispel.soundEnabled = s:GetChecked() and true or false
-    end)
-    self.options.dispelSoundCheck.label =
-        self.options.dispelSoundCheck:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    self.options.dispelSoundCheck.label:SetPoint("LEFT", self.options.dispelSoundCheck, "RIGHT", 4, 1)
-    self.options.dispelSoundCheck.label:SetText(L.enableSound)
-    self.options.dispelSoundCheck.label:SetTextColor(1, 0.90, 0.20)
+        "GraalHelperDispelLockCheck",
+        L.lockWindow,
+        0, -8,
+        function() return GraalHelper.config.dispel.locked end,
+        function(val) GraalHelper.config.dispel.locked = val end,
+        self.options.dispelActive
+    )
+
+    self.options.dispelNameCheck = self:CreateCheckButton(
+        self.options.panels.dispel,
+        "GraalHelperDispelNamesCheck",
+        L.showBuffNames,
+        0, -8,
+        function() return GraalHelper.config.dispel.showBuffNames end,
+        function(val) GraalHelper.config.dispel.showBuffNames = val end,
+        self.options.dispelLockCheck
+    )
+
+    self.options.dispelSoundCheck = self:CreateCheckButton(
+        self.options.panels.dispel,
+        "GraalHelperDispelSoundCheck",
+        L.enableSound,
+        0, -8,
+        function() return GraalHelper.config.dispel.soundEnabled end,
+        function(val) GraalHelper.config.dispel.soundEnabled = val end,
+        self.options.dispelNameCheck
+    )
 
     self.options.dispelScaleSlider = self:CreateSlider(self.options.panels.dispel, "GraalHelperDispelScaleSlider", "",
         0.5,
