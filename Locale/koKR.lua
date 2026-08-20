@@ -98,6 +98,18 @@ GraalHelper.L = {
     trackSteal = "훔치기",
     trackStun = "기절",
     trackUnknow = "알 수 없음",
+    welcomeActive = "환영 메시지 활성화",
+    welcomeLock = "환영 창 잠금",
+    welcomeNotShow = "다시 보지 않기",
+    welcomeScale = "환영 알림 크기",
+    welcomeSentences = {
+        "닭은 어디에 있나요?",
+        "틀린 말은 아니네요.",
+        "지방은 삶이다.",
+        "더 이상은 못 참아!"
+    },
+    welcomeTestButton = "환영 테스트",
+    welcomeTitle = "환영합니다",
     yell = "외치기",
 
     MATCH = {

@@ -13,7 +13,6 @@ function GraalHelper:InitializeDB()
 end
 
 function GraalHelper:PLAYER_LOGIN()
-    GraalHelper:Print("Elle est ou la poulette ?")
     GraalHelper:InitializeDB()
     GraalHelperCharDB = self:CopyDefaults(self.defaults, GraalHelperCharDB or {})
     self.config = GraalHelperCharDB
@@ -181,6 +180,8 @@ function GraalHelper:PLAYER_LOGIN()
         }
     )
 
+    self.uiWelcomeFrame = self:CreateWelcomeFrame()
+
     self:ApplyAllDisplaySettings()
     self:CreateOptionsWindow()
     self:RefreshOptionsUI()
@@ -210,6 +211,7 @@ function GraalHelper:PLAYER_LOGOUT()
         self:SaveFramePosition(self.uiDisarm, self.config.disarm)
         self:SaveFramePosition(self.uiFear, self.config.fear)
         self:SaveFramePosition(self.uiDispel, self.config.dispel)
+        self:SaveFramePosition(self.uiWelcomeFrame, self.config.welcomeFrame)
     end
 end
 

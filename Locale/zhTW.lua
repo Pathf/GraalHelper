@@ -98,6 +98,18 @@ GraalHelper.L = {
     trackSteal = "偷取",
     trackStun = "昏迷",
     trackUnknow = "未知",
+    welcomeActive = "啟用歡迎訊息",
+    welcomeLock = "鎖定歡迎視窗",
+    welcomeNotShow = "不再顯示",
+    welcomeScale = "歡迎提示縮放",
+    welcomeSentences = {
+        "小雞在哪裡？",
+        "沒毛病。",
+        "油脂就是生命。",
+        "我們受夠了！"
+    },
+    welcomeTestButton = "測試歡迎",
+    welcomeTitle = "歡迎",
     yell = "大喊",
 
     MATCH = {

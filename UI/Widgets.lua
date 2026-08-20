@@ -376,8 +376,11 @@ function GraalHelper:CreateSliderWithConfig(parent, name, title, minVal, maxVal,
     return slider
 end
 
-function GraalHelper:CreateTestButton(parent, text, testFunction)
-    local testButton = self:CreateMenuButton(parent, text, 150, 100, 40)
+function GraalHelper:CreateTestButton(parent, text, testFunction, width, x, y)
+    width = width or 150
+    x = x or 100
+    y = y or 40
+    local testButton = self:CreateMenuButton(parent, text, width, x, y)
     testButton:SetScript("OnClick", testFunction)
     return testButton
 end

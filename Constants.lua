@@ -59,8 +59,9 @@ C.ICONS = {
         ROOT = "Interface\\Icons\\Spell_Nature_StrangleVines",
         SILENCE = "Interface\\Icons\\Spell_Holy_Silence",
         STEAL = "Interface\\Icons\\Spell_Nature_WispSplode",
-        STUN = "Interface\\Icons\\Spell_Frost_Stun",
-    }
+        STUN = "Interface\\Icons\\Spell_Frost_Stun"
+    },
+    KAMELOTT = "Interface\\AddOns\\GraalHelper\\Media\\kamelott.png"
 }
 
 C.CHAT_OPTIONS = {

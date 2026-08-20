@@ -162,6 +162,15 @@ GraalHelper.defaults = {
         active = true,
     },
 
+    welcomeFrame = {
+        point = "CENTER",
+        relativePoint = "CENTER",
+        x = 170,
+        y = 200,
+        scale = 1.0,
+        active = true,
+        locked = false,
+    },
 
     trackedSpells = {},
     spellFilter = {},

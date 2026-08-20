@@ -98,6 +98,18 @@ GraalHelper.L = {
     trackSteal = "Rubare",
     trackStun = "Stordimento",
     trackUnknow = "Sconosciuto",
+    welcomeActive = "Attiva messaggio di benvenuto",
+    welcomeLock = "Blocca finestra di benvenuto",
+    welcomeNotShow = "Non mostrare più",
+    welcomeScale = "Scala del messaggio di benvenuto",
+    welcomeSentences = {
+        "Dov'è la gallina?",
+        "Non è sbagliato.",
+        "Il grasso è la vita.",
+        "Ne abbiamo abbastanza!"
+    },
+    welcomeTestButton = "Test benvenuto",
+    welcomeTitle = "Benvenuto",
     yell = "Urlare",
 
     MATCH = {

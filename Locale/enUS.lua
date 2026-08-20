@@ -98,6 +98,18 @@ GraalHelper.L = {
     trackSteal = "Steal",
     trackStun = "Stun",
     trackUnknow = "Unknow",
+    welcomeActive = "Enable welcome message",
+    welcomeLock = "Lock welcome window",
+    welcomeNotShow = "Do not show again",
+    welcomeScale = "Welcome message scale",
+    welcomeSentences = {
+        "Where is the chicken?",
+        "That's not wrong.",
+        "Fat is life.",
+        "We've had enough!"
+    },
+    welcomeTestButton = "Test welcome",
+    welcomeTitle = "Welcome",
     yell = "Yell",
 
     MATCH = {

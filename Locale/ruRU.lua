@@ -98,6 +98,18 @@ GraalHelper.L = {
     trackSteal = "Кража",
     trackStun = "Оглушение",
     trackUnknow = "Неизвестно",
+    welcomeActive = "Включить приветственное сообщение",
+    welcomeLock = "Заблокировать окно приветствия",
+    welcomeNotShow = "Больше не показывать",
+    welcomeScale = "Масштаб окна приветствия",
+    welcomeSentences = {
+        "Где цыпочка?",
+        "Это не ложь.",
+        "Жир — это жизнь.",
+        "С нас хватит!"
+    },
+    welcomeTestButton = "Тест приветствия",
+    welcomeTitle = "Добро пожаловать",
     yell = "Крик",
 
     MATCH = {

@@ -1,6 +1,7 @@
 local _, GraalHelper = ...
 
 local C = GraalHelper.Constants
+local L = GraalHelper.L
 local R = GraalHelper.Runtime
 
 function GraalHelper:CreateDisplayFrame(frameName, sectionConfig, theme)
@@ -98,6 +99,211 @@ function GraalHelper:CreateDisplayFrame(frameName, sectionConfig, theme)
     return frame
 end
 
+function GraalHelper:RandomSentence()
+    local sentences = L.welcomeSentences
+    local indexAleatoire = math.random(#sentences)
+    return sentences[indexAleatoire]
+end
+
+function GraalHelper:CreateWelcomeFrame()
+    local sectionConfig = self.config.welcomeFrame
+    GraalHelper:Print("Elle est ou la poulette ?")
+    local theme = {
+        titleText = L.welcomeTitle,
+        lineText = GraalHelper:RandomSentence(),
+        defaultIcon = C.ICONS.KAMELOTT,
+        glowR = 1.00,
+        glowG = 0.82,
+        glowB = 0.00,
+        barR = 1.00,
+        barG = 0.82,
+        barB = 0.00,
+    }
+
+    local frame = CreateFrame("Frame", "GraalHelperWelcomeFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+    frame:SetSize(420, 180)
+    frame:SetFrameStrata("HIGH")
+    frame:SetMovable(true)
+    frame:EnableMouse(true)
+    frame:RegisterForDrag("LeftButton")
+    frame:SetClampedToScreen(true)
+
+    self:CreateBasicBackdrop(frame, 0.02, 0.02, 0.02, 0.88)
+
+    -- Arrière-plan
+    frame.bg = frame:CreateTexture(nil, "BACKGROUND")
+    frame.bg:SetAllPoints(true)
+    frame.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
+    frame.bg:SetVertexColor(0.06, 0.06, 0.08, 0.25)
+
+    -- Glow interne (Jaune)
+    frame.innerGlow = frame:CreateTexture(nil, "BORDER")
+    frame.innerGlow:SetPoint("TOPLEFT", 7, -7)
+    frame.innerGlow:SetPoint("BOTTOMRIGHT", -7, 7)
+    frame.innerGlow:SetTexture("Interface\\Buttons\\WHITE8x8")
+    frame.innerGlow:SetVertexColor(theme.glowR, theme.glowG, theme.glowB, 0.07)
+
+    -- Barre d'accentuation à gauche (Jaune)
+    frame.leftAccent = frame:CreateTexture(nil, "ARTWORK")
+    frame.leftAccent:SetPoint("TOPLEFT", 9, -10)
+    frame.leftAccent:SetPoint("BOTTOMLEFT", 9, 10)
+    frame.leftAccent:SetWidth(4)
+    frame.leftAccent:SetTexture("Interface\\Buttons\\WHITE8x8")
+    frame.leftAccent:SetVertexColor(theme.barR, theme.barG, theme.barB, 0.95)
+
+    ------------------------------------------------------------------
+    -- 1. Croix de fermeture (Haut à Droite)
+    ------------------------------------------------------------------
+    frame.closeButton = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
+    frame.closeButton:SetPoint("TOPRIGHT", -2, -2)
+    frame.closeButton:SetScript("OnClick", function()
+        frame:Hide()
+    end)
+
+    ------------------------------------------------------------------
+    -- Icône & Contenu
+    ------------------------------------------------------------------
+    frame.iconHolder = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
+    frame.iconHolder:SetSize(64, 64)
+    frame.iconHolder:SetPoint("TOPLEFT", 22, -20)
+    self:CreateBasicBackdrop(frame.iconHolder, 0.01, 0.01, 0.01, 0.95)
+
+    frame.iconGlow = frame.iconHolder:CreateTexture(nil, "BACKGROUND")
+    frame.iconGlow:SetAllPoints(true)
+    frame.iconGlow:SetTexture("Interface\\Buttons\\WHITE8x8")
+    frame.iconGlow:SetVertexColor(theme.glowR, theme.glowG, theme.glowB, 0.12)
+
+    frame.icon = frame.iconHolder:CreateTexture(nil, "ARTWORK")
+    frame.icon:SetPoint("TOPLEFT", 6, -6)
+    frame.icon:SetPoint("BOTTOMRIGHT", -6, 6)
+    frame.icon:SetTexture(theme.defaultIcon)
+
+    frame.title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    frame.title:SetJustifyH("LEFT")
+    frame.title:SetText(theme.titleText)
+
+    frame.divider = frame:CreateTexture(nil, "ARTWORK")
+    frame.divider:SetHeight(1)
+    frame.divider:SetTexture("Interface\\Buttons\\WHITE8x8")
+    frame.divider:SetVertexColor(theme.barR, theme.barG, theme.barB, 0.32)
+
+    frame.text = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    frame.text:SetJustifyH("LEFT")
+    frame.text:SetText(theme.lineText)
+
+    ------------------------------------------------------------------
+    -- 2. Checkbox "Ne plus afficher" (Bas à Gauche)
+    ------------------------------------------------------------------
+    frame.dontShowCheck = self:CreateCheckButton(
+        frame,
+        "GraalHelperWelcomeDontShowCheck",
+        L.welcomeNotShow,
+        75, 10,
+        function() return sectionConfig and sectionConfig.active or false end,
+        function(isChecked) if sectionConfig then sectionConfig.active = not isChecked end end,
+        frame.icon
+    )
+
+    ------------------------------------------------------------------
+    -- 3. Bouton "Tuto" (Bas à Droite)
+    ------------------------------------------------------------------
+    frame.tutoButton = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+    frame.tutoButton:SetSize(80, 22)
+    frame.tutoButton:SetPoint("BOTTOMRIGHT", -16, 14)
+    frame.tutoButton:SetText("Tuto")
+    frame.tutoButton:SetScript("OnClick", function()
+        GraalHelper:HideDisplay(frame)
+        GraalHelper:ToggleOptions()
+    end)
+
+    ------------------------------------------------------------------
+    -- Configuration & Animations
+    ------------------------------------------------------------------
+    frame.defaultTitleText = theme.titleText
+    frame.defaultLineText = theme.lineText
+    frame.defaultIcon = theme.defaultIcon
+
+    frame:SetScript("OnDragStart", function(s)
+        if not sectionConfig or not sectionConfig.locked then
+            s:StartMoving()
+        end
+    end)
+
+    frame:SetScript("OnDragStop", function(s)
+        s:StopMovingOrSizing()
+        if sectionConfig then
+            GraalHelper:SaveFramePosition(s, sectionConfig)
+        end
+    end)
+
+    frame.anim = frame:CreateAnimationGroup()
+
+    frame.fadeOut = frame.anim:CreateAnimation("Alpha")
+    frame.fadeOut:SetFromAlpha(1.0)
+    frame.fadeOut:SetToAlpha(0.82)
+    frame.fadeOut:SetDuration(0.45)
+    frame.fadeOut:SetOrder(1)
+
+    frame.fadeIn = frame.anim:CreateAnimation("Alpha")
+    frame.fadeIn:SetFromAlpha(0.82)
+    frame.fadeIn:SetToAlpha(1.0)
+    frame.fadeIn:SetDuration(0.45)
+    frame.fadeIn:SetOrder(2)
+
+    frame.anim:SetLooping("REPEAT")
+    frame.anim:Play()
+
+    if sectionConfig.active then
+        frame.dontShowCheck:SetChecked(false)
+    else
+        frame.dontShowCheck:SetChecked(true)
+        frame:Hide()
+    end
+    return frame
+end
+
+function GraalHelper:ApplyWelcomeFrameSettings()
+    local frame = self.uiWelcomeFrame
+    local sectionConfig = self.config.welcomeFrame
+    if not frame then
+        return
+    end
+
+    local width = math.floor(C.BASE_FRAME_WIDTH * sectionConfig.scale + 0.5)
+    local height = math.floor(C.BASE_FRAME_HEIGHT + 20 * sectionConfig.scale + 0.5)
+
+    frame:SetScale(1.0)
+    frame:SetSize(width, height)
+
+    local contentLeft = math.floor(104 * sectionConfig.scale + 0.5)
+    local contentRight = math.floor(14 * sectionConfig.scale + 0.5)
+    local contentWidth = math.max(150, width - contentLeft - contentRight)
+
+    frame.title:ClearAllPoints()
+    frame.title:SetPoint("TOPLEFT", frame, "TOPLEFT", contentLeft, math.floor(-14 * sectionConfig.scale + 0.5))
+    frame.title:SetWidth(contentWidth)
+
+    frame.divider:ClearAllPoints()
+    frame.divider:SetPoint("TOPLEFT", frame.title, "BOTTOMLEFT", 0, math.floor(-6 * sectionConfig.scale + 0.5))
+    frame.divider:SetPoint("TOPRIGHT", frame, "TOPRIGHT", math.floor(-14 * sectionConfig.scale + 0.5),
+        math.floor(-40 * sectionConfig.scale + 0.5))
+
+    frame.text:ClearAllPoints()
+    frame.text:SetPoint("TOPLEFT", frame.divider, "BOTTOMLEFT", 0, math.floor(-8 * sectionConfig.scale + 0.5))
+    frame.text:SetWidth(contentWidth)
+
+    local iconSize = math.floor(74 * sectionConfig.scale + 0.5)
+    if iconSize < 50 then
+        iconSize = 50
+    end
+
+    frame.iconHolder:SetSize(iconSize, iconSize)
+    frame.iconHolder:ClearAllPoints()
+    frame.iconHolder:SetPoint("LEFT", frame, "LEFT", math.floor(18 * sectionConfig.scale + 0.5), 0)
+
+    self:RestoreFramePosition(frame, sectionConfig)
+end
+
 function GraalHelper:ApplyFrameSettings(frame, sectionConfig)
     if not frame then
         return
@@ -153,6 +359,7 @@ function GraalHelper:ApplyAllDisplaySettings()
     self:ApplyFrameSettings(self.uiDisarm, self.config.disarm)
     self:ApplyFrameSettings(self.uiFear, self.config.fear)
     self:ApplyFrameSettings(self.uiDispel, self.config.dispel)
+    self:ApplyWelcomeFrameSettings()
 end
 
 function GraalHelper:ShowDisplay(frame, icon, titleText, lineText, subText)
@@ -161,9 +368,9 @@ function GraalHelper:ShowDisplay(frame, icon, titleText, lineText, subText)
     end
 
     frame.icon:SetTexture(icon or frame.defaultIcon)
-    frame.title:SetText(titleText or frame.defaultTitleText)
+    if frame.title then frame.title:SetText(titleText or frame.defaultTitleText) end
     frame.text:SetText(lineText or frame.defaultLineText)
-    frame.subtext:SetText(subText or "")
+    if frame.subtext then frame.subtext:SetText(subText or "") end
     frame:Show()
 end
 
@@ -350,4 +557,5 @@ function GraalHelper:StopAllTestsAndHide()
     self:HideDisplay(self.uiDisarm)
     self:HideDisplay(self.uiFear)
     self:HideDisplay(self.uiDispel)
+    self:HideDisplay(self.uiWelcomeFrame)
 end

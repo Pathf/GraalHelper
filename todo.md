@@ -4,6 +4,13 @@
 - Add la gestion des invok pour raid
 - add zperl
 - refacto les UI Settings (le code comme dans disarm)
+- bouton rand 100 et 99
+- add dans la tooltip Developpeur de GraalHelper !
+
+- add une connerie quand on invoke un de mes personnages
+- add choice config perso
+- add un bouton sur la fenetre de dispel qui permet de dispel directement
+- permetre la copy de la sauvegarde de config des autres personnage
 
 # HELP
 {rt1} = étoile
